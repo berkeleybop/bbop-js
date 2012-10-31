@@ -18,9 +18,9 @@
   - HTML generation and widget sets
   - Much much more...
   
-  BBOP JS is cleanly coded and well documented. We're still putting
-  this all together, so please be patient with the current
-  organization...
+  BBOP JS is cleanly coded with namespacing, well tested, and
+  documented. We're still putting this all together, so please be
+  patient with the current organization...
 
 * API Documentation
 
