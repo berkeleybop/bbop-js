@@ -47,7 +47,7 @@
    Building is handled with the Makefile. Just type 'make' for an overview.
    Built files should be deposited in staging/.
 
-* TODO
+* (OLD NOTES)
 
   Still need to clean out:
 
