@@ -1,0 +1,9 @@
+#+TITLE: BBOP JS README
+#+Options: num:nil
+#+STARTUP: odd
+#+Style: <style> h1,h2,h3 {font-family: arial, helvetica, sans-serif} </style>
+
+* Overview
+Client and server cross-platform JavaScript library, with a concentration on Solr, graphs, and the Gene Ontology.
+* TODO
+  ...
