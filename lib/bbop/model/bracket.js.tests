@@ -1,0 +1,183 @@
+////
+//// Some unit testing for bracket.js.
+////
+//// Usage:
+////    Command line: "js -f bracket.tests.js"
+////    Interactive: "js -f bracket.tests.js -f -"
+////
+
+
+// Load testing.
+load('../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../core.js');
+load('../logger.js');
+load('../model.js');
+load('bracket.js');
+
+// test that this subclass actually behaves like one
+(function(){
+     var n_a = new bbop.model.node('a');
+     var n_b = new bbop.model.node('b');
+     var n_c = new bbop.model.node('c');
+     var e1 = new bbop.model.edge(n_b, n_a);
+     var e2 = new bbop.model.edge(n_c, n_a);
+     var s = new bbop.model.bracket.graph();
+     s.add_node(n_a);
+     s.add_node(n_b);
+     s.add_node(n_c);
+     s.add_edge(e1);
+     s.add_edge(e2);
+
+     // Graph props.
+     mr_t.is_same_atom(2, s.get_leaf_nodes().length, 'tree leaves');
+     mr_t.is_same_atom('a', s.get_root_nodes()[0].id(), 'tree root');
+     mr_t.is_same_atom(1, s.get_parent_nodes('b').length, '1 b parent');
+     mr_t.is_same_atom('a', s.get_parent_nodes('b')[0].id(),'b under a');
+     mr_t.is_same_atom(2, s.get_child_nodes('a').length, 'a has 2');
+     mr_t.is_same_atom(0, s.get_child_nodes('b').length, 'b has 0');
+     mr_t.is_same_atom(0, s.get_child_nodes('c').length, 'c has 0');
+
+ })();
+
+// teting helpers
+(function(){
+
+     var s = new bbop.model.bracket.graph();
+     mr_t.is_same_atom(s.relation_weight(), 0, "weight: naught");
+     mr_t.is_same_atom(s.relation_weight(''), 0, "weight: empty");
+     mr_t.is_same_atom(s.relation_weight('bag'), 0, "weight: bag default");
+     mr_t.is_same_atom(s.relation_weight('', 0), 0, "weight: empty default");
+     mr_t.is_same_atom(s.relation_weight('', 5.5), 5.5, "weight: empty num");
+     mr_t.is_same_atom(s.relation_weight('is_a'), 1, "weight: is_a default");
+     mr_t.is_different_atom(s.relation_weight('is_a', 7), 7,
+			    "weight: default override");
+
+     mr_t.is_same_atom(s.dominant_relationship(), null,
+		       "dom_rel: naught");
+     mr_t.is_same_atom(s.dominant_relationship('foo'), 'foo',
+		       "dom_rel: naught foo");
+     mr_t.is_same_atom(s.dominant_relationship('foo', 'is_a'), 'is_a',
+		       "dom_rel: foo is_a");
+     mr_t.is_same_atom(s.dominant_relationship('part_of', 'is_a'), 'part_of',
+		       "dom_rel: part_of is_a");
+     mr_t.is_same_atom(s.dominant_relationship('is_a', 'part_of'), 'part_of',
+		       "dom_rel: is_a part_of");
+     mr_t.is_same_atom(s.dominant_relationship(['is_a', 'part_of']), 'part_of',
+		       "dom_rel: [is_a part_of]");
+     mr_t.is_same_atom(s.dominant_relationship(['is_a', 'part_of'],
+					       ['regulates']), 'regulates',
+		       "dom_rel: regulates");
+
+})();
+
+(function(){
+
+     // The topology graph from the GO:0022008 doc.
+     var topology_graph_raw =
+	 {"nodes":[{"id":"GO:0009987","lbl":"cellular process"},{"id":"GO:0048869","lbl":"cellular developmental process"},{"id":"GO:0048731","lbl":"system development"},{"id":"GO:0007275","lbl":"multicellular organismal development"},{"id":"GO:0030154","lbl":"cell differentiation"},{"id":"GO:0007399","lbl":"nervous system development"},{"id":"GO:0048856","lbl":"anatomical structure development"},{"id":"GO:0008150","lbl":"biological_process"},{"id":"GO:0050769","lbl":"positive regulation of neurogenesis"},{"id":"GO:0042063","lbl":"gliogenesis"},{"id":"GO:0022008","lbl":"neurogenesis"},{"id":"GO:0032502","lbl":"developmental process"},{"id":"GO:0050767","lbl":"regulation of neurogenesis"},{"id":"GO:0032501","lbl":"multicellular organismal process"},{"id":"GO:0050768","lbl":"negative regulation of neurogenesis"},{"id":"GO:0048699","lbl":"generation of neurons"}],"edges":[{"sub":"GO:0022008","obj":"GO:0007399","pred":"part_of"},{"sub":"GO:0050768","obj":"GO:0022008","pred":"negatively_regulates"},{"sub":"GO:0042063","obj":"GO:0022008","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0030154","pred":"is_a"},{"sub":"GO:0032501","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0032502","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0048731","obj":"GO:0048856","pred":"is_a"},{"sub":"GO:0007399","obj":"GO:0048731","pred":"is_a"},{"sub":"GO:0007275","obj":"GO:0032501","pred":"is_a"},{"sub":"GO:0048869","obj":"GO:0009987","pred":"is_a"},{"sub":"GO:0048856","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0007275","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0050769","obj":"GO:0022008","pred":"positively_regulates"},{"sub":"GO:0048699","obj":"GO:0022008","pred":"is_a"},{"sub":"GO:0048869","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0009987","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0050767","obj":"GO:0022008","pred":"regulates"},{"sub":"GO:0030154","obj":"GO:0048869","pred":"is_a"},{"sub":"GO:0048731","obj":"GO:0007275","pred":"part_of"}]};
+
+     // Load the graphs
+     var topo = new bbop.model.bracket.graph();
+     topo.load_json(topology_graph_raw);
+     
+     // The produced bracket layout should look like:
+     // [["GO:xxxxxxx"],
+     //  ["GO:xxxxxxx", "GO:xxxxxxx"],
+     //  ["GO:xxxxxxx", "GO:xxxxxxx", "GO:xxxxxxx"],
+     //  ["GO:xxxxxxx", "GO:xxxxxxx"],
+     //  ["GO:xxxxxxx", "GO:xxxxxxx"],
+     //  ["GO:xxxxxxx"],
+     //  ["GO:xxxxxxx", "GO:xxxxxxx" "GO:xxxxxx" "GO:xxxxxxx" "GO:xxxxxxx"]]
+     var l = topo.bracket_layout('GO:0022008');
+     
+     mr_t.is_same_atom(l[0].length, 1, "0,1");
+     mr_t.is_same_atom(l[0][0], "GO:0008150","0:0");
+     
+     mr_t.is_same_atom(l[1].length, 2, "1,2");
+     mr_t.is_in_list("GO:0032502", l[1], "1:0");
+     mr_t.is_in_list("GO:0032501", l[1], "1:1");
+     
+     mr_t.is_same_atom(l[2].length, 3, "2,3");
+     mr_t.is_in_list("GO:0048856", l[2], "2:0");
+     mr_t.is_in_list("GO:0009987", l[2], "2:1");
+     mr_t.is_in_list("GO:0007275", l[2], "2:2");
+     
+     mr_t.is_same_atom(l[3].length, 2, "3,2");
+     mr_t.is_in_list("GO:0048869", l[3], "3:0");
+     mr_t.is_in_list("GO:0048731", l[3], "3:1");
+     
+     mr_t.is_same_atom(l[4].length, 2, "4,2");
+     mr_t.is_in_list("GO:0030154", l[4], "4:0");
+     mr_t.is_in_list("GO:0007399", l[4], "4:1");
+     
+     mr_t.is_same_atom(l[5].length, 1, "5,1");
+     mr_t.is_same_atom(l[5][0], "GO:0022008", "5:0");
+     
+     mr_t.is_same_atom(l[6].length, 5, "6,5");
+     mr_t.is_in_list("GO:0048699", l[6], "6:0");
+     mr_t.is_in_list("GO:0042063", l[6], "6:1");
+     mr_t.is_in_list("GO:0050768", l[6], "6:2");
+     mr_t.is_in_list("GO:0050769", l[6], "6:3");
+     mr_t.is_in_list("GO:0050767", l[6], "6:4");
+     
+     // Now lets look at the transitivity graph and a richer layout.
+     // The transitivity graph from the GO:0022008 doc.
+     var transitivity_graph_raw =
+	 {"nodes":[{"id":"GO:0009987","lbl":"cellular process"},{"id":"GO:0022008","lbl":"neurogenesis"},{"id":"GO:0032502","lbl":"developmental process"},{"id":"GO:0032501","lbl":"multicellular organismal process"},{"id":"GO:0048869","lbl":"cellular developmental process"},{"id":"GO:0007275","lbl":"multicellular organismal development"},{"id":"GO:0048731","lbl":"system development"},{"id":"GO:0030154","lbl":"cell differentiation"},{"id":"GO:0007399","lbl":"nervous system development"},{"id":"GO:0048856","lbl":"anatomical structure development"},{"id":"GO:0008150","lbl":"biological_process"}],"edges":[{"sub":"GO:0022008","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0007399","pred":"part_of"},{"sub":"GO:0022008","obj":"GO:0007275","pred":"part_of"},{"sub":"GO:0022008","obj":"GO:0032502","pred":"part_of"},{"sub":"GO:0022008","obj":"GO:0009987","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0030154","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0032501","pred":"part_of"},{"sub":"GO:0022008","obj":"GO:0048869","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0048856","pred":"part_of"},{"sub":"GO:0022008","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0008150","pred":"part_of"},{"sub":"GO:0022008","obj":"GO:0048731","pred":"part_of"}]};
+
+     var trans = new bbop.model.bracket.graph();
+     trans.load_json(transitivity_graph_raw);
+     var rl = topo.rich_bracket_layout('GO:0022008', trans);
+     
+     // Tests on exact rich layout (Just like AmiGO 2).
+     // Look like: [[["GO:0008150", "biological_process", "part_of"]], [["GO:0032502", "developmental process", "part_of"], ["GO:0032501", "multicellular organismal process", "part_of"]], [["GO:0048856", "anatomical structure development", "part_of"], ["GO:0009987", "cellular process", "is_a"], ["GO:0007275", "multicellular organismal development", "part_of"]], [["GO:0048869", "cellular developmental process", "is_a"], ["GO:0048731", "system development", "part_of"]], [["GO:0030154", "cell differentiation", "is_a"], ["GO:0007399", "nervous system development", "part_of"]], [["GO:0022008", "neurogenesis", "is_a"]], [["GO:0048699", "generation of neurons", "is_a"], ["GO:0042063", "gliogenesis", "is_a"], ["GO:0050768", "negative regulation of neurogenesis", "negatively_regulates"], ["GO:0050769", "positive regulation of neurogenesis", "positively_regulates"], ["GO:0050767", "regulation of neurogenesis", "regulates"]]]
+     mr_t.is_same_atom(rl[0].length, 1, "rl: 0,1");
+     mr_t.is_same_atom(rl[0][0][0], "GO:0008150","0:0");
+     mr_t.is_same_atom(rl[0][0][1], "biological_process","0:0");
+     mr_t.is_same_atom(rl[0][0][2], "part_of","0:0");
+     
+     mr_t.is_same_atom(rl[1].length, 2, "rl: 1,2");
+     mr_t.is_same_atom("GO:0032502", rl[1][0][0], "rl: 1:0");
+     mr_t.is_same_atom("developmental process", rl[1][0][1], "rl: 1:0");
+     mr_t.is_same_atom("part_of", rl[1][0][2], "rl: 1:0");
+     mr_t.is_same_atom("GO:0032501", rl[1][1][0], "rl: 1:1");
+     mr_t.is_same_atom("multicellular organismal process", rl[1][1][1],
+		       "rl: 1:1");
+     mr_t.is_same_atom("part_of", rl[1][1][2], "rl: 1:1");
+     
+     mr_t.is_same_atom(rl[2].length, 3, "rl: 2,3");
+     // mr_t.is_same_atom("GO:0048856", rl[2], "rl: 2:0");
+     // mr_t.is_same_atom("GO:0009987", rl[2], "rl: 2:1");
+     // mr_t.is_same_atom("GO:0007275", rl[2], "rl: 2:2");
+     
+     mr_t.is_same_atom(rl[3].length, 2, "rl: 3,2");
+     // mr_t.is_same_atom("GO:0048869", rl[3], "rl: 3:0");
+     // mr_t.is_same_atom("GO:0048731", rl[3], "rl: 3:1");
+     
+     mr_t.is_same_atom(rl[4].length, 2, "rl: 4,2");
+     // mr_t.is_same_atom("GO:0030154", rl[4], "rl: 4:0");
+     // mr_t.is_same_atom("GO:0007399", rl[4], "rl: 4:1");
+     
+     mr_t.is_same_atom(rl[5].length, 1, "rl: 5,1");
+     // mr_t.is_same_atom(rl[5][0], "GO:0022008", "rl: 5:0");
+     
+     mr_t.is_same_atom(rl[6].length, 5, "rl: 6,5");
+     // mr_t.is_same_atom("GO:0048699", rl[6], "rl: 6:0");
+     // mr_t.is_same_atom("GO:0042063", rl[6], "rl: 6:1");
+     // mr_t.is_same_atom("GO:0050768", rl[6], "rl: 6:2");
+     // mr_t.is_same_atom("GO:0050769", rl[6], "rl: 6:3");
+     mr_t.is_same_atom("GO:0050767", rl[6][4][0], "rl: 6:4");
+     mr_t.is_same_atom("regulation of neurogenesis", rl[6][4][1], "rl: 6:4");
+     mr_t.is_same_atom("regulates", rl[6][4][2], "rl: 6:4");
+     
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

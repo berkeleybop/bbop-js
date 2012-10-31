@@ -1,0 +1,1054 @@
+////
+//// Some unit testing for package manager.js
+////
+//// Usage:
+////    Command line: "js -f manager.js.tests"
+////    Interactive: "js -f manager.js.tests -f -"
+////
+
+// Load testing.
+load('../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../core.js');
+load('../logger.js');
+
+// Get some test data as well.
+// This defines "bbop.amigo.golr_meta".
+load('../../../_data/golr.js');
+load('conf.js');
+load('response.js');
+
+load('../registry.js');
+load('manager.js');
+
+///
+/// Start unit testing.
+///
+
+// bbop.golr.manager - 1
+(function(){
+
+     // Absolute basics.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     mr_t.is_same_atom(bbop.core.what_is(gm), 'bbop.golr.manager', "me");
+
+     // Let's play a little like we did in the DrillExp.js demo.
+     //var g = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     mr_t.is_same_atom(gm.get('rows'), 10, "default 10 rows");
+     gm.set('rows', 100);
+     mr_t.is_same_atom(gm.get('rows'), 100, "set/get 100 rows");
+
+     // Does extra behave?
+     var bits = "fq=-isa_partof_closure:[*%20TO%20*]";
+     var url1 = gm.get_query_url();
+     gm.set_extra(bits);
+     var url2 = gm.get_query_url();
+     gm.set_extra("");
+     var url3 = gm.get_query_url();
+     mr_t.is_different_atom(url1, url2, "not the same out of it");
+     mr_t.is_string_embedded(url2, url1, '&' + bits, "set_extra adds");
+     mr_t.is_same_atom(url1, url3, "set_extra resets");
+     
+ })();
+
+// bbop.golr.manager - 2 - facets
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+
+     // Let's play a little more...
+     mr_t.is_same_set(gm.facets(), [], "no facets");
+     gm.facets('foo');
+     mr_t.is_same_set(gm.facets(), ['foo'], "one facet");
+     mr_t.is_same_set(gm.facets('bar'), ['bar', 'foo'], "two facets");
+     gm.set_personality('bbop_ann');
+     mr_t.is_same_set(gm.facets(), ['source', 'evidence_type', 'taxon_label',
+				    'isa_partof_closure_label',
+				    'annotation_extension_class_closure_label'],
+		      "personality");
+     gm.facets([]);
+     mr_t.is_same_set(gm.facets(), [], "no facets again");
+ })();
+
+// bbop.golr.manager - 3 - simulation
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm_ann.set_personality('bbop_ann'); // profile in gconf
+     gm_ann.add_query_filter('document_category', 'annotation', ['+', '*']);
+     gm_ann.add_query_filter('document_category', 'ontology_class', ['-']);
+     gm_ann.add_query_filter('isa_partof_closure', 'GO:0022008', ['+', '*']);
+     gm_ann.set_extra('foo=bar');
+
+     mr_t.is_same_url(gm_ann.get_query_url(),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'fq=document_category:"annotation"',
+		       'fq=-document_category:"ontology_class"',
+		       'fq=isa_partof_closure:"GO:0022008"',
+		       'q=*:*',
+		       'foo=bar'].join('&'),
+      		      "looks like the real thing");
+ })();
+
+// bbop.golr.manager - 4 - new fq handling
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+
+     gm_ann.add_query_filter('foo1', 'bar1a');
+     gm_ann.add_query_filter('foo1', 'bar1b', ['+']);
+     gm_ann.add_query_filter('foo2', 'bar2', ['-']);
+     gm_ann.add_query_filter('foo3', 'bar3', ['+', '*']);
+     gm_ann.add_query_filter('foo4', 'bar4', ['-', '*']);
+
+     // Some helper functions to identify which of the filters we are
+     // currently inspecting.
+     function _is_1a(item){
+	 var retval = false;
+	 if( item['filter'] == 'foo1' && item['value'] == 'bar1a' &&
+	     item['negative_p'] == false && item['sticky_p'] == false ){
+		 retval = true;
+	     }
+	 return retval;
+     }
+     function _is_1b(item){
+	 var retval = false;
+	 if( item['filter'] == 'foo1' && item['value'] == 'bar1b' &&
+	     item['negative_p'] == false && item['sticky_p'] == false ){
+		 retval = true;
+	     }
+	 return retval;
+     }
+     function _is_2(item){
+	 var retval = false;
+	 if( item['filter'] == 'foo2' && item['value'] == 'bar2' &&
+	     item['negative_p'] == true && item['sticky_p'] == false ){
+		 retval = true;
+	     }
+	 return retval;
+     }
+     function _is_3(item){
+	 var retval = false;
+	 if( item['filter'] == 'foo3' && item['value'] == 'bar3' &&
+	     item['negative_p'] == false && item['sticky_p'] == true ){
+		 retval = true;
+	     }
+	 return retval;
+     }
+     function _is_4(item){
+	 var retval = false;
+	 if( item['filter'] == 'foo4' && item['value'] == 'bar4' &&
+	     item['negative_p'] == true && item['sticky_p'] == true ){
+		 retval = true;
+	     }
+	 return retval;
+     }
+     
+     // And the test framer to easily weild the above tests.
+     function test_frame_01(in_filters, func_test_list, msg_fragment){
+	 bbop.core.each(in_filters,
+			function(item, index){
+			    mr_t.is_in_list_diy(item, func_test_list,
+						function(in_item, list_func){
+						    return list_func(in_item);
+						},
+						msg_fragment + index);
+			});
+     }
+     
+     // Okay, now loop through the initial filters to make sure they are
+     // set correctly.
+     test_frame_01(gm_ann.get_query_filters(),
+		   [_is_1a, _is_1b, _is_2, _is_3, _is_4],
+		   'tried inital filter add: ');
+     
+     // Try and get rid of the first and third keys.
+     gm_ann.remove_query_filter('foo1', 'bar1a');
+     gm_ann.remove_query_filter('foo2', 'bar2');
+     test_frame_01(gm_ann.get_query_filters(),
+		   [_is_1b, _is_3, _is_4],
+		   'took out 2: ');
+     
+     // Probe just for the stickies.
+     test_frame_01(gm_ann.get_sticky_query_filters(),
+		   [_is_3, _is_4],
+		   'just stickies: ');
+     
+     // Then see if we can get the non-stickies out.
+     gm_ann.reset_query_filters();
+     test_frame_01(gm_ann.get_query_filters(),
+		   [_is_3, _is_4],
+		   'only stickies left: ');
+     
+     var p4 = gm_ann.get_query_filter_properties('foo4', 'bar4');
+     var p5 = gm_ann.get_query_filter_properties('foo5nope', 'bar5nothinghere');
+     mr_t.is_true(_is_4(p4), 'I see foo4/bar4');
+     mr_t.is_not_defined(p5, 'p5: there is nothing here');
+ })();
+
+// bbop.golr.manager - 5 - plist_to_property_hash
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+
+     // Possible property hashes.
+     var p1 = {
+	 'negative_p': true,
+	 'sticky_p': true
+     };
+     var p2 = {
+	 'negative_p': true,
+	 'sticky_p': false
+     };
+     var p3 = {
+	 'negative_p': false,
+	 'sticky_p': false
+     };
+     var p4 = {
+	 'negative_p': false,
+	 'sticky_p': true
+     };
+
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(), p3,
+		       'nothing default phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash([]), p3,
+		       'empty default phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(['+']), p3,
+		       '+ default phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(['+', '$']), p3,
+		       '+ $ default phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(['$']), p3,
+		       '$ default phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(['-']), p2,
+		       '- phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(['*']), p4,
+		       '* phash');
+     mr_t.is_same_hash(gm_ann.plist_to_property_hash(['-', '*']), p1,
+		       '- * phash');
+
+ })();
+
+// bbop.golr.manager - 6 - paging
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm_ann.set_personality('bbop_ann'); // profile in gconf
+
+     mr_t.is_same_url(gm_ann.get_query_url(),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=*:*'].join('&'),
+      		      "paging looks okay before");
+     gm_ann.page(7, 11);
+     mr_t.is_same_url(gm_ann.get_query_url(),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=7',
+		       'start=11',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=*:*'].join('&'),
+      		      "paging looks okay after");
+     gm_ann.search();
+     mr_t.is_same_url(gm_ann.get_query_url(),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=*:*'].join('&'),
+      		      "paging resets properly");
+ })();
+
+// bbop.golr.manager - 7 - double filter simulation
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm_ann.set_personality('bbop_ann'); // profile in gconf
+     gm_ann.add_query_filter('document_category', 'annotation', ['-']);
+     gm_ann.add_query_filter('document_category', 'ontology_class', ['-']);
+     
+     mr_t.is_same_url(gm_ann.get_query_url(),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'fq=-document_category:"annotation"',
+		       'fq=-document_category:"ontology_class"',
+		       'q=*:*'].join('&'),
+      		      "looks like a correct double negative filter");
+ })();
+
+// bbop.golr.manager - 8 - packet counting
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     
+     mr_t.is_same_atom(gm_ann.last_packet_sent(), 0, 'no packets sent');
+     gm_ann.search();
+     mr_t.is_same_atom(gm_ann.last_packet_sent(), 1, '1 packet sent');
+ })();
+
+// bbop.golr.manager - 8 - playing with the default query
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm_ann.set_personality('bbop_ann'); // profile in gconf
+
+     // Check all default.
+     mr_t.is_same_atom(gm_ann.get_query(), "*:*", 'base default query');
+     mr_t.is_same_url(gm_ann.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=*:*'].join('&'),
+		      "default query");
+
+     // Try simply setting to foo.
+     gm_ann.set_query("foo");
+     mr_t.is_same_url(gm_ann.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=foo',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^1',
+		       'qf=bioentity^2',
+		       'qf=bioentity_label_searchable^1',
+		       'qf=annotation_extension_class^2',
+		       'qf=annotation_extension_class_label_searchable^1'].join('&'),
+		      "foo query");
+     mr_t.is_same_atom(gm_ann.get_query(), "foo", 'got query out');
+
+     // Make sure reset works.
+     gm_ann.reset_query();
+     mr_t.is_same_atom(gm_ann.get_query(), "*:*", 'reset query safely');
+     mr_t.is_same_url(gm_ann.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=*:*'].join('&'),
+		      "base again");
+
+     // Playing with default values.
+     gm_ann.set_default_query("foo:bar");
+     gm_ann.reset_query();
+     mr_t.is_same_atom(gm_ann.get_query(), "foo:bar", 'new default query');
+     mr_t.is_same_url(gm_ann.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=foo:bar',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^1',
+		       'qf=bioentity^2',
+		       'qf=bioentity_label_searchable^1',
+		       'qf=annotation_extension_class^2',
+		       'qf=annotation_extension_class_label_searchable^1'].join('&'),
+		      "q=foo:bar");
+
+     // Try rolling it back.
+     gm_ann.reset_default_query();
+     gm_ann.reset_query();
+     mr_t.is_same_atom(gm_ann.get_query(), "*:*", 'default reset query safely');
+     mr_t.is_same_url(gm_ann.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=evidence_type',
+		       'facet.field=taxon_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=*:*'].join('&'),
+		      "base again again");
+
+ })();
+
+// bbop.golr.manager - 9 - debug
+(function(){
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm_ann.debug(false);
+     mr_t.is_false(gm_ann.debug(false), 'debug false');
+     gm_ann.debug(true);
+     mr_t.is_true(gm_ann.debug(true), 'debug true');
+ })();
+
+// bbop.golr.manager - 10 - query_field (qf) and personalities
+(function(){
+
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var go = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     go.set_query('foo');
+     
+     mr_t.is_same_atom(null, go.get_personality(), 'no personality yet');
+
+     mr_t.is_same_url(go.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=foo'].join('&'),
+		      "qf base");
+     
+     go.query_field_set({'label': 2.0, 'id': 1});
+     mr_t.is_same_url(go.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'qf=label^2',
+		       'qf=id^1',
+		       'q=foo'].join('&'),
+		      "qf base simple addition: no personality");
+     
+     go.set_personality('bbop_ont');
+     mr_t.is_same_atom('bbop_ont', go.get_personality(),
+		       'personality is now bbop_ont');
+     mr_t.is_same_url(go.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=subset',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=is_obsolete',
+		       'q=foo',
+		       'qf=id^2',
+		       'qf=label_searchable^2',
+		       'qf=description_searchable^1',
+		       'qf=comment_searchable^0.5',
+		       'qf=synonym_searchable^1',
+		       'qf=alternate_id^1'].join('&'),
+		      "qf: automatic personality");
+     
+     go.query_field_set({'label': 2.0, 'id': 1});
+     mr_t.is_same_url(go.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=subset',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=is_obsolete',
+		       'q=foo',
+		       'qf=id^1',
+		       'qf=label_searchable^2'].join('&'),
+ 		      "qf: forced reduced personality");
+     
+ })();
+
+
+// bbop.golr.manager - 11 - comfy
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     //gm.set_personality('bbop_ann'); // profile in gconf
+     
+     gm.set_comfy_query('fo');
+     mr_t.is_same_atom(gm.get_query(), "fo", 'comfy: fo');
+     
+     gm.set_comfy_query('foo');
+     mr_t.is_same_atom(gm.get_query(), "foo*", 'comfy: foo*');
+     
+     gm.set_comfy_query('fork fo');
+     mr_t.is_same_atom(gm.get_query(), "fork fo", 'comfy: fork fo');
+     
+     gm.set_comfy_query('fork foo');
+     mr_t.is_same_atom(gm.get_query(), "fork foo*", 'comfy: fork foo*');
+     
+     gm.set_comfy_query('fo_k');
+     mr_t.is_same_atom(gm.get_query(), "fo_k", 'comfy: fo_k');
+     
+     gm.set_comfy_query('fo_k foo');
+     mr_t.is_same_atom(gm.get_query(), "fo_k foo", 'comfy: fo_k foo');
+
+ })();
+
+// bbop.golr.manager - 12 - batch
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+
+     // start
+     mr_t.is_same_atom(gm.batch_urls().length, 0, 'batch: nil 1');
+     mr_t.is_same_atom(gm.next_batch_url(), null, 'batch: nil 2');
+
+     // add
+     var foo1 = gm.add_to_batch();
+     gm.set_default_query('***');
+     gm.add_to_batch();
+     gm.set_default_query(':::');
+     gm.add_to_batch();
+     mr_t.is_same_atom(gm.batch_urls().length, 3, 'batch: add 1');
+     var foo2 = gm.next_batch_url();
+     mr_t.is_same_atom(gm.batch_urls().length, 2, 'batch: add 2');
+     // should be the standard one.
+     mr_t.is_same_atom(foo1, foo2, 'batch: add 3');
+
+     // reset
+     gm.reset_batch();
+     mr_t.is_same_atom(gm.batch_urls().length, 0, 'batch: nil 3');
+     mr_t.is_same_atom(gm.next_batch_url(), null, 'batch: nil 4');
+
+})();
+
+// bbop.golr.manager - 13 - bookmark/loader - 1
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm.set_query('foo');
+     
+     gm.load_url('?personality=bbop_ont');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=subset',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=is_obsolete',
+		       'q=foo',
+		       'qf=id^2',
+		       'qf=label_searchable^2',
+		       'qf=description_searchable^1',
+		       'qf=comment_searchable^0.5',
+		       'qf=synonym_searchable^1',
+		       'qf=alternate_id^1'].join('&'),
+		      "load: constructed personality");    
+ })();
+
+// bbop.golr.manager - 13 - bookmark/loader - 2
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm.set_query('foo');
+     
+     gm.load_url('?personality=bbop_ont&fq=foo:bar&q=***');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=subset',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=is_obsolete',
+		       'q=***',
+		       'fq=foo:"bar"',
+		       'qf=id^2',
+		       'qf=label_searchable^2',
+		       'qf=description_searchable^1',
+		       'qf=comment_searchable^0.5',
+		       'qf=synonym_searchable^1',
+		       'qf=alternate_id^1'].join('&'),
+		      "load: constructed personality");    
+ })();
+
+// bbop.golr.manager - 14 - unset
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
+     
+     gm.set('foo', 'bar');     
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'foo=bar',
+		       'q=*:*'].join('&'),
+		      "unset: set foo");    
+
+     var c1 = gm.unset('foo');
+     mr_t.is_true(c1, 'unset: unset got true');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=*:*'].join('&'),
+		      "unset: unset foo");    
+
+     var c2 = gm.unset('foo');
+     mr_t.is_false(c2, 'unset: unset got false');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=*:*'].join('&'),
+		      "unset: unset foo");    
+ })();
+
+// bbop.golr.manager - 15 - include_highlighting
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
+     
+     var c1 = gm.include_highlighting(false);
+     mr_t.is_false(c1, 'hilite: unset got false--none there');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=*:*'].join('&'),
+		      "hilite: unset false url");    
+
+     var c2 = gm.include_highlighting();
+     mr_t.is_false(c2, 'hilite: current state nothing');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=*:*'].join('&'),
+		      "hilite: current state nothing url");    
+
+     var c3 = gm.include_highlighting(true);
+     mr_t.is_same_atom(c3, '<em class="hilite">', 'hilite: simple turn on');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'hl=true',
+		       'hl.simple.pre=<em class="hilite">',
+		       'q=*:*'].join('&'),
+		      "hilite: simple turn on url"); 
+
+     var c4 = gm.include_highlighting(false);
+     mr_t.is_false(c4, 'hilite: simple turn off');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=*:*'].join('&'),
+		      "hilite: simple turn off url"); 
+
+     var c5 = gm.include_highlighting(true, '<em class="blah">');
+     mr_t.is_same_atom(c5, '<em class="blah">', 'hilite: turn on');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'hl=true',
+		       'hl.simple.pre=<em class="blah">',
+		       'q=*:*'].join('&'),
+		      "hilite: turn on url"); 
+
+     var c6 = gm.include_highlighting(false);
+     mr_t.is_false(c6, 'hilite: turn off');
+     mr_t.is_same_url(gm.get_query_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+		       'facet.limit=26',
+		       'q=*:*'].join('&'),
+		      "hilite: turn off url"); 
+
+ })();
+
+// bbop.golr.manager - 16 - lite
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
+
+     // Trivialities.
+     mr_t.is_false(gm.lite(), 'no lite set yet');
+     gm.set_personality('dsfsdfsdf');
+     mr_t.is_false(gm.lite(), 'bad lite does nothing');
+     mr_t.is_false(gm.lite(false), 'false to false 1');     
+     mr_t.is_false(gm.lite(), 'false to false 2');
+     mr_t.is_false(gm.lite(true), 'true/no good personality does nothing 1');
+     mr_t.is_false(gm.lite(), 'true/no good personality does nothing 2');
+     
+     // On.
+     gm.set_personality('bbop_ont');
+     mr_t.is_false(gm.lite(), 'defined personality not enough');
+     mr_t.is_true(gm.lite(true), 'okay, this is sufficient for lite 1');
+     mr_t.is_true(gm.lite(), 'okay, this is sufficient for lite 2');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=id%2Clabel%2Cdescription%2Ccomment%2Csynonym%2Calternate_id%2Csource%2Csubset%2Cisa_partof_closure_label%2Cis_obsolete%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=subset',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=is_obsolete',
+     		       'q=*:*'].join('&'),
+     		      "liteness on for bbop_ont on");    
+
+     // Toggle.
+     mr_t.is_false(gm.lite(false), 'toggle lite off 1');
+     mr_t.is_false(gm.lite(), 'toggle lite off 2');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=26',
+		       'facet.field=source',
+		       'facet.field=subset',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=is_obsolete',
+     		       'q=*:*'].join('&'),
+     		      "liteness on for bbop_ont off");
+
+ })();
+
+// bbop.golr.manager - 17 - facet limits
+//(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
+
+// Trivialities.
+mr_t.is_same_atom(gm.get_facet_limit(), 26, 'limit: std limit');
+mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: no field limit');
+mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all');
+mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
+
+// Change limit, then reset it.
+     mr_t.is_true(gm.set_facet_limit(5), 'limit: global to 5 success');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=5',
+     		       'q=*:*'].join('&'),
+     		      "limit: global to 5");
+mr_t.is_same_atom(gm.get_facet_limit(), 5, 'limit: limited to 5');
+mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: still no field limit');
+mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all');
+mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
+mr_t.is_same_atom(gm.get_facet_limit(), 26, 'limit: reset std limit');
+mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: again no field limit');
+
+// Change limit and field limit, then reset it.
+mr_t.is_true(gm.set_facet_limit(10), 'limit: global to 10 success');
+mr_t.is_true(gm.set_facet_limit('foo', 1), 'limit: foo to 1 success');
+mr_t.is_same_url(gm.get_query_url(),
+     		 ['http://golr.berkeleybop.org/select?defType=edismax',
+     		  'qt=standard',
+     		  'indent=on',
+     		  'wt=json',
+     		  'rows=10',
+     		  'start=0',
+     		  'fl=*%2Cscore',
+     		  'facet=true',
+     		  'facet.mincount=1',
+     		  'json.nl=arrarr',
+     		  'facet.limit=10',
+     		  'f.foo.facet.limit=1',
+     		  'q=*:*'].join('&'),
+     		 "limit: global to 10, foo to 1");
+mr_t.is_same_atom(gm.get_facet_limit(), 10, 'limit: limited to 10');
+mr_t.is_same_atom(gm.get_facet_limit('foo'), 1, 'limit: foo to 1');
+
+mr_t.is_true(gm.reset_facet_limit('foo'), 'limit: foo reset');
+mr_t.is_same_atom(gm.get_facet_limit(), 10, 'limit: limited to 10');
+mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: foo gone again');
+
+mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all, again');
+mr_t.is_same_atom(gm.get_facet_limit(), 26, 'limit: reset std limit, again');
+mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: again no field limit, again');
+
+// })();
+
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

@@ -1,0 +1,110 @@
+////
+//// Some unit testing for test.js
+////
+//// Usage:
+////    Command line: "js -f test.js.tests"
+////    Interactive: "js -f test.js.tests -f -"
+////
+//// Notes: cannot depend on core.js
+////
+
+
+// Load testing.
+load('test.js');
+var mr_t = new bbop.test();
+
+///
+/// Start unit testing.
+///
+
+//
+mr_t.is_defined({});
+
+//
+var a = "foo";
+var b = 2;
+mr_t.is_same_atom(true, true);
+mr_t.is_same_atom(a, 'foo');
+mr_t.is_same_atom(b, 2);
+
+//
+mr_t.is_true(! false);
+
+//
+mr_t.is_same_url("format=amigo&type=general&query=",
+		 "query=&format=amigo&type=general",
+		 "link compare testing 1");
+mr_t.is_same_url("completion?format=amigo&type=general&query=",
+		 "completion?query=&format=amigo&type=general",
+		 "link compare testing 1");
+mr_t.is_different_url("completion?type=general&query=",
+		      "completion?type=general&format=&query=",
+		      "link compare testing 2");
+
+//
+var a_hash = {foo: 1, bar: 2};
+mr_t.is_same_hash({},{});
+mr_t.is_same_hash({foo: 1}, {foo: 1});
+mr_t.is_same_hash(a_hash, {foo: 1, bar: 2});
+mr_t.is_different_hash({foo: 1},{});
+mr_t.is_different_hash({foo: 1}, {foo: 12});
+mr_t.is_different_hash(a_hash, {foo: 1, bar: 2, blah: 3});
+
+// 
+var a_list = ['a', 'b', 'c'];
+mr_t.is_in_list('a', a_list);
+mr_t.is_in_list('b', a_list);
+mr_t.is_in_list('c', a_list);
+mr_t.is_not_in_list('d', a_list);
+
+// 
+var a_item = {id: 'a'};
+var b_item = {id: 'b'};
+var c_item = {id: 'c'};
+var d_item = {id: 'd'};
+var obj_list = [{id: 'a'}, {id: 'b'}, {id: 'c'}];
+function id_comp(a, b){
+    retval = false;
+    if( a['id'] == b['id'] ){
+	retval = true;
+    }
+    return retval;
+};
+mr_t.is_in_list_diy(a_item, obj_list, id_comp);
+mr_t.is_in_list_diy(b_item, obj_list, id_comp);
+mr_t.is_in_list_diy(c_item, obj_list, id_comp);
+mr_t.is_not_in_list_diy(d_item, obj_list, id_comp);
+
+// Test is_string_embedded.
+mr_t.is_string_embedded("", "", "", "str emb 1");
+mr_t.is_string_embedded("aabbaa", "aaaa", "bb", "str emb 2");
+mr_t.is_string_not_embedded("aabbaa", "aaaa", "bc", "str emb 3");
+mr_t.is_string_embedded("1234", "123", "4", "str emb 4");
+mr_t.is_string_embedded("1234", "234", "1", "str emb 5");
+mr_t.is_string_embedded("abcdefghi", "abcdef", "g" + "hi", "str emb 6");
+
+// Test is_same/different_set.
+mr_t.is_same_set(new Array(), [], "same set 0");
+mr_t.is_same_set([1, 2, 3], [2, 3, 1], "same set 1");
+mr_t.is_same_set(['1', 'b', '3'], ['b', '3', '1'], "same set 2");
+mr_t.is_same_set([1, '2', 3], [1, 2, 3], "same set 3"); // js type quirk
+mr_t.is_different_set([1, 2, 3], [1, 2], "diff set 1");
+
+// mr_t.is_same_url_by_assembly("completion?format=amigo&type=general&query=",
+// 			     "completion?",
+// 			     {'query': null, 
+// 			      'format': 'amigo',
+// 			      'type': 'general'},
+// 			      "link assembly testing 1");
+
+// Test pass and fail.
+mr_t.pass("passed");
+//mr_t.fail("failed");
+
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

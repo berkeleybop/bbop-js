@@ -1,0 +1,100 @@
+////
+//// Some unit testing for package preload.js
+////
+//// Usage:
+////    Command line: "js -f preload.js.tests"
+////    Interactive: "js -f preload.js.tests -f -"
+////
+
+// Load testing.
+load('../../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../../core.js');
+load('../../logger.js');
+
+// Get some test data as well.
+// This defines "bbop.amigo.golr_meta".
+load('../../../../_data/golr.js');
+load('../conf.js');
+load('../response.js');
+
+load('../../registry.js');
+load('../manager.js');
+load('preload.js');
+
+///
+/// Start unit testing.
+///
+
+// check std
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var go = new bbop.golr.manager.preload('http://golr.berkeleybop.org/',
+					    gconf);
+
+     mr_t.is_same_url(go.update('search'),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+     		       'facet.limit=26',
+		       'q=*:*',
+		       'packet=1',
+		       'callback_type=search'].join('&'),
+      		      "page on update");
+     mr_t.is_same_url(go.update('search'),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'json.nl=arrarr',
+     		       'facet.limit=26',
+		       'q=*:*',
+		       'packet=2',
+		       'callback_type=search'].join('&'),
+      		      "page increment on update");
+})();
+
+// check overrride
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var go = new bbop.golr.manager.preload('http://golr.berkeleybop.org/',
+					    gconf);
+     
+     var a = 1;
+     function replace(in_thing){
+	 a = in_thing;
+     }
+     go.register('search', 'do', replace);
+     
+     mr_t.is_same_atom(a, 1, "not updated"),
+     go.load(2);
+     go.search();
+     //go.update('search');
+     mr_t.is_same_atom(a, 2, "updated to 2");
+     
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

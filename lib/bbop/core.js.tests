@@ -1,0 +1,785 @@
+////
+//// Some unit testing for core.js
+////
+//// Usage:
+////    Command line: "js -f core.tests.js"
+////    Interactive: "js -f core.tests.js -f -"
+////
+
+
+// Load testing.
+load('test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('core.js');
+
+///
+/// Start unit testing.
+///
+
+// Cloning.
+var o1 = {'foo': 1, 'bar': 2};
+var o2 = bbop.core.clone(o1);
+mr_t.is_same_hash(o1, o2);
+
+// Namespace generation.
+bbop.core.namespace("happy", "bar");
+mr_t.is_defined(happy.bar, "made namespace");
+happy.bar.prop = true;
+mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
+
+// each: array iterator.
+(function(){
+    var sum_val = 0;
+    var sum_i = 0;
+    var sum_array = [1, 2, 3];
+    function sum_add(in_num, in_index){
+	sum_val = sum_val + in_num;
+	sum_i = in_index;
+    }
+    bbop.core.each(sum_array, sum_add);
+    mr_t.is_same_atom(6, sum_val, "iterated value");
+    mr_t.is_same_atom(2, sum_i, "iterated index");
+})();
+
+// each: hash iterator.
+(function(){
+    var sum_val = 0;
+    var sum_s = '';
+    var sum_hash = {'dog': 2, 'cat': 4, 'cow': 6};
+    function sum_add(in_key, in_val){
+	sum_val = sum_val + in_val;
+	sum_s = sum_s + in_key;
+    }
+    bbop.core.each(sum_hash, sum_add);
+    mr_t.is_same_atom(9, sum_s.length, "iterated key");
+    mr_t.is_same_atom(12, sum_val, "iterated value");
+})();
+
+// pare: for arrays.
+(function(){
+
+     var ir1 = [1, 2, 3, 4, 5];
+
+     var or1 = bbop.core.pare(ir1, null, null);
+     mr_t.is_same_atom(5, or1.length, "ir1 test 1");
+     mr_t.is_same_atom(1, or1[0], "ir1 test 2");
+     mr_t.is_same_atom(5, or1[4], "ir1 test 3");
+     
+     var or2 = bbop.core.pare(ir1,
+			      function(item, i){ // remove even index items
+				  if( i % 2 == 0 ){
+				      return true;
+				  }else{
+				      return false;
+				  }
+			      }, null);
+     mr_t.is_same_atom(2, or2.length, "ir1 test 4");
+     mr_t.is_same_atom(2, or2[0], "ir1 test 5");
+     mr_t.is_same_atom(4, or2[1], "ir1 test 6");
+     
+     var or3 = bbop.core.pare(ir1,
+			      function(item, i){ // remove even items
+				  if( item % 2 == 0 ){
+				      return true;
+				  }else{
+				      return false;
+				  }
+			      },
+			      function(a, b){ // reverse order
+				  if( a > b ){
+				      return -1;
+				  }else if( b > a ){
+				      return 1;
+				  }else{
+				      return 0;
+				  }
+			      });
+     mr_t.is_same_atom(3, or3.length, "ir1 test 7");
+     mr_t.is_same_atom(5, or3[0], "ir1 test 8");
+     mr_t.is_same_atom(1, or3[2], "ir1 test 9");
+     
+     var ir2 = [{a: 1, b: 2},
+		{a: 3, b: 4},
+		{a: 5, b: 6},
+		{a: 7, b: 8},
+		{a: 9, b: 10}];
+
+     var or4 = bbop.core.pare(ir2,
+			      function(item, i){ // remove a's % 3
+				  if( item['a'] % 3 == 0 ){
+				      return true;
+				  }else{
+				      return false;
+				  }
+			      },
+			      function(a, b){ // reverse order
+				  if( a['b'] > b['b'] ){
+				      return -1;
+				  }else if( b['b'] > a['b'] ){
+				      return 1;
+				  }else{
+				      return 0;
+				  }
+			      });
+     mr_t.is_same_atom(3, or4.length, "ir2 test 1");
+     mr_t.is_same_atom(8, or4[0]['b'], "ir2 test 2");
+     mr_t.is_same_atom(2, or4[2]['b'], "ir2 test 3");
+     
+})();
+
+// pare: for hashes.
+(function(){
+
+     var ir1 = {
+	 u: {a: 1, b: 2},
+	 v: {a: 3, b: 4},
+	 x: {a: 5, b: 6},
+	 y: {a: 7, b: 8},
+	 z: {a: 9, b: 10}
+     };
+
+     var or1 = bbop.core.pare(ir1, null, null);
+     mr_t.is_same_atom(5, or1.length, "hash ir1 test 1");
+     mr_t.is_same_atom(1, or1[0]['a'], "hash ir1 test 2");
+     mr_t.is_same_atom(10, or1[4]['b'], "hash ir1 test 3");
+     
+     var or2 = bbop.core.pare(ir1,
+			      function(key, val){ // remove b's smaller than 5
+				  if( val['b'] < 5 ){
+				      return true;
+				  }else{
+				      return false;
+				  }
+			      }, null);
+     mr_t.is_same_atom(3, or2.length, "hash ir1 test 4");
+     mr_t.is_same_atom(5, or2[0]['a'], "hash ir1 test 5");
+     mr_t.is_same_atom(10, or2[2]['b'], "hash ir1 test 6");
+     
+     var or3 = bbop.core.pare(ir1,
+			      function(key, val){ // remove 'x' item
+				  if( key == 'x' ){
+				      return true;
+				  }else{
+				      return false;
+				  }
+			      },
+			      function(a, b){ // reverse order on b
+				  if( a.b > b.b ){
+				      return -1;
+				  }else if( b.b > a.b ){
+				      return 1;
+				  }else{
+				      return 0;
+				  }
+			      });
+     mr_t.is_same_atom(4, or3.length, "hash ir1 test 7");
+     mr_t.is_same_atom(9, or3[0].a, "hash ir1 test 8");
+     mr_t.is_same_atom(2, or3[3].b, "hash ir1 test 9");
+     
+//      var or4 = bbop.core.pare(ir2,
+// 			      function(item, i){ // remove a's % 3
+// 				  if( item['a'] % 3 == 0 ){
+// 				      return true;
+// 				  }else{
+// 				      return false;
+// 				  }
+// 			      },
+// 			      function(a, b){ // reverse order
+// 				  if( a['b'] > b['b'] ){
+// 				      return -1;
+// 				  }else if( b['b'] > a['b'] ){
+// 				      return 1;
+// 				  }else{
+// 				      return 0;
+// 				  }
+// 			      });
+//      mr_t.is_same_atom(3, or4.length, "ir2 test 1");
+//      mr_t.is_same_atom(8, or4[0]['b'], "ir2 test 2");
+//      mr_t.is_same_atom(2, or4[2]['b'], "ir2 test 3");
+     
+ })();
+
+// get_keys.
+(function(){
+
+    var hash1 = {'foo': 3};
+    var keys1 = bbop.core.get_keys(hash1);
+    mr_t.is_same_atom(1, keys1.length, "got keys1 len");
+    mr_t.is_same_atom('foo', keys1[0], "got keys1 str 0");
+
+    var hash2 = {'foo': 3, 'bar': 4};
+    var keys2 = bbop.core.get_keys(hash2);
+    keys2.sort();
+    mr_t.is_same_atom(2, keys2.length, "got keys2 len");
+    mr_t.is_same_atom('bar', keys2[0], "got keys2 str 0");
+    mr_t.is_same_atom('foo', keys2[1], "got keys2 str 1");
+})();
+
+// is_array.
+(function(){
+    var t1 = 1;
+    var t2 = 'moo';
+    var t3 = [];
+    var t4 = {};
+    var t5 = ['moo'];
+    var t6 = {'cow': 'moo'};
+    var t7 = function(){ return true; };
+
+    mr_t.is_false(bbop.core.is_array(t1), "correctly is_array t1");
+    mr_t.is_false(bbop.core.is_array(t2), "correctly is_array t2");
+    mr_t.is_true(bbop.core.is_array(t3), "correctly is_array t3");
+    mr_t.is_false(bbop.core.is_array(t4), "correctly is_array t4");
+    mr_t.is_true(bbop.core.is_array(t5), "correctly is_array t5");
+    mr_t.is_false(bbop.core.is_array(t6), "correctly is_array t6");
+    mr_t.is_false(bbop.core.is_array(t7), "correctly is_array t7");
+})();
+
+// is_hash.
+(function(){
+    var t1 = 1;
+    var t2 = 'moo';
+    var t3 = [];
+    var t4 = {};
+    var t5 = ['moo'];
+    var t6 = {'cow': 'moo'};
+    var t7 = function(){ return true; };
+
+    mr_t.is_false(bbop.core.is_hash(t1), "correctly is_hash t1");
+    mr_t.is_false(bbop.core.is_hash(t2), "correctly is_hash t2");
+    mr_t.is_false(bbop.core.is_hash(t3), "correctly is_hash t3");
+    // ...?
+    mr_t.is_true(bbop.core.is_hash(t4), "correctly is_hash t4");
+    mr_t.is_false(bbop.core.is_hash(t5), "correctly is_hash t5");
+    mr_t.is_true(bbop.core.is_hash(t6), "correctly is_hash t6");
+    mr_t.is_false(bbop.core.is_hash(t7), "correctly is_hash t7");
+})();
+
+// is_same.
+(function(){
+     var t0 = null;
+     var t1 = 1;
+     var t2 = 'moo';
+     var t3 = [];
+     var t4 = {};
+     var t5 = ['moo', 'a'];
+     var t6 = {'cow': 'moo'};
+     var t7 = true;
+     var t8 = false;
+     var t9 = {'a': true, 'b': false};
+
+     // Simple and true things.
+     mr_t.is_true(bbop.core.is_same(t0, null), "correctly is_same t0");
+     mr_t.is_true(bbop.core.is_same(t1, 1), "correctly is_same t1");
+     mr_t.is_true(bbop.core.is_same(t2, 'moo'), "correctly is_same t2");
+     mr_t.is_true(bbop.core.is_same(t3, []), "correctly is_same t3");
+     mr_t.is_true(bbop.core.is_same(t4, {}), "correctly is_same t4");
+     mr_t.is_true(bbop.core.is_same(t5, ['moo', 'a']), "correctly is_same t5");
+     mr_t.is_true(bbop.core.is_same(t6, {'cow': 'moo'}),
+		  "correctly is_same t6");
+     mr_t.is_true(bbop.core.is_same(t7, true), "correctly is_same t7");
+     mr_t.is_true(bbop.core.is_same(t8, false), "correctly is_same t8");
+
+     // Apparently, harder.
+     mr_t.is_true(bbop.core.is_same(t9, {'a': true, 'b': false}),
+		  "correctly is_same t9");
+
+     // Now wrong things.
+     mr_t.is_false(bbop.core.is_same(t0, 1), "not is_same t0");
+     mr_t.is_false(bbop.core.is_same(t1, '1'), "not is_same t1a");
+     mr_t.is_false(bbop.core.is_same(t1, 2), "not is_same t1b");
+     mr_t.is_false(bbop.core.is_same(t2, 'mo'), "not is_same t2");
+     mr_t.is_false(bbop.core.is_same(t3, null), "not is_same t3a");
+     mr_t.is_false(bbop.core.is_same(t3, ['a']), "not is_same t3b");
+     mr_t.is_false(bbop.core.is_same(t4, null), "not is_same t4a");
+     mr_t.is_false(bbop.core.is_same(t4, {'a': 1}), "not is_same t4b");
+     mr_t.is_false(bbop.core.is_same(t4, 1), "not is_same t4c");
+     mr_t.is_false(bbop.core.is_same(t4, true), "not is_same t4d");
+     mr_t.is_false(bbop.core.is_same(t5, []), "not is_same t5a");
+     mr_t.is_false(bbop.core.is_same(t5, 1), "not is_same t5b");
+     mr_t.is_false(bbop.core.is_same(t5, ['moo']), "not is_same t5d");
+     mr_t.is_false(bbop.core.is_same(t5, ['moo', 'a', 'b']), "not is_same t5c");
+     mr_t.is_false(bbop.core.is_same(t6, {}), "not is_same t6a");
+     mr_t.is_false(bbop.core.is_same(t6, {'cw': 'moo'}), "not is_same t6b");
+     mr_t.is_false(bbop.core.is_same(t6, {'cow': 'moo', 'dog': 'arf'}),
+		   "not is_same t6c");
+     mr_t.is_false(bbop.core.is_same(t7, false), "not is_same t7a");
+     mr_t.is_false(bbop.core.is_same(t7, null), "not is_same t7b");
+     mr_t.is_false(bbop.core.is_same(t8, true), "not is_same t8a");
+     mr_t.is_false(bbop.core.is_same(t8, null), "not is_same t8b");
+
+     // Again, apparently, harder.
+     mr_t.is_false(bbop.core.is_same(t9, {'a': true}),
+		   "not is_same t9a");
+     mr_t.is_false(bbop.core.is_same(t9, {'a': false}),
+		   "not is_same t9b");
+     mr_t.is_false(bbop.core.is_same(t9, {'a': true, 'b': true}),
+		   "not is_same t9c");
+     mr_t.is_false(bbop.core.is_same(t9, {'a': false, 'b': true}),
+		   "not is_same t9d");
+     mr_t.is_false(bbop.core.is_same(t9, {'a': false, 'b': false}),
+		   "not is_same t9e");
+     mr_t.is_false(bbop.core.is_same(t9, {'a': true, 'b': false, 'c': true}),
+		   "not is_same t9f");
+     mr_t.is_false(bbop.core.is_same(t9, {'a': true, 'b': false, 'c': false}),
+		   "not is_same t9g");
+
+})();
+
+// hashify.
+(function(){
+
+     var t0 = bbop.core.hashify();
+     var t1 = bbop.core.hashify([]);
+     var t2 = bbop.core.hashify(['a']);
+     var t3 = bbop.core.hashify(['a', 'b', 'c']);
+     var t4 = bbop.core.hashify([1, 2, 3]);
+     var t5 = bbop.core.hashify([[]]);
+     var t6 = bbop.core.hashify([['a', 1], ['b', 2], ['c', 3]]);
+
+     mr_t.is_same_hash(t0, {}, "nil is same hashified");
+     mr_t.is_same_hash(t1, {}, "[] is same hashified");
+     mr_t.is_same_hash(t2, {'a': true}, "{a} is same hashified");
+     mr_t.is_same_hash(t3, {'a': true, 'b': true, 'c': true},
+		       "{a, b, c} is same hashified");
+     mr_t.is_same_hash(t4, {1: true, 2: true, 3: true},
+		       "{1, 2, ,3} is same hashified");     
+     mr_t.is_same_hash(t5, {}, "[[]] is same hashified");
+     mr_t.is_same_hash(t6, {'a': 1, 'b': 2, 'c': 3},
+		       "complex is same hashified");
+
+})();
+
+// is_empty.
+(function(){
+    var t1 = 1;
+    var t2 = 'moo';
+    var t3 = [];
+    var t4 = {};
+    var t5 = ['moo'];
+    var t6 = {'cow': 'moo'};
+    var t7 = function(){ return true; };
+
+    mr_t.is_false(bbop.core.is_empty(t1), "correctly empty t1");
+    mr_t.is_false(bbop.core.is_empty(t2), "correctly empty t2");
+    mr_t.is_true(bbop.core.is_empty(t3), "correctly empty t3");
+    mr_t.is_true(bbop.core.is_empty(t4), "correctly empty t4");
+    mr_t.is_false(bbop.core.is_empty(t5), "correctly empty t5");
+    mr_t.is_false(bbop.core.is_empty(t6), "correctly empty t6");
+    mr_t.is_false(bbop.core.is_empty(t7), "correctly empty t7");
+})();
+
+// is_defined.
+(function(){
+    var t1 = 1;
+    var t2 = null;
+    var t3 = [];
+    var t4 = {};
+    var t5 = {'cow': 'moo'};
+    var t6 = function(){ return true; };
+    var t7 = true;
+    var t8 = false;
+
+    mr_t.is_true(bbop.core.is_defined(t1), "correctly defined t1");
+    mr_t.is_true(bbop.core.is_defined(t2), "correctly defined t2");
+    mr_t.is_true(bbop.core.is_defined(t3), "correctly defined t3");
+    mr_t.is_true(bbop.core.is_defined(t4), "correctly defined t4");
+    mr_t.is_true(bbop.core.is_defined(t5), "correctly defined t5a");
+    mr_t.is_true(bbop.core.is_defined(t5['cow']), "correctly defined t5b");
+    mr_t.is_false(bbop.core.is_defined(t5['moo']), "correctly defined t5c");
+    mr_t.is_true(bbop.core.is_defined(t6), "correctly defined t6");
+    mr_t.is_true(bbop.core.is_defined(t7), "correctly defined t7");
+    mr_t.is_true(bbop.core.is_defined(t8), "correctly defined t8");
+})();
+
+// what_is.
+(function(){
+    // Simple items.
+    mr_t.is_same_atom(bbop.core.what_is(), null, "nil");
+    mr_t.is_same_atom(bbop.core.what_is(null), "null", "null");
+    mr_t.is_same_atom(bbop.core.what_is(true), "boolean", "boolean");
+    mr_t.is_same_atom(bbop.core.what_is(''), "string", "string 1");
+    mr_t.is_same_atom(bbop.core.what_is('hi'), "string", "string 2");
+    mr_t.is_same_atom(bbop.core.what_is(0), "number", "number 1");
+    mr_t.is_same_atom(bbop.core.what_is(-1), "number", "number 2");
+    mr_t.is_same_atom(bbop.core.what_is(1), "number", "number 3");
+    mr_t.is_same_atom(bbop.core.what_is([]), "array", "array 1");
+    mr_t.is_same_atom(bbop.core.what_is([1, 2]), "array", "array 2");
+    mr_t.is_same_atom(bbop.core.what_is({}), "object", "object 1");
+    mr_t.is_same_atom(bbop.core.what_is({a: 2, 'b': 3}), "object", "object 2");
+    mr_t.is_same_atom(bbop.core.what_is(function(x){ return x; }),
+		      "function", "function");
+
+    // More complicated items.
+    foo = {};
+    foo.bar = function(){
+	this._is_a = 'foo.bar';
+    };
+    var fb = new foo.bar();
+    mr_t.is_same_atom(bbop.core.what_is(fb), 'foo.bar', 'class/object');
+})();
+
+// to_string.
+(function(){
+    
+    function foo (){
+	this.to_string = function(){
+	    return 'foo!';
+	};
+    }
+
+    var f = new foo();
+
+    mr_t.is_same_atom(bbop.core.to_string(0), '0', "to_string 0");
+    mr_t.is_same_atom(bbop.core.to_string('a'), 'a', "to_string 1");
+    mr_t.is_same_atom(bbop.core.to_string(f), 'foo!', "to_string 2");
+})();
+
+// dump.
+(function(){
+    mr_t.is_same_atom(bbop.core.dump(), 'null', "dump 0");
+    mr_t.is_same_atom(bbop.core.dump(''), '""', "dump 1");
+    mr_t.is_same_atom(bbop.core.dump('abc'), '"abc"', "dump 2");
+    mr_t.is_same_atom(bbop.core.dump(1), "1", "dump 3");
+    mr_t.is_same_atom(bbop.core.dump(null), "null", "dump 4");
+    mr_t.is_same_atom(bbop.core.dump(true), "true", "dump 5");
+    mr_t.is_same_atom(bbop.core.dump([]), "[]", "dump 6");
+    mr_t.is_same_atom(bbop.core.dump({}), "{}", "dump 7");
+    mr_t.is_same_atom(bbop.core.dump([null, ['bob', 'bar', {foo: 1}]]),
+		      '[null, ["bob", "bar", {"foo": 1}]]', "dump 8");
+})();
+
+// Check hash folding.
+(function(){
+     var a_hash = {foo: 1, bar: 2};
+     mr_t.is_same_hash({}, bbop.core.fold({},{}), 'empty fold');
+     mr_t.is_same_hash(a_hash, bbop.core.fold({foo:1, bar:2},{}),'same fold');
+     mr_t.is_same_hash(a_hash, bbop.core.fold({foo:1, bar:3},{bar:2}),
+		       'distinct fold');
+     mr_t.is_different_hash(a_hash, bbop.core.fold({foo:1},{bar:2}),
+			    'bar fold');
+ })();
+
+// Check hash merging.
+(function(){
+     var a_hash = {foo: 1, bar: 2};
+     mr_t.is_same_hash({}, bbop.core.merge({},{}), 'empty merge');
+     mr_t.is_same_hash(a_hash, bbop.core.merge({foo:1, bar:3},{bar:2}),
+			    'distinct merge');
+     mr_t.is_same_hash(a_hash, bbop.core.merge({foo:1, bar:2}, {}),
+		       'bar merge 1');
+     mr_t.is_same_hash(a_hash, bbop.core.merge({foo:1},{bar:2}),
+		       'bar merge 2');
+     mr_t.is_same_hash(a_hash, bbop.core.merge({}, {foo:1, bar:2}),
+		       'bar merge 3');
+ })();
+
+// Check cloning.
+(function(){
+
+    var foo = {a: 1, b: true, c:[1,2,[3]], d:{one: 'a', two: ['b']}};
+    var bar = bbop.core.clone(foo);
+
+    // Change the original.
+    foo.a = 2;
+    foo.b = false;
+    foo.c[2][0] = 4;
+    foo.d.two[0] = 'c';
+
+    // Check the similarities.
+    mr_t.is_same_atom(foo.c.length, bar.c.length, 'array length preserved');
+    mr_t.is_same_atom(foo.c[0], bar.c[0], 'array 0 preserved');
+    mr_t.is_same_atom(foo.d.one, bar.d.one, 'hash prop preserved');    
+
+    // Check differences.
+    mr_t.is_different_atom(foo.a, bar.a, 'different int');
+    mr_t.is_different_atom(foo.b, bar.b, 'different bool');
+    mr_t.is_different_atom(foo.c[2][0], bar.c[2][0], 'different double index');
+    mr_t.is_different_atom(foo.d.two[0], bar.d.two[0], 'different in hash');
+})();
+
+// // Check encoding ids.
+// (function(){
+
+//     var rounds = ["GO:1234567", "GO::GO:1234567", "::1:2::3:"];
+//     var coders = [new bbop.core.coder(),
+// 		  new bbop.core.coder({string: "_TEST_", size: 1})];
+
+//     // Iterate through coders and strings.
+//     for( var cdr = 0; cdr < coders.length; cdr++ ){
+// 	var coder = coders[cdr];
+// 	for( var rnd = 0; rnd < rounds.length; rnd++ ){
+// 	    var round = rounds[rnd];
+
+// 	    //
+// 	    var enc = coder.encode(round);
+// 	    //print(enc);
+// 	    mr_t.is_same_atom(round, coder.decode(enc),
+// 			      "round trip (coder: " +
+// 			      cdr + ', string: "' +
+// 			      round + '")');
+// 	}
+//     }
+// })();
+
+// Check get_assemble.
+(function(){
+
+     var s1 = {foo: 1, bar: 2};
+     var t1 = "foo=1&bar=2";
+     mr_t.is_same_url(bbop.core.get_assemble(s1), t1,
+		      'get_assemble simple hash');
+
+     var s2 = {foo: 1, bar: ['2', '3 4', null]};
+     var t2 = "foo=1&bar=2&bar=3 4&bar=";
+     mr_t.is_same_url(bbop.core.get_assemble(s2), t2,
+		      'get_assemble hash with array');
+     
+     // I'm unsure how I feel about undefined in this case.
+     var s3 = {foo: 1, bar: {'bib': 2, 'bab': null}};
+     var t3 = 'foo=1&bar=bib:"2"&bar=bab:""';
+     mr_t.is_same_url(bbop.core.get_assemble(s3), t3,
+		      'get_assemble hash with hash');
+
+     var s4 = {'fq': {'foo': 'a', 'bar': ['b', 'c']}};
+     var t4 = 'fq=foo:"a"&fq=bar:"b"&fq=bar:"c"';
+     mr_t.is_same_url(bbop.core.get_assemble(s4), t4,
+		      'get_assemble hash with array in hash');
+     
+ })();
+
+// play with "classes" and "subclasses"
+(function(){
+
+     // 
+     function thing1(arg){
+	 
+	 // Three lexical variables.
+	 var lex0 = 'lex0';
+	 var lex1 = arg + 'lex1';
+	 var lex2 = arg + 'lex2';
+	 var lex3 = arg + 'lex3';
+	 
+	 // Three object variables. 
+	 this.obj0 = 'obj0';
+	 this.obj1 = arg + 'obj1';
+	 this.obj2 = arg + 'obj2';
+	 this.obj3 = arg + 'obj3';
+	 
+	 // Three object functions accessing lexical variables.
+	 this.lex0_plus = function(msg){ return lex0 + ' ' + msg; };
+	 this.lex1_plus = function(msg){ return lex1 + ' ' + msg; };
+	 this.lex2_plus = function(msg){ return lex2 + ' ' + msg; };
+	 this.lex3_plus = function(msg){ return lex3 + ' ' + msg; };
+	 
+	 // Three object functions accessing object variables.
+	 this.obj0_plus = function(msg){ return this.obj0 + ' ' + msg; };
+	 this.obj1_plus = function(msg){ return this.obj1 + ' ' + msg; };
+	 this.obj2_plus = function(msg){ return this.obj2 + ' ' + msg; };
+	 this.obj3_plus = function(msg){ return this.obj3 + ' ' + msg; };
+     }
+     // Three prototype functions accessing object variables.
+     thing1.prototype.pro0_plus = function(msg){ return this.obj0 +' '+ msg; };
+     thing1.prototype.pro1_plus = function(msg){ return this.obj1 +' '+ msg; };
+     thing1.prototype.pro2_plus =
+	 function(msg){ return this.obj2 + ' ' + msg; };
+     thing1.prototype.pro3_plus =
+	 function(msg){ return this.obj3 + ' ' + msg; };
+     
+     // Now let's make a subthing.
+     function subthing2(arg){
+	 thing1.call(this, arg);
+	 
+	 this.obj2 = 'OBJ2';
+     }
+     bbop.core.extend(subthing2, thing1);
+     
+     // Overrides.
+     subthing2.prototype.pro1_plus =
+	 function(msg){ return this.obj1 + ' (s2) ' + msg; };
+     subthing2.prototype.pro2_plus =
+	 function(msg){ return this.obj2 + ' (s2) ' + msg; };
+     // Override with callback.
+     subthing2.prototype.pro3_plus = function(msg){
+	 var foo = thing1.prototype.pro3_plus.call(this, msg);
+	 return this.obj3 + ' (s2+) ' + msg;
+     };
+     
+     // Now let's make a subthing.
+     function subsubthing3(arg1, arg2){
+	 subthing2.call(this, arg1);
+	 
+	 this.obj3 = arg2;
+	 
+	 this.lex3_plus = function(){
+	     return arg1 + ' mu';
+	 };
+     }
+     bbop.core.extend(subsubthing3, subthing2);
+     
+     // Overrides.
+     subsubthing3.prototype.pro2_plus =
+	 function(msg){ return this.obj2 + ' (s3) ' + msg; };
+     // Override with callback.
+     subsubthing3.prototype.pro3_plus = function(msg){
+	 subthing2.prototype.pro3_plus.call(this, msg + ' (extra)');
+	 return this.obj3 + ' (s3+) ' + msg;
+     };
+     
+     ///     
+     /// Show that the things we made makes sense.
+     ///
+     
+     var t1 = new thing1('t');
+     mr_t.is_same_atom(t1.lex0_plus('foo'), 'lex0 foo',
+		       'extend: 1');
+     mr_t.is_same_atom(t1.lex1_plus('foo'), 'tlex1 foo',
+		       'extend: 2');
+     mr_t.is_same_atom(t1.lex2_plus('foo'), 'tlex2 foo',
+		       'extend: 3');
+     mr_t.is_same_atom(t1.lex3_plus('foo'), 'tlex3 foo',
+		       'extend: 4');
+     mr_t.is_same_atom(t1.obj0_plus('foo'), 'obj0 foo',
+		       'extend: 5');
+     mr_t.is_same_atom(t1.obj1_plus('foo'), 'tobj1 foo',
+		       'extend: 6');
+     mr_t.is_same_atom(t1.obj2_plus('foo'), 'tobj2 foo',
+		       'extend: 7');
+     mr_t.is_same_atom(t1.obj3_plus('foo'), 'tobj3 foo',
+		       'extend: 8');
+     mr_t.is_same_atom(t1.pro0_plus('foo'), 'obj0 foo',
+		       'extend: 9');
+     mr_t.is_same_atom(t1.pro1_plus('foo'), 'tobj1 foo',
+		       'extend: 10');
+     mr_t.is_same_atom(t1.pro2_plus('foo'), 'tobj2 foo',
+		       'extend: 11');
+     mr_t.is_same_atom(t1.pro3_plus('foo'), 'tobj3 foo',
+		       'extend: 12');
+     
+     var s2 = new subthing2('s');
+     mr_t.is_same_atom(s2.lex0_plus('bar'), 'lex0 bar',
+		       'extend: 13');
+     mr_t.is_same_atom(s2.lex1_plus('bar'), 'slex1 bar',
+		       'extend: 14');
+     mr_t.is_same_atom(s2.lex2_plus('bar'), 'slex2 bar',
+		       'extend: 15');
+     mr_t.is_same_atom(s2.lex3_plus('bar'), 'slex3 bar',
+		       'extend: 16');
+     mr_t.is_same_atom(s2.obj0_plus('bar'), 'obj0 bar',
+		       'extend: 17');
+     mr_t.is_same_atom(s2.obj1_plus('bar'), 'sobj1 bar',
+		       'extend: 18');
+     mr_t.is_same_atom(s2.obj2_plus('bar'), 'OBJ2 bar',
+		       'extend: 19');
+     mr_t.is_same_atom(s2.obj3_plus('bar'), 'sobj3 bar',
+		       'extend: 20');
+     mr_t.is_same_atom(s2.pro0_plus('bar'), 'obj0 bar',
+		       'extend: 21');
+     mr_t.is_same_atom(s2.pro1_plus('bar'), 'sobj1 (s2) bar',
+		       'extend: 22');
+     mr_t.is_same_atom(s2.pro2_plus('bar'), 'OBJ2 (s2) bar',
+		       'extend: 23');
+     mr_t.is_same_atom(s2.pro3_plus('bar'), 'sobj3 (s2+) bar',
+		       'extend: 24');
+     
+     var s3 = new subsubthing3('S', 'OBJ3');
+     mr_t.is_same_atom(s3.lex0_plus('bib'), 'lex0 bib',
+		       'extend: 25');
+     mr_t.is_same_atom(s3.lex1_plus('bib'), 'Slex1 bib',
+		       'extend: 26');
+     mr_t.is_same_atom(s3.lex2_plus('bib'), 'Slex2 bib',
+		       'extend: 27');
+     mr_t.is_same_atom(s3.lex3_plus('bib'), 'S mu',
+		       'extend: 28');
+     mr_t.is_same_atom(s3.obj0_plus('bib'), 'obj0 bib',
+		       'extend: 29');
+     mr_t.is_same_atom(s3.obj1_plus('bib'), 'Sobj1 bib',
+		       'extend: 30');
+     mr_t.is_same_atom(s3.obj2_plus('bib'), 'OBJ2 bib',
+		       'extend: 31');
+     mr_t.is_same_atom(s3.obj3_plus('bib'), 'OBJ3 bib',
+		       'extend: 32');
+     mr_t.is_same_atom(s3.pro0_plus('bib'), 'obj0 bib',
+		       'extend: 33');
+     mr_t.is_same_atom(s3.pro1_plus('bib'), 'Sobj1 (s2) bib',
+		       'extend: 34');
+     mr_t.is_same_atom(s3.pro2_plus('bib'), 'OBJ2 (s3) bib',
+		       'extend: 35');
+     mr_t.is_same_atom(s3.pro3_plus('bib'), 'OBJ3 (s3+) bib',
+		       'extend: 36');
+     
+ })();
+
+// first_split
+(function(){
+
+     var t1 = bbop.core.first_split("=", "foo");
+     mr_t.is_same_atom(t1.length, 2, 'first_split: 1-1');
+     mr_t.is_same_atom(t1[0], '', 'first_split: 1-2');
+     mr_t.is_same_atom(t1[1], '', 'first_split: 1-3');
+
+     var t2 = bbop.core.first_split("=", "=foo");
+     mr_t.is_same_atom(t2.length, 2, 'first_split: 2-1');
+     mr_t.is_same_atom(t2[0], '', 'first_split: 2-2');
+     mr_t.is_same_atom(t2[1], 'foo', 'first_split: 2-3');
+
+     var t3 = bbop.core.first_split("=", "=foo=");
+     mr_t.is_same_atom(t3.length, 2, 'first_split: 3-1');
+     mr_t.is_same_atom(t3[0], '', 'first_split: 3-2');
+     mr_t.is_same_atom(t3[1], 'foo=', 'first_split: 3-3');
+
+     var t4 = bbop.core.first_split("=", "foo=");
+     mr_t.is_same_atom(t4.length, 2, 'first_split: 4-1');
+     mr_t.is_same_atom(t4[0], 'foo', 'first_split: 4-2');
+     mr_t.is_same_atom(t4[1], '', 'first_split: 4-3');
+
+     var t5 = bbop.core.first_split("=", "fo=o");
+     mr_t.is_same_atom(t5.length, 2, 'first_split: 5-1');
+     mr_t.is_same_atom(t5[0], 'fo', 'first_split: 5-2');
+     mr_t.is_same_atom(t5[1], 'o', 'first_split: 5-3');
+
+     var t6 = bbop.core.first_split("=", "");
+     mr_t.is_same_atom(t6.length, 2, 'first_split: 6-1');
+     mr_t.is_same_atom(t6[0], '', 'first_split: 6-2');
+     mr_t.is_same_atom(t6[1], '', 'first_split: 6-3');
+
+ })();
+
+// url_parameters
+(function(){
+
+     var t1 = bbop.core.url_parameters("asdasd?foo=bar");
+     mr_t.is_same_atom(t1.length, 1, 'urlparm: 1-1');
+     mr_t.is_same_atom(t1[0].length, 2, 'urlparm: 1-2');
+     mr_t.is_same_atom(t1[0][0], 'foo', 'urlparm: 1-3');
+     mr_t.is_same_atom(t1[0][1], 'bar', 'urlparm: 1-4');
+
+     var t2 = bbop.core.url_parameters("asdasd?foo");
+     mr_t.is_same_atom(t2.length, 1, 'urlparm: 2-1');
+     mr_t.is_same_atom(t2[0].length, 1, 'urlparm: 2-2');
+     mr_t.is_same_atom(t2[0][0], 'foo', 'urlparm: 2-3');
+
+     var t3 = bbop.core.url_parameters("asdasd?foo=");
+     mr_t.is_same_atom(t3.length, 1, 'urlparm: 3-1');
+     mr_t.is_same_atom(t3[0].length, 2, 'urlparm: 3-2');
+     mr_t.is_same_atom(t3[0][0], 'foo', 'urlparm: 3-3');
+     mr_t.is_same_atom(t3[0][1], '', 'urlparm: 3-4');
+
+     var t4 = bbop.core.url_parameters("asdasd?foo=bar&bib=bob");
+     mr_t.is_same_atom(t4.length, 2, 'urlparm: 4-1');
+     mr_t.is_same_atom(t4[0].length, 2, 'urlparm: 4-2');
+     mr_t.is_same_atom(t4[1].length, 2, 'urlparm: 4-3');
+     mr_t.is_same_atom(t4[0][0], 'foo', 'urlparm: 4-3');
+     mr_t.is_same_atom(t4[0][1], 'bar', 'urlparm: 4-4');
+     mr_t.is_same_atom(t4[1][0], 'bib', 'urlparm: 4-3');
+     mr_t.is_same_atom(t4[1][1], 'bob', 'urlparm: 4-4');
+
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
