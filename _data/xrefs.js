@@ -22,7 +22,6 @@ bbop.core.namespace('amigo', 'data', 'xrefs');
  */
 amigo.data.xrefs = {
    "bhf-ucl" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -37,7 +36,6 @@ amigo.data.xrefs = {
    },
    "pir" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://pir.georgetown.edu/cgi-bin/pirwww/nbrfget?uid=I49499",
@@ -53,7 +51,6 @@ amigo.data.xrefs = {
    },
    "ncbi_nm" : {
       "object" : "mRNA identifier",
-      "function" : null,
       "replaced_by" : "RefSeq",
       "uri_prefix" : null,
       "name" : null,
@@ -71,7 +68,6 @@ amigo.data.xrefs = {
    },
    "pirsf" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://pir.georgetown.edu/cgi-bin/ipcSF?id=SF002327",
@@ -86,7 +82,6 @@ amigo.data.xrefs = {
    },
    "cas" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -102,7 +97,6 @@ amigo.data.xrefs = {
    },
    "hgnc" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genenames.org/data/hgnc_data.php?hgnc_id=HGNC:29",
@@ -117,7 +111,6 @@ amigo.data.xrefs = {
    },
    "patric" : {
       "object" : "Feature identifieer",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://patric.vbi.vt.edu/gene/overview.php?fid=cds.000002.436951",
@@ -132,7 +125,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "ro" : {
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://purl.obolibrary.org/obo/RO_0002211",
@@ -148,7 +140,6 @@ amigo.data.xrefs = {
    },
    "maizegdb_locus" : {
       "object" : "Maize gene name",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.maizegdb.org/cgi-bin/displaylocusresults.cgi?term=ZmPK1",
@@ -164,7 +155,6 @@ amigo.data.xrefs = {
    },
    "rgd" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://rg'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=2004",
@@ -181,7 +171,6 @@ amigo.data.xrefs = {
    },
    "ncbi_gi" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?val=113194944",
@@ -197,7 +186,6 @@ amigo.data.xrefs = {
    },
    "agricola_ind" : {
       "object" : "AGRICOLA IND number",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -212,7 +200,6 @@ amigo.data.xrefs = {
    },
    "tc" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.tc'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.tcdb.org/tcdb/index.php?tc=9.A.4.1.1",
@@ -227,7 +214,6 @@ amigo.data.xrefs = {
    },
    "asap" : {
       "object" : "Feature identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + 's://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "https://asap.ahabs.wisc.edu/annotation/php/feature_info.php?FeatureID=ABE-0000008",
@@ -242,7 +228,6 @@ amigo.data.xrefs = {
    },
    "biocyc" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://b'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://biocyc.org/META/NEW-IMAGE?type=PATHWAY&object=PWY-5271",
@@ -257,7 +242,6 @@ amigo.data.xrefs = {
    },
    "uberon" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://purl.obolibrary.org/obo/UBERON_0002398",
@@ -275,7 +259,6 @@ amigo.data.xrefs = {
    },
    "seed" : {
       "object" : "identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.th'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.theseed.org/linkin.cgi?id=fig|83331.1.peg.1",
@@ -291,7 +274,6 @@ amigo.data.xrefs = {
    },
    "jcvi_ref" : {
       "object" : "Reference locator",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://cmr.jcvi.org/CMR/AnnotationSops.shtml",
@@ -306,7 +288,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "locsvmpsi" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -321,7 +302,6 @@ amigo.data.xrefs = {
    },
    "chebi" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17234",
@@ -339,7 +319,6 @@ amigo.data.xrefs = {
    },
    "ensembl" : {
       "object" : "Identifier (unspecified)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ensembl.org/id/ENSP00000265949",
@@ -356,7 +335,6 @@ amigo.data.xrefs = {
    },
    "casspc" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://r'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -370,7 +348,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "pinc" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -385,7 +362,6 @@ amigo.data.xrefs = {
    },
    "uniprotkb-subcell" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.uniprot.org/locations/SL-0012",
@@ -400,7 +376,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "yeastfunc" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -414,7 +389,6 @@ amigo.data.xrefs = {
    },
    "jcvi_pfa1" : {
       "object" : "Accession",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -431,7 +405,6 @@ amigo.data.xrefs = {
    },
    "prosite" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.expasy.ch/cgi-bin/prosite-search-ac?PS00365",
@@ -446,7 +419,6 @@ amigo.data.xrefs = {
    },
    "pfamb" : {
       "object" : "Accession",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -461,7 +433,6 @@ amigo.data.xrefs = {
    },
    "img" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://img.jgi.doe.gov/cgi-bin/pub/main.cgi?section=GeneDetail&page=geneDetail&gene_oid=640008772",
@@ -476,7 +447,6 @@ amigo.data.xrefs = {
    },
    "cgen" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -491,7 +461,6 @@ amigo.data.xrefs = {
    },
    "gene3d" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://gene3d.biochem.ucl.ac.uk/superfamily/?accession=G3DSA%3A3.30.390.30",
@@ -506,7 +475,6 @@ amigo.data.xrefs = {
    },
    "ma" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.informatics.jax.org/searches/AMA.cgi?id=MA:0000003",
@@ -522,7 +490,6 @@ amigo.data.xrefs = {
    },
    "refseq" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?val=XP_001068954",
@@ -538,7 +505,6 @@ amigo.data.xrefs = {
    },
    "prints" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.b'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.bioinf.manchester.ac.uk/cgi-bin/dbbrowser/sprint/searchprintss.cgi?display_opts=Prints&category=None&queryform=false&regexpr=off&prints_accn=PR00025",
@@ -553,7 +519,6 @@ amigo.data.xrefs = {
    },
    "ddbj" : {
       "object" : "Sequence accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://arsa.ddbj.nig.ac.jp/arsa/ddbjSplSearch?KeyWord=AA816246",
@@ -568,7 +533,6 @@ amigo.data.xrefs = {
    },
    "rebase" : {
       "object" : "Restriction enzyme name",
-      "function" : "function(in_id){ return 'htt' + in_id + '://r'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://rebase.neb.com/rebase/enz/EcoRI.html",
@@ -583,7 +547,6 @@ amigo.data.xrefs = {
    },
    "cdd" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/Structure/cdd/cddsrv.cgi?uid=34222",
@@ -598,7 +561,6 @@ amigo.data.xrefs = {
    },
    "biosis" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -613,7 +575,6 @@ amigo.data.xrefs = {
    },
    "cazy" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.cazy.org/PL11.html",
@@ -630,7 +591,6 @@ amigo.data.xrefs = {
    },
    "ncbi_np" : {
       "object" : "Protein identifier",
-      "function" : null,
       "replaced_by" : "RefSeq",
       "uri_prefix" : null,
       "name" : null,
@@ -647,7 +607,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "smd" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -661,7 +620,6 @@ amigo.data.xrefs = {
    },
    "iuphar_receptor" : {
       "object" : "Receptor identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.iuphar-db.org/DATABASE/ObjectDisplayForward?objectId=56",
@@ -676,7 +634,6 @@ amigo.data.xrefs = {
    },
    "vega" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://v'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://vega.sanger.ac.uk/perl/searchview?species=all&idx=All&q=OTTHUMP00000000661",
@@ -691,7 +648,6 @@ amigo.data.xrefs = {
    },
    "gr_ref" : {
       "object" : "Reference",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.gr'; }",
       "database: Gramene" : "A Comparative Mapping Resource for Grains",
       "uri_prefix" : null,
       "name" : null,
@@ -705,7 +661,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "imgt_ligm" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -721,7 +676,6 @@ amigo.data.xrefs = {
    },
    "enzyme" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.expasy.ch/cgi-bin/nicezyme.pl?1.1.1.1",
@@ -736,7 +690,6 @@ amigo.data.xrefs = {
    },
    "um-bbd" : {
       "object" : "Prefix",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -750,7 +703,6 @@ amigo.data.xrefs = {
    },
    "corum" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://mips.gsf.de/genre/proj/corum/complexdetails.html?id=837",
@@ -765,7 +717,6 @@ amigo.data.xrefs = {
    },
    "pfam" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.s'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.sanger.ac.uk/cgi-bin/Pfam/getacc?PF00046",
@@ -781,7 +732,6 @@ amigo.data.xrefs = {
    },
    "um-bbd_enzymeid" : {
       "object" : "Enzyme identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://u'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://umbbd.msi.umn.edu/servlets/pageservlet?ptype=ep&enzymeID=e0230",
@@ -796,7 +746,6 @@ amigo.data.xrefs = {
    },
    "gr_gene" : {
       "object" : "Gene identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.gr'; }",
       "database: Gramene" : "A Comparative Mapping Resource for Grains",
       "uri_prefix" : null,
       "name" : null,
@@ -813,7 +762,6 @@ amigo.data.xrefs = {
    "genedb_spombe" : {
       "object" : "Gene identifier",
       "shorthand_name" : "Spombe",
-      "function" : "function(in_id){ return 'htt' + in_id + '://o'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://old.genedb.org/genedb/Search?organism=pombe&name=SPAC890.04C",
@@ -829,7 +777,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "poc" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -843,7 +790,6 @@ amigo.data.xrefs = {
    },
    "jcvi_tigrfams" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://s'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://search.jcvi.org/search?p&q=TIGR00254",
@@ -859,7 +805,6 @@ amigo.data.xrefs = {
    },
    "panther" : {
       "object" : "Protein family tree identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://pantree.org/node/annotationNode.jsp?id=PTN000000084",
@@ -874,7 +819,6 @@ amigo.data.xrefs = {
    },
    "jcvi_tba1" : {
       "object" : "Accession",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -891,7 +835,6 @@ amigo.data.xrefs = {
    },
    "go" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://amigo.geneontology.org/cgi-bin/amigo/term-details.cgi?term=GO:0004352",
@@ -908,7 +851,6 @@ amigo.data.xrefs = {
    },
    "aspgd_ref" : {
       "object" : "Literature Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.aspergillusgenome.org/cgi-bin/reference/reference.pl?dbid=90",
@@ -922,7 +864,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "sanger" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -937,7 +878,6 @@ amigo.data.xrefs = {
    "genedb_lmajor" : {
       "object" : "Gene identifier",
       "shorthand_name" : "Lmajor",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genedb.org/genedb/Search?organism=leish&name=LM5.32",
@@ -953,7 +893,6 @@ amigo.data.xrefs = {
    },
    "fma" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -968,7 +907,6 @@ amigo.data.xrefs = {
    },
    "pubchem_compound" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?CMD=search&DB=pccompound&term=2244",
@@ -983,7 +921,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "mitre" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -996,7 +933,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "phenoscape" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1010,7 +946,6 @@ amigo.data.xrefs = {
    },
    "ecocyc_ref" : {
       "object" : "Reference identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://b'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://biocyc.org/ECOLI/reference.html?type=CITATION-FRAME&object=COLISALII",
@@ -1026,7 +961,6 @@ amigo.data.xrefs = {
    },
    "metacyc" : {
       "object" : "Identifier (pathway or reaction)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://b'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://biocyc.org/META/NEW-IMAGE?type=NIL&object=GLUTDEG-PWY",
@@ -1040,7 +974,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "omssa" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1054,7 +987,6 @@ amigo.data.xrefs = {
    },
    "h-invdb_cdna" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.h-'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.h-invitational.jp/hinv/spsoup/transcript_view?acc_id=AK093149",
@@ -1069,7 +1001,6 @@ amigo.data.xrefs = {
    },
    "prodom" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://prodom.prabi.fr/prodom/current/cgi-bin/request.pl?question=DBEN&query=PD000001",
@@ -1085,7 +1016,6 @@ amigo.data.xrefs = {
    },
    "aspgd_locus" : {
       "object" : "Gene name (gene symbol in mammalian nomenclature)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.aspergillusgenome.org/cgi-bin/locus.pl?locus=AN10942",
@@ -1100,7 +1030,6 @@ amigo.data.xrefs = {
    },
    "obo_rel" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1115,7 +1044,6 @@ amigo.data.xrefs = {
    },
    "dictybase_ref" : {
       "object" : "Literature Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://dictybase.org/db/cgi-bin/dictyBase/reference/reference.pl?refNo=10157",
@@ -1131,7 +1059,6 @@ amigo.data.xrefs = {
    },
    "refseq_prot" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "replaced_by" : "RefSeq",
       "uri_prefix" : null,
       "name" : null,
@@ -1148,7 +1075,6 @@ amigo.data.xrefs = {
    },
    "uniprotkb-kw" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.uniprot.org/keywords/KW-0812",
@@ -1163,7 +1089,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "germonline" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1176,7 +1101,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "mengo" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1190,7 +1114,6 @@ amigo.data.xrefs = {
    },
    "medline" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1205,7 +1128,6 @@ amigo.data.xrefs = {
    },
    "po_ref" : {
       "object" : "Reference identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://w'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://wiki.plantontology.org:8080/index.php/PO_REF:00001",
@@ -1220,7 +1142,6 @@ amigo.data.xrefs = {
    },
    "broad_mgg" : {
       "object" : "Locus",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.bro'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.broad.mit.edu/annotation/genome/magnaporthe_grisea/GeneLocus.html?sp=SMGG_05132",
@@ -1235,7 +1156,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "eurofung" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1249,7 +1169,6 @@ amigo.data.xrefs = {
    },
    "merops" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://merops.sanger.ac.uk/cgi-bin/pepsum?mid=A08.001",
@@ -1264,7 +1183,6 @@ amigo.data.xrefs = {
    },
    "casref" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://r'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://research.calacademy.org/research/ichthyology/catalog/getref.asp?id=2031",
@@ -1279,7 +1197,6 @@ amigo.data.xrefs = {
    },
    "kegg_reaction" : {
       "object" : "Reaction",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genome.jp/dbget-bin/www_bget?rn:R02328",
@@ -1295,7 +1212,6 @@ amigo.data.xrefs = {
    },
    "merops_fam" : {
       "object" : "Peptidase family identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://merops.sanger.ac.uk/cgi-bin/famsum?family=m18",
@@ -1310,7 +1226,6 @@ amigo.data.xrefs = {
    },
    "obo_sf_po" : {
       "object" : "Term request",
-      "function" : "function(in_id){ return 'htt' + in_id + 's://sourc'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "https://sourceforge.net/tracker/index.php?func=detail&aid=3184921&group_id=76834&atid=835555",
@@ -1325,7 +1240,6 @@ amigo.data.xrefs = {
    },
    "kegg_ligand" : {
       "object" : "Compound",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genome.jp/dbget-bin/www_bget?cpd:C00577",
@@ -1341,7 +1255,6 @@ amigo.data.xrefs = {
    },
    "refseq_na" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "replaced_by" : "RefSeq",
       "uri_prefix" : null,
       "name" : null,
@@ -1358,7 +1271,6 @@ amigo.data.xrefs = {
    },
    "ecogene" : {
       "object" : "EcoGene accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ecogene.org/geneInfo.php?eg_id=EG10818",
@@ -1374,7 +1286,6 @@ amigo.data.xrefs = {
    },
    "jstor" : {
       "object" : "journal article",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.jstor.org/st'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.jstor.org/stable/3093870",
@@ -1389,7 +1300,6 @@ amigo.data.xrefs = {
    },
    "omim" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://o'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://omim.org/entry/190198",
@@ -1404,7 +1314,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "imgt_hla" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1419,7 +1328,6 @@ amigo.data.xrefs = {
    },
    "tgd_locus" : {
       "object" : "Gene name (gene symbol in mammalian nomenclature)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://db.ciliate.org/cgi-bin/locus.pl?locus=PDD1",
@@ -1434,7 +1342,6 @@ amigo.data.xrefs = {
    },
    "pmcid" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pmc&cmd=search&term=PMC201377",
@@ -1451,7 +1358,6 @@ amigo.data.xrefs = {
    },
    "biomd" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/compneur-srv/biomodels-main/publ-model.do?mid=BIOMD0000000045",
@@ -1467,7 +1373,6 @@ amigo.data.xrefs = {
    },
    "pmid" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/pubmed/4208797",
@@ -1482,7 +1387,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "ecoliwiki" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1498,7 +1402,6 @@ amigo.data.xrefs = {
    },
    "maizegdb" : {
       "object" : "MaizeGDB Object ID Number",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.maizegdb.org/cgi-bin/id_search.cgi?id=881225",
@@ -1513,7 +1416,6 @@ amigo.data.xrefs = {
    },
    "ensembl_transcriptid" : {
       "object" : "Transcript identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ensembl.org/id/ENST00000371959",
@@ -1529,7 +1431,6 @@ amigo.data.xrefs = {
    },
    "um-bbd_ruleid" : {
       "object" : "Rule identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://u'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://umbbd.msi.umn.edu/servlets/rule.jsp?rule=bt0330",
@@ -1543,7 +1444,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "pharmgkb" : {
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.pharmgkb.org/do/serve?objId=PA267",
@@ -1558,7 +1458,6 @@ amigo.data.xrefs = {
    },
    "mesh" : {
       "object" : "MeSH heading",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.n'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.nlm.nih.gov/cgi/mesh/2005/MB_cgi?mode=&term=mitosis",
@@ -1572,7 +1471,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "phi" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1587,7 +1485,6 @@ amigo.data.xrefs = {
    },
    "cbs" : {
       "object" : "prediction tool",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.cbs.dtu.dk/services/[example_id]/",
@@ -1602,7 +1499,6 @@ amigo.data.xrefs = {
    },
    "aspgd" : {
       "object" : "Identifier for ASPGD Loci",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.aspergillusgenome.org/cgi-bin/locus.pl?dbid=ASPL0000067538",
@@ -1618,7 +1514,6 @@ amigo.data.xrefs = {
    },
    "vbrc" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://vbrc.org/qu'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://vbrc.org/query.asp?web_id=VBRC:F35742",
@@ -1633,7 +1528,6 @@ amigo.data.xrefs = {
    },
    "psi-mi" : {
       "object" : "Interaction identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1649,7 +1543,6 @@ amigo.data.xrefs = {
    },
    "hpa" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.proteinatlas.org/tissue_profile.php?antibody_id=HPA000237",
@@ -1664,7 +1557,6 @@ amigo.data.xrefs = {
    },
    "gonuts" : {
       "object" : "Identifier (for gene or gene product)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://gow'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://gowiki.tamu.edu/wiki/index.php/MOUSE:CD28",
@@ -1680,7 +1572,6 @@ amigo.data.xrefs = {
    },
    "zfin" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://zf'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://zfin.org/cgi-bin/ZFIN_jump?record=ZDB-GENE-990415-103",
@@ -1696,7 +1587,6 @@ amigo.data.xrefs = {
    },
    "protein_id" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1713,7 +1603,6 @@ amigo.data.xrefs = {
    },
    "pamgo_mgg" : {
       "object" : "Locus",
-      "function" : "function(in_id){ return 'htt' + in_id + '://scot'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://scotland.fgl.ncsu.edu/cgi-bin/adHocQuery.cgi?adHocQuery_dbName=smeng_goannotation&Action=Data&QueryName=Functional+Categorization+of+MGG+GO+Annotation&P_KeyWord=MGG_05132",
@@ -1729,7 +1618,6 @@ amigo.data.xrefs = {
    },
    "unimod" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.unimod.org/modifications_view.php?editid1=1287",
@@ -1745,7 +1633,6 @@ amigo.data.xrefs = {
    },
    "iuphar_gpcr" : {
       "object" : "G-protein-coupled receptor family identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.iuphar-db.org/DATABASE/FamilyMenuForward?familyId=13",
@@ -1759,7 +1646,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "jcvi" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1774,7 +1660,6 @@ amigo.data.xrefs = {
    },
    "echobase" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.b'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.biolws1.york.ac.uk/echobase/Gene.cfm?recordID=EB0231",
@@ -1790,7 +1675,6 @@ amigo.data.xrefs = {
    },
    "cl" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://purl.obolibrary.org/obo/CL_0000041",
@@ -1807,7 +1691,6 @@ amigo.data.xrefs = {
    },
    "go_ref" : {
       "object" : "Accession (for reference)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.geneontology.org/cgi-bin/references.cgi#GO_REF:0000001",
@@ -1823,7 +1706,6 @@ amigo.data.xrefs = {
    },
    "hgnc_gene" : {
       "object" : "Gene symbol",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genenames.org/data/hgnc_data.php?app_sym=ABCA1",
@@ -1837,7 +1719,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "biopixie_mefit" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1851,7 +1732,6 @@ amigo.data.xrefs = {
    },
    "obi" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1867,7 +1747,6 @@ amigo.data.xrefs = {
    },
    "brenda" : {
       "object" : "EC enzyme identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.br'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.brenda-enzymes.info/php/result_flat.php4?ecno=4.2.1.3",
@@ -1882,7 +1761,6 @@ amigo.data.xrefs = {
    },
    "resid" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1896,7 +1774,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "trait" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1912,7 +1789,6 @@ amigo.data.xrefs = {
    },
    "intact" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/intact/search/do/search?searchString=EBI-17086",
@@ -1928,7 +1804,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "transfac" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1942,7 +1817,6 @@ amigo.data.xrefs = {
    },
    "sgn_ref" : {
       "object" : "Reference identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.sgn.corn'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.sgn.cornell.edu/chado/publication.pl?pub_id=861",
@@ -1957,7 +1831,6 @@ amigo.data.xrefs = {
    },
    "ncbi" : {
       "object" : "Prefix",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -1973,7 +1846,6 @@ amigo.data.xrefs = {
    },
    "cgsc" : {
       "object" : "Gene symbol",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://cgsc.biology.yale.edu/Site.php?ID=315",
@@ -1988,7 +1860,6 @@ amigo.data.xrefs = {
    },
    "spd" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.r'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.riken.jp/SPD/05/05F01.html",
@@ -2005,7 +1876,6 @@ amigo.data.xrefs = {
    "genedb_tbrucei" : {
       "object" : "Gene identifier",
       "shorthand_name" : "Tbrucei",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genedb.org/genedb/Search?organism=tryp&name=Tb927.1.5250",
@@ -2021,7 +1891,6 @@ amigo.data.xrefs = {
    },
    "ensembl_geneid" : {
       "object" : "Gene identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ensembl.org/id/ENSG00000126016",
@@ -2037,7 +1906,6 @@ amigo.data.xrefs = {
    },
    "unigene" : {
       "object" : "Identifier (for transcript cluster)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=Hs&CID=212293",
@@ -2053,7 +1921,6 @@ amigo.data.xrefs = {
    },
    "gr_protein" : {
       "object" : "Protein identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.gr'; }",
       "database: Gramene" : "A Comparative Mapping Resource for Grains",
       "uri_prefix" : null,
       "name" : null,
@@ -2070,7 +1937,6 @@ amigo.data.xrefs = {
    },
    "pamgo_vmd" : {
       "object" : "Gene identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://v'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://vmd.vbi.vt.edu/cgi-bin/browse/go_detail.cgi?gene_id=109198",
@@ -2086,7 +1952,6 @@ amigo.data.xrefs = {
    },
    "cgd_ref" : {
       "object" : "Literature Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.candidagenome.org/cgi-bin/reference/reference.pl?dbid=1490",
@@ -2101,7 +1966,6 @@ amigo.data.xrefs = {
    },
    "sabio-rk" : {
       "object" : "reaction",
-      "function" : "function(in_id){ return 'htt' + in_id + '://s'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://sabio.villa-bosch.de/reacdetails.jsp?reactid=1858",
@@ -2117,7 +1981,6 @@ amigo.data.xrefs = {
    },
    "cog_function" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/COG/grace/shokog.cgi?fun=H",
@@ -2132,7 +1995,6 @@ amigo.data.xrefs = {
    },
    "ncbi_gp" : {
       "object" : "Protein identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?db=protein&val=EAL72968",
@@ -2147,7 +2009,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "vida" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2161,7 +2022,6 @@ amigo.data.xrefs = {
    },
    "doi" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://dx.doi.org/DOI:10.1016/S0963-9969(99)00021-6",
@@ -2176,7 +2036,6 @@ amigo.data.xrefs = {
    },
    "sgd_locus" : {
       "object" : "Gene name (gene symbol in mammalian nomenclature)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://db.yeastgenome.org/cgi-bin/locus.pl?locus=GAL4",
@@ -2191,7 +2050,6 @@ amigo.data.xrefs = {
    },
    "um-bbd_reactionid" : {
       "object" : "Reaction identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://u'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://umbbd.msi.umn.edu/servlets/pageservlet?ptype=r&reacID=r0129",
@@ -2206,7 +2064,6 @@ amigo.data.xrefs = {
    },
    "nmpdr" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.n'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.nmpdr.org/linkin.cgi?id=fig|306254.1.peg.183",
@@ -2221,7 +2078,6 @@ amigo.data.xrefs = {
    },
    "tgd_ref" : {
       "object" : "Literature Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://db.ciliate.org/cgi-bin/reference/reference.pl?dbid=T000005818",
@@ -2236,7 +2092,6 @@ amigo.data.xrefs = {
    },
    "agi_locuscode" : {
       "object" : "Locus identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "local_id_syntax" : "^AT[MC0-5]G[0-9]{5}(\\.[0-9]{1})?$",
       "example_id" : "AGI_LocusCode:At2g17950",
@@ -2255,7 +2110,6 @@ amigo.data.xrefs = {
    },
    "jcvi_ath1" : {
       "object" : "Accession",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2272,7 +2126,6 @@ amigo.data.xrefs = {
    },
    "nasc_code" : {
       "object" : "NASC code Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://s'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://seeds.nottingham.ac.uk/NASC/stockatidb.lasso?code=N3371",
@@ -2287,7 +2140,6 @@ amigo.data.xrefs = {
    },
    "mo" : {
       "object" : "ontology term",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://mged.sourceforge.net/ontologies/MGEDontology.php#Action",
@@ -2302,7 +2154,6 @@ amigo.data.xrefs = {
    },
    "lifedb" : {
       "object" : "cDNA clone identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.dkfz.de/LIFEdb/LIFEdb.aspx?ID=DKFZp564O1716",
@@ -2317,7 +2168,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "pamgo" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2331,7 +2181,6 @@ amigo.data.xrefs = {
    },
    "gr" : {
       "object" : "Identifier (any)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.gr'; }",
       "database: Gramene" : "A Comparative Mapping Resource for Grains",
       "uri_prefix" : null,
       "name" : null,
@@ -2345,7 +2194,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "roslin_institute" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2359,7 +2207,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "tgd" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2373,7 +2220,6 @@ amigo.data.xrefs = {
    },
    "mgd" : {
       "object" : "Gene symbol",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2389,7 +2235,6 @@ amigo.data.xrefs = {
    },
    "pamgo_gat" : {
       "object" : "Gene",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://agro.vbi.vt.edu/public/servlet/GeneEdit?&Search=Search&level=2&genename=atu0001",
@@ -2404,7 +2249,6 @@ amigo.data.xrefs = {
    },
    "swiss-prot" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.uniprot.org/uniprot/P51587",
@@ -2421,7 +2265,6 @@ amigo.data.xrefs = {
    },
    "fbbt" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://f'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://flybase.org/cgi-bin/fbcvq.html?query=FBbt:00005177",
@@ -2436,7 +2279,6 @@ amigo.data.xrefs = {
    },
    "cog_pathway" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/COG/new/release/coglist.cgi?pathw=14",
@@ -2450,7 +2292,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "hugo" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2464,7 +2305,6 @@ amigo.data.xrefs = {
    },
    "dictybase" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://dictybase.org/gene/DDB_G0277859",
@@ -2481,7 +2321,6 @@ amigo.data.xrefs = {
    },
    "wb_ref" : {
       "object" : "Literature Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.wor'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.wormbase.org/db/misc/paper?name=WBPaper00004823",
@@ -2496,7 +2335,6 @@ amigo.data.xrefs = {
    },
    "kegg_pathway" : {
       "object" : "Pathway",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genome.jp/dbget-bin/www_bget?path:ot00020",
@@ -2511,7 +2349,6 @@ amigo.data.xrefs = {
    },
    "pdb" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.rcsb.org/'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.rcsb.org/pdb/cgi/explore.cgi?pdbId=1A4U",
@@ -2526,7 +2363,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "agbase" : {
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2540,7 +2376,6 @@ amigo.data.xrefs = {
    },
    "embl" : {
       "object" : "Sequence accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/cgi-bin/emblfetch?style=html&Submit=Go&id=AA816246",
@@ -2557,7 +2392,6 @@ amigo.data.xrefs = {
    },
    "ena" : {
       "object" : "Sequence accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/ena/data/view/AA816246",
@@ -2574,7 +2408,6 @@ amigo.data.xrefs = {
    },
    "pseudocap" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://v2.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://v2.pseudomonas.com/getAnnotation.do?locusID=PA4756",
@@ -2589,7 +2422,6 @@ amigo.data.xrefs = {
    },
    "gr_qtl" : {
       "object" : "QTL identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.gr'; }",
       "database: Gramene" : "A Comparative Mapping Resource for Grains",
       "uri_prefix" : null,
       "name" : null,
@@ -2604,7 +2436,6 @@ amigo.data.xrefs = {
    },
    "dbsnp" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=rs3131969",
@@ -2620,7 +2451,6 @@ amigo.data.xrefs = {
    },
    "agricola_id" : {
       "object" : "AGRICOLA call number",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2634,7 +2464,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "ptarget" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2648,7 +2477,6 @@ amigo.data.xrefs = {
    },
    "apidb_plasmodb" : {
       "object" : "PlasmoDB Gene ID",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.plasmodb.org/gene/PF11_0344",
@@ -2663,7 +2491,6 @@ amigo.data.xrefs = {
    },
    "trembl" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.uniprot.org/uniprot/O31124",
@@ -2680,7 +2507,6 @@ amigo.data.xrefs = {
    },
    "ecogene_g" : {
       "object" : "EcoGene Primary Gene Name",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2695,7 +2521,6 @@ amigo.data.xrefs = {
    },
    "cog_cluster" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/COG/new/release/cow.cgi?cog=COG0001",
@@ -2710,7 +2535,6 @@ amigo.data.xrefs = {
    },
    "paint_ref" : {
       "object" : "Reference locator",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.geneontology.org/gene-associations/submission/paint/PTHR10046/PTHR10046.txt",
@@ -2725,7 +2549,6 @@ amigo.data.xrefs = {
    },
    "nif_subcellular" : {
       "object" : "ontology term",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.n'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.neurolex.org/wiki/sao1770195789",
@@ -2741,7 +2564,6 @@ amigo.data.xrefs = {
    "genedb_pfalciparum" : {
       "object" : "Gene identifier",
       "shorthand_name" : "Pfalciparum",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genedb.org/genedb/Search?organism=malaria&name=PFD0755c",
@@ -2757,7 +2579,6 @@ amigo.data.xrefs = {
    },
    "pubchem_bioassay" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://pubchem.ncbi.nlm.nih.gov/assay/assay.cgi?aid=177",
@@ -2772,7 +2593,6 @@ amigo.data.xrefs = {
    },
    "fb" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://f'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://flybase.org/reports/FBgn0000024.html",
@@ -2789,7 +2609,6 @@ amigo.data.xrefs = {
    },
    "issn" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2803,7 +2622,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "h-invdb" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2817,7 +2635,6 @@ amigo.data.xrefs = {
    },
    "kegg" : {
       "object" : "identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2831,7 +2648,6 @@ amigo.data.xrefs = {
    },
    "smart" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://s'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://smart.embl-heidelberg.de/smart/do_annotation.pl?BLAST=DUMMY&DOMAIN=SM00005",
@@ -2846,7 +2662,6 @@ amigo.data.xrefs = {
    },
    "fypo" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2862,7 +2677,6 @@ amigo.data.xrefs = {
    },
    "tair" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://arabidopsis.org/servlets/TairObject?accession=locus:2146653",
@@ -2878,7 +2692,6 @@ amigo.data.xrefs = {
    },
    "jcvi_medtr" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://medicago.jcvi.org/cgi-bin/medicago/search/shared/ORF_infopage.cgi?orf=Medtr5g024510",
@@ -2892,7 +2705,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "psort" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2906,7 +2718,6 @@ amigo.data.xrefs = {
    },
    "pompep" : {
       "object" : "Gene/protein identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -2921,7 +2732,6 @@ amigo.data.xrefs = {
    },
    "hpa_antibody" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.proteinatlas.org/antibody_info.php?antibody_id=HPA000237",
@@ -2936,7 +2746,6 @@ amigo.data.xrefs = {
    },
    "rnamods" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://s59.c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://s59.cas.albany.edu/RNAmods/cgi-bin/rnashow.cgi?091",
@@ -2952,7 +2761,6 @@ amigo.data.xrefs = {
    },
    "ensemblplants/gramene" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ensemblgenomes.org/id/LOC_Os01g22954",
@@ -2968,7 +2776,6 @@ amigo.data.xrefs = {
    },
    "sgd" : {
       "object" : "Identifier for SGD Loci",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://db.yeastgenome.org/cgi-bin/locus.pl?dbid=S000006169",
@@ -2985,7 +2792,6 @@ amigo.data.xrefs = {
    },
    "pato" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3000,7 +2806,6 @@ amigo.data.xrefs = {
    },
    "sgn" : {
       "object" : "Gene identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.sgn.corn'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.sgn.cornell.edu/phenome/locus_display.pl?locus_id=4476",
@@ -3014,7 +2819,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "goc" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3027,7 +2831,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "genprotec" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3040,7 +2843,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "nc-iubmb" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3054,7 +2856,6 @@ amigo.data.xrefs = {
    },
    "um-bbd_pathwayid" : {
       "object" : "Pathway identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://u'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://umbbd.msi.umn.edu/acr/acr_map.html",
@@ -3068,7 +2869,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "ec" : {
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.expasy.org/enzyme/1.4.3.6",
@@ -3084,7 +2884,6 @@ amigo.data.xrefs = {
    },
    "modbase" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://s'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://salilab.org/modbase/searchbyid?databaseID=P04848",
@@ -3099,7 +2898,6 @@ amigo.data.xrefs = {
    },
    "po" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.plantontology.org/amigo/go.cgi?action=query&view=query&search_constraint=terms&query=PO:0009004",
@@ -3116,7 +2914,6 @@ amigo.data.xrefs = {
    },
    "isbn" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://my.linkbaton.com/get?lbCC=q&nC=q&genre=book&item=0781702534",
@@ -3131,7 +2928,6 @@ amigo.data.xrefs = {
    },
    "cgd" : {
       "object" : "Identifier for CGD Loci",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.candidagenome.org/cgi-bin/locus.pl?dbid=CAL0005516",
@@ -3148,7 +2944,6 @@ amigo.data.xrefs = {
    },
    "ncbi_locus_tag" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3163,7 +2958,6 @@ amigo.data.xrefs = {
    },
    "dictybase_gene_name" : {
       "object" : "Gene name",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://dictybase.org/gene/mlcE",
@@ -3177,7 +2971,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "cog" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3190,7 +2983,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "dflat" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3204,7 +2996,6 @@ amigo.data.xrefs = {
    },
    "mips_funcat" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://mips.gsf.de/cgi-bin/proj/funcatDB/search_advanced.pl?action=2&wert=11.02",
@@ -3219,7 +3010,6 @@ amigo.data.xrefs = {
    },
    "superfamily" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://su'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://supfam.cs.bris.ac.uk/SUPERFAMILY/cgi-bin/scop.cgi?ipid=SSF51905",
@@ -3235,7 +3025,6 @@ amigo.data.xrefs = {
    },
    "ecocyc" : {
       "object" : "Pathway identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://b'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://biocyc.org/ECOLI/NEW-IMAGE?type=PATHWAY&object=P2-PWY",
@@ -3251,7 +3040,6 @@ amigo.data.xrefs = {
    },
    "pr" : {
       "object" : "Identifer",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.proconsortium.org/cgi-bin/pro/entry_pro?id=PR:000025380",
@@ -3269,7 +3057,6 @@ amigo.data.xrefs = {
    },
    "mgi" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.informatics.jax.org/accession/MGI:80863",
@@ -3285,7 +3072,6 @@ amigo.data.xrefs = {
    },
    "wikipedia" : {
       "object" : "Page Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://en.wikipedia.org/wiki/Endoplasmic_reticulum",
@@ -3299,7 +3085,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "bfo" : {
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://purl.obolibrary.org/obo/BFO_0000066",
@@ -3314,7 +3099,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "refgenome" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3328,7 +3112,6 @@ amigo.data.xrefs = {
    },
    "subtilist" : {
       "object" : "Accession",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3343,7 +3126,6 @@ amigo.data.xrefs = {
    },
    "h-invdb_locus" : {
       "object" : "Cluster identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.h-'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.h-invitational.jp/hinv/spsoup/locus_view?hix_id=HIX0014446",
@@ -3358,7 +3140,6 @@ amigo.data.xrefs = {
    },
    "casgen" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://r'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://research.calacademy.org/research/ichthyology/catalog/getname.asp?rank=Genus&id=1040",
@@ -3373,7 +3154,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "iuphar" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3387,7 +3167,6 @@ amigo.data.xrefs = {
    },
    "interpro" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/interpro/IEntry?ac=IPR002606",
@@ -3404,7 +3183,6 @@ amigo.data.xrefs = {
    },
    "ensemblfungi" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ensemblgenomes.org/id/YOR197W",
@@ -3419,7 +3197,6 @@ amigo.data.xrefs = {
    },
    "uniprotkb" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "local_id_syntax" : "^[A-Z][0-9][A-Z0-9]{3}[0-9]((-([0-9]+)|:PRO_[0-9]{10}))?$",
       "example_id" : "UniProtKB:P51587",
@@ -3438,7 +3215,6 @@ amigo.data.xrefs = {
    },
    "jcvi_cmr" : {
       "object" : "Locus",
-      "function" : "function(in_id){ return 'htt' + in_id + '://c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://cmr.jcvi.org/cgi-bin/CMR/shared/GenePage.cgi?locus=VCA0557",
@@ -3453,7 +3229,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "prow" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3467,7 +3242,6 @@ amigo.data.xrefs = {
    },
    "wb" : {
       "object" : "Gene identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.wor'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.wormbase.org/db/get?class=Gene;name=WBGene00003001",
@@ -3483,7 +3257,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "mtbbase" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3497,7 +3270,6 @@ amigo.data.xrefs = {
    },
    "taxon" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3702",
@@ -3513,7 +3285,6 @@ amigo.data.xrefs = {
    },
    "uniparc" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.un'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.uniprot.org/uniparc/UPI000000000A",
@@ -3529,7 +3300,6 @@ amigo.data.xrefs = {
    },
    "genbank" : {
       "object" : "Sequence accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?db=nucleotide&val=AA816246",
@@ -3547,7 +3317,6 @@ amigo.data.xrefs = {
    },
    "gdb" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.gdb.org/gdb-bin/genera/accno?accessionNum=GDB:306600",
@@ -3562,7 +3331,6 @@ amigo.data.xrefs = {
    },
    "ensembl_proteinid" : {
       "object" : "Protein identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ensembl.org/id/ENSP00000361027",
@@ -3578,7 +3346,6 @@ amigo.data.xrefs = {
    },
    "sgd_ref" : {
       "object" : "Literature Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://db.yeastgenome.org/cgi-bin/reference/reference.pl?dbid=S000049602",
@@ -3593,7 +3360,6 @@ amigo.data.xrefs = {
    },
    "rhea" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/rhea/reaction.xhtml?id=25811",
@@ -3609,7 +3375,6 @@ amigo.data.xrefs = {
    },
    "vmd" : {
       "object" : "Gene identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://v'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://vmd.vbi.vt.edu/cgi-bin/browse/browserDetail_new.cgi?gene_id=109198",
@@ -3624,7 +3389,6 @@ amigo.data.xrefs = {
    },
    "eck" : {
       "object" : "ECK accession (E. coli K-12 gene identifier)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ecogene.org/geneInfo.php?eck_id=ECK3746",
@@ -3640,7 +3404,6 @@ amigo.data.xrefs = {
    },
    "eco" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3656,7 +3419,6 @@ amigo.data.xrefs = {
    },
    "jcvi_genprop" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://cmr.jcvi.org/cgi-bin/CMR/shared/GenomePropDefinition.cgi?prop_acc=GenProp0120",
@@ -3673,7 +3435,6 @@ amigo.data.xrefs = {
    },
    "cgd_locus" : {
       "object" : "Gene name (gene symbol in mammalian nomenclature)",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.candidagenome.org/cgi-bin/locus.pl?locus=HWP1",
@@ -3688,7 +3449,6 @@ amigo.data.xrefs = {
    },
    "so" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://song.sourc'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://song.sourceforge.net/SOterm_tables.html#SO:0000195",
@@ -3706,7 +3466,6 @@ amigo.data.xrefs = {
    "genedb_gmorsitans" : {
       "object" : "Gene identifier",
       "shorthand_name" : "Tsetse",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genedb.org/genedb/Search?organism=glossina&name=Gmm-0142",
@@ -3721,7 +3480,6 @@ amigo.data.xrefs = {
    },
    "pombase" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.pombase.org/spombe/result/SPBC11B10.09",
@@ -3738,7 +3496,6 @@ amigo.data.xrefs = {
    },
    "psi-mod" : {
       "object" : "Protein modification identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ebi.ac.uk/ontology-lookup/?termId=MOD:00219",
@@ -3754,7 +3511,6 @@ amigo.data.xrefs = {
    },
    "rfam" : {
       "object" : "accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://rf'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://rfam.sanger.ac.uk/family/RF00012",
@@ -3768,7 +3524,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "ppi" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3782,7 +3537,6 @@ amigo.data.xrefs = {
    },
    "reactome" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.r'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=REACT_604",
@@ -3797,7 +3551,6 @@ amigo.data.xrefs = {
    },
    "subtilistg" : {
       "object" : "Gene symbol",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3812,7 +3565,6 @@ amigo.data.xrefs = {
    },
    "wp" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.wor'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.wormbase.org/db/get?class=Protein;name=WP:CE15104",
@@ -3828,7 +3580,6 @@ amigo.data.xrefs = {
    },
    "ddanat" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3842,7 +3593,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "ntnu_sb" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3856,7 +3606,6 @@ amigo.data.xrefs = {
    },
    "kegg_enzyme" : {
       "object" : "Enzyme Commission ID, as stored in KEGG",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.g'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.genome.jp/dbget-bin/www_bget?ec:2.1.1.4",
@@ -3872,7 +3621,6 @@ amigo.data.xrefs = {
    },
    "jcvi_egad" : {
       "object" : "Accession",
-      "function" : "function(in_id){ return 'htt' + in_id + '://c'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://cmr.jcvi.org/cgi-bin/CMR/EgadSearch.cgi?search_string=74462",
@@ -3888,7 +3636,6 @@ amigo.data.xrefs = {
    },
    "pubchem_substance" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?CMD=search&DB=pcsubstance&term=4594",
@@ -3903,7 +3650,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "multifun" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3917,7 +3663,6 @@ amigo.data.xrefs = {
    },
    "ipi" : {
       "object" : "Identifier",
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -3932,7 +3677,6 @@ amigo.data.xrefs = {
    },
    "vz" : {
       "object" : "Page Reference Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://v'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://viralzone.expasy.org/all_by_protein/957.html",
@@ -3947,7 +3691,6 @@ amigo.data.xrefs = {
    },
    "ncbi_gene" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.ncb'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.ncbi.nlm.nih.gov/sites/entrez?cmd=Retrieve&db=gene&list_uids=4771",
@@ -3964,7 +3707,6 @@ amigo.data.xrefs = {
    },
    "hamap" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://us.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://us.expasy.org/unirules/MF_00031",
@@ -3979,7 +3721,6 @@ amigo.data.xrefs = {
    },
    "aracyc" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.arabidopsis.org:1555/ARA/NEW-IMAGE?type=NIL&object=PWYQT-62",
@@ -3993,7 +3734,6 @@ amigo.data.xrefs = {
       "datatype" : null
    },
    "broad" : {
-      "function" : null,
       "uri_prefix" : null,
       "name" : null,
       "url_example" : null,
@@ -4007,7 +3747,6 @@ amigo.data.xrefs = {
    },
    "unipathway" : {
       "object" : "Identifier",
-      "function" : "function(in_id){ return 'htt' + in_id + '://www.gr'; }",
       "uri_prefix" : null,
       "name" : null,
       "url_example" : "http://www.grenoble.prabi.fr/obiwarehouse/unipathway/upa?upid=UPA00155",

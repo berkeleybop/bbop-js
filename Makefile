@@ -87,4 +87,4 @@ release: bundle docs
 .PHONY: refresh
 
 refresh:
-	/bin/cp ../../AmiGO/trunk/javascript/lib/amigo/data/*.js ./_data/
+	/bin/cp ../../svn/geneontology/AmiGO/trunk/javascript/lib/amigo/data/*.js ./_data/
