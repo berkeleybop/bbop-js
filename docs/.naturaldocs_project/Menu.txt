@@ -76,8 +76,17 @@ File: version.js  (version.js)
 
 Group: Widget  {
 
-   File: autocomplete.js  (widget/autocomplete.js)
    File: browse.js  (widget/browse.js)
+
+   Group: Display  {
+
+      File: meta_results.js  (widget/display/meta_results.js)
+      File: results_table_by_class_conf.js  (widget/display/results_table_by_class_conf.js)
+      File: two_column_layout.js  (widget/display/two_column_layout.js)
+      }  # Group: Display
+
+   File: live_search.js  (widget/live_search.js)
+   File: search_box.js  (widget/search_box.js)
    File: term_shield.js  (widget/term_shield.js)
    }  # Group: Widget
 

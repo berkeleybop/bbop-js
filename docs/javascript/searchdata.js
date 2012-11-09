@@ -92,7 +92,7 @@ var indexSectionsWithContent = {
    "Classes": {
       "Symbols": false,
       "Numbers": false,
-      "A": true,
+      "A": false,
       "B": true,
       "C": true,
       "D": false,
@@ -110,7 +110,7 @@ var indexSectionsWithContent = {
       "P": true,
       "Q": false,
       "R": true,
-      "S": false,
+      "S": true,
       "T": true,
       "U": false,
       "V": true,
