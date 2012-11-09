@@ -74,11 +74,12 @@ load('../../../_data/golr.js');
 
      // Look at weights as a group.
      var ordered_filter_list_5 = cc.field_order_by_weight('filter', 5.0);
-     mr_t.is_same_atom(3, ordered_filter_list_5.length, "ofl5 len");
+     mr_t.is_same_atom(4, ordered_filter_list_5.length, "ofl5 len");
      mr_t.is_same_atom('source', ordered_filter_list_5[0], "ofl5 first");
-     mr_t.is_same_atom('taxon_label', ordered_filter_list_5[2], "ofl5 last");
+     mr_t.is_same_atom('taxon_closure_label',
+		       ordered_filter_list_5[3], "ofl5 last");
      var ordered_filter_list_all = cc.field_order_by_weight('filter');
-     mr_t.is_same_atom(5, ordered_filter_list_all.length, "ofla len");
+     mr_t.is_same_atom(6, ordered_filter_list_all.length, "ofla len");
      mr_t.is_same_atom('source', ordered_filter_list_all[0], "ofla first");
  })();
 

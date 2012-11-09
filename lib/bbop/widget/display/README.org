@@ -1,0 +1,2 @@
+These are (possibly) reusable compontents for display sections of
+widgets.

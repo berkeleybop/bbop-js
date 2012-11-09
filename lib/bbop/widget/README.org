@@ -1,0 +1,27 @@
+* Overview
+
+Widgets are drop-in-and-forget components for browsers that are often
+tied to a specific display library (a lot of jQuery so far in our
+case), hence the segregation.
+
+* Search Box (search_box)
+
+  Previously the autocomplete component, but generalized to more uses.
+  
+  TODO
+
+* Term Shield (term_shield)
+
+  TODO
+
+* Live Search (live_search)
+  
+  A rich, large, interactive search component.
+  
+  TODO
+
+* Browse (browse)
+
+  A deceptively simple multiple-relation graph browser.
+
+  TODO

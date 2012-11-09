@@ -10,9 +10,13 @@ lib/bbop/golr/conf.js
 lib/bbop/golr/response.js
 lib/bbop/golr/manager.js
 lib/bbop/golr/manager/jquery.js
-lib/bbop/widget/autocomplete.js
+lib/bbop/widget/display/meta_results.js
+lib/bbop/widget/display/results_table_by_class_conf.js
+lib/bbop/widget/display/two_column_layout.js
 lib/bbop/widget/browse.js
 lib/bbop/widget/term_shield.js
+lib/bbop/widget/search_box.js
+lib/bbop/widget/live_search.js
 lib/bbop/golr/manager/preload.js
 lib/bbop/golr/manager/nodejs.js
 lib/bbop/golr/manager/rhino.js
