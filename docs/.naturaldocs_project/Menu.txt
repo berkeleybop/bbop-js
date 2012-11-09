@@ -1,13 +1,12 @@
 Format: 1.51
 
 
-# You can add a title and sub-title to your menu like this:
-# Title: [project name]
+Title: BBOP-JS
+
+# You can also add a sub-title to your menu like this:
 # SubTitle: [subtitle]
 
-# You can add a footer to your documentation like this:
-# Footer: [text]
-# If you want to add a copyright notice, this would be the place to do it.
+Footer: Copyright (R) 2012, Gene Ontology Consortium
 
 # You can add a timestamp to your documentation like one of these:
 # Timestamp: Generated on month day, year
@@ -46,49 +45,53 @@ Format: 1.51
 # --------------------------------------------------------------------------
 
 
-File: bracket.js  (model/bracket.js)
 File: core.js  (core.js)
+File: html.js  (html.js)
+File: logger.js  (logger.js)
+File: logic.js  (logic.js)
+File: registry.js  (registry.js)
+File: test.js  (test.js)
+File: version.js  (version.js)
 
-Group: Golr  {
+Group: golr  {
 
    File: conf.js  (golr/conf.js)
+   File: manager.js  (golr/manager.js)
 
-   Group: Manager  {
+   Group: manager  {
 
       File: jquery.js  (golr/manager/jquery.js)
       File: nodejs.js  (golr/manager/nodejs.js)
       File: preload.js  (golr/manager/preload.js)
       File: rhino.js  (golr/manager/rhino.js)
-      }  # Group: Manager
+      }  # Group: manager
 
-   File: manager.js  (golr/manager.js)
    File: response.js  (golr/response.js)
-   }  # Group: Golr
+   }  # Group: golr
 
-File: html.js  (html.js)
-File: logger.js  (logger.js)
-File: logic.js  (logic.js)
 File: model.js  (model.js)
-File: registry.js  (registry.js)
-File: test.js  (test.js)
-File: tree.js  (model/tree.js)
-File: version.js  (version.js)
 
-Group: Widget  {
+Group: model  {
+
+   File: tree.js  (model/tree.js)
+   File: bracket.js  (model/bracket.js)
+   }  # Group: model
+
+Group: widget  {
 
    File: browse.js  (widget/browse.js)
+   File: live_search.js  (widget/live_search.js)
+   File: search_box.js  (widget/search_box.js)
+   File: term_shield.js  (widget/term_shield.js)
 
-   Group: Display  {
+   Group: display  {
 
       File: meta_results.js  (widget/display/meta_results.js)
       File: results_table_by_class_conf.js  (widget/display/results_table_by_class_conf.js)
       File: two_column_layout.js  (widget/display/two_column_layout.js)
-      }  # Group: Display
+      }  # Group: display
 
-   File: live_search.js  (widget/live_search.js)
-   File: search_box.js  (widget/search_box.js)
-   File: term_shield.js  (widget/term_shield.js)
-   }  # Group: Widget
+   }  # Group: widget
 
 Group: Index  {
 
