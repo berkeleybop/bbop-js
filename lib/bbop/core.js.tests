@@ -777,6 +777,23 @@ mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
 
  })();
 
+// sorting numbers
+//(function(){
+
+     var asc = [2, 3, 1];
+     asc.sort(bbop.core.numeric_sort_ascending);
+     mr_t.is_same_atom(asc[0], 1, 'asc 1');
+     mr_t.is_same_atom(asc[1], 2, 'asc 2');
+     mr_t.is_same_atom(asc[2], 3, 'asc 3');
+
+     var desc = [2, 3, 1];
+     desc.sort(bbop.core.numeric_sort_descending);
+     mr_t.is_same_atom(desc[0], 3, 'desc 1');
+     mr_t.is_same_atom(desc[1], 2, 'desc 2');
+     mr_t.is_same_atom(desc[2], 1, 'desc 3');
+
+// })();
+
 ///
 /// End unit testing.
 ///

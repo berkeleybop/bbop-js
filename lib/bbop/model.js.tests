@@ -250,6 +250,58 @@ load('model.js');
 })();
 
 
+// Here is a failing case from the taxslim
+(function(){
+
+var tax = 
+    {"nodes":
+     [
+	 {"id":"NCBITaxon:33316","lbl":"Coelomata"},
+	 {"id":"NCBITaxon:2759","lbl":"Eukaryota"},
+	 {"id":"NCBITaxon:117565","lbl":"Hyperotreti"},
+	 {"id":"NCBITaxon:33154","lbl":"Fungi/Metazoa group"},
+	 {"id":"NCBITaxon:1","lbl":"root"},
+	 {"id":"NCBITaxon:7742","lbl":"Vertebrata"},
+	 {"id":"NCBITaxon:7711","lbl":"Chordata"},
+	 {"id":"NCBITaxon:89593","lbl":"Craniata"},
+	 {"id":"NCBITaxon:6072","lbl":"Eumetazoa"},
+	 {"id":"NCBITaxon:131567","lbl":"cellular organisms"},
+	 {"id":"NCBITaxon:33511","lbl":"Deuterostomia"},
+	 {"id":"NCBITaxon:33213","lbl":"Bilateria"},
+	 {"id":"NCBITaxon:33208","lbl":"Metazoa"}
+     ],
+     "edges":
+     [
+	 {"sub":"NCBITaxon:33208","obj":"NCBITaxon:33154","pred":"is_a"},
+	 {"sub":"NCBITaxon:33154","obj":"NCBITaxon:2759","pred":"is_a"},
+	 {"sub":"NCBITaxon:6072","obj":"NCBITaxon:33208","pred":"is_a"},
+	 {"sub":"NCBITaxon:33316","obj":"NCBITaxon:33213","pred":"is_a"},
+	 {"sub":"NCBITaxon:2759","obj":"NCBITaxon:131567","pred":"is_a"},
+	 {"sub":"NCBITaxon:89593","obj":"NCBITaxon:7711","pred":"is_a"},
+	 {"sub":"NCBITaxon:33511","obj":"NCBITaxon:33316","pred":"is_a"},
+	 {"sub":"NCBITaxon:7711","obj":"NCBITaxon:33511","pred":"is_a"},
+	 {"sub":"NCBITaxon:33213","obj":"NCBITaxon:6072","pred":"is_a"},
+	 {"sub":"NCBITaxon:7742","obj":"NCBITaxon:89593","pred":"is_a"},
+	 {"sub":"NCBITaxon:131567","obj":"NCBITaxon:1","pred":"is_a"},
+	 {"sub":"NCBITaxon:117565","obj":"NCBITaxon:89593","pred":"is_a"}
+     ]
+    };
+
+     var g = new bbop.model.graph();
+     var result2 = g.load_json(tax);
+
+     mr_t.is_true(g.is_complete(), 'tax is complete');
+
+     var leaves = g.get_child_nodes('NCBITaxon:89593');
+     mr_t.is_same_atom(2, leaves.length, 'two children for NCBITaxon:89593');
+     var root_kids = g.get_child_nodes('NCBITaxon:1');
+     mr_t.is_same_atom(1, root_kids.length, 'one kid for root');
+     mr_t.is_same_atom('NCBITaxon:131567', root_kids[0].id(),
+		       'and the one root kid is NCBITaxon:131567');
+
+})();
+
+
 ///
 /// End unit testing.
 ///
