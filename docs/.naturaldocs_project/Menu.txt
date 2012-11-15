@@ -48,6 +48,7 @@ Footer: Copyright (R) 2012, Gene Ontology Consortium
 File: core.js  (core.js)
 File: html.js  (html.js)
 File: logger.js  (logger.js)
+File: template.js  (template.js)
 File: logic.js  (logic.js)
 File: registry.js  (registry.js)
 File: test.js  (test.js)
