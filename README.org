@@ -1,4 +1,4 @@
-#+TITLE: BBOP JS README
+#+TITLE: BBOP-JS README
 #+Options: num:nil
 #+STARTUP: odd
 #+Style: <style> h1,h2,h3 {font-family: arial, helvetica, sans-serif} </style>
@@ -13,6 +13,7 @@
   - Rich (mathematical/set) graph and tree facilities
   - Scripting functionality and multiple REPLs
   - A set of useful utility functions
+  - A light templating/replacement facility
   - A generic logger facility
   - A light and easy-to-use testing framework
   - HTML generation and widget sets

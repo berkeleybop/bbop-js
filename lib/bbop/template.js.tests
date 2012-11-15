@@ -1,0 +1,53 @@
+////
+//// Some unit testing for template.js
+////
+//// Usage:
+////    Command line: "js -f template.js.tests"
+////    Interactive: "js -f template.js.tests -f -"
+////
+
+
+// Load testing.
+load('test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('core.js');
+load('template.js');
+
+///
+/// Start unit testing.
+///
+
+// fill
+(function(){
+
+     var tt = new bbop.template("{{foo}} {{bar}} {{foo}}");
+     mr_t.is_same_atom('A B A',
+		       tt.fill({'foo': 'A', 'bar': 'B'}),
+		       "either it works or it doesn't");
+     mr_t.is_same_atom(' B ',
+		       tt.fill({'bar': 'B'}),
+		       "ignore empties and nulls 1");
+     mr_t.is_same_atom(' B ',
+		       tt.fill({'foo': '', 'bar': 'B'}),
+		       "ignore empties and nulls 2");
+
+ })();
+
+// variables
+(function(){
+
+     var tt = new bbop.template("{{foo}} {{bar}} {{foo}}");
+     mr_t.is_same_hash(tt.variables(),
+		       {'foo': true, 'bar': true},
+		       "variables captured");
+
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
