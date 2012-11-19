@@ -81,15 +81,16 @@ Group: model  {
 Group: widget  {
 
    File: browse.js  (widget/browse.js)
-   File: live_search.js  (widget/live_search.js)
    File: search_box.js  (widget/search_box.js)
    File: term_shield.js  (widget/term_shield.js)
+   File: search_pane.js  (widget/search_pane.js)
 
    Group: display  {
 
       File: meta_results.js  (widget/display/meta_results.js)
       File: results_table_by_class_conf.js  (widget/display/results_table_by_class_conf.js)
       File: two_column_layout.js  (widget/display/two_column_layout.js)
+      File: live_search.js  (widget/display/live_search.js)
       }  # Group: display
 
    }  # Group: widget
