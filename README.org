@@ -43,10 +43,40 @@
 - rsync
 - yui-compressor
 - naturaldocs
-** Building
+** Building (the Makefile)
 
    Building is handled with the Makefile. Just type 'make' for an overview.
    Built files should be deposited in staging/.
+
+*** make test
+
+    This depends on "bundle".
+
+    Run all of the defined tests. The tests themselves run out of the
+    bundle in the staging/ directory.
+
+*** make pass
+
+    Basically, just give the exit code results of "make test". If
+    something goes wrong, you'll have to run "make test" to see
+    exactly what it was.
+
+*** make docs
+
+    Create the documentation and put it in the docs/ directory.
+
+*** make bundle
+
+    Create the BBOP-JS JavaScript libraries (standard and minified)
+    and put them into the staging/ directory.
+
+*** make release
+
+    This depends on "docs" and "bundle".
+
+    This is a developer-only command for uploading the current release
+    to the CDN--without credentials it is useless, but it may be of
+    interest to people who want to do something similar.
 
 * (OLD NOTES)
 

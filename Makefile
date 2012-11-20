@@ -1,8 +1,10 @@
 ####
-#### Testing, benchmarking, and release procedures for serverable/CLI JS.
+#### Testing, benchmarking, and release procedures for BBOP-JS.
 ####
-#### A report-mistakes-only testing run can be done as:
-####   make test | grep -i fail
+#### See README.org in this directory for more detail.
+####
+#### A report-mistakes-only testing ("fail"s?) run can be done as:
+####  make test | grep -c -i fail; test $? -ne 0
 ####
 
 TESTS = $(wildcard lib/*.js.tests) \
@@ -12,18 +14,19 @@ TESTS = $(wildcard lib/*.js.tests) \
  $(wildcard lib/bbop/golr/manager/*.js.tests) \
  $(wildcard lib/bbop/parse/*.js.tests) \
  $(wildcard lib/bbop/model/*.js.tests) \
- $(wildcard lib/bbop/widget/*.js.tests)
-BENCHMARKS = $(wildcard _benchmark/*.js)
-JS = smjs # or smjs, rhino
+ $(wildcard lib/bbop/widget/*.js.tests) \
+ $(wildcard lib/bbop/widget/display/*.js.tests)
+#BENCHMARKS = $(wildcard _benchmark/*.js)
+JS = smjs # or rhino, etc.
 JSFLAGS = # Some require things like "-opt -1" in some cases (big GO tests)
-JSENGINES = node smjs rhino
+#JSENGINES = node smjs rhino
 
 all:
-	@echo "Default JS engine: $(JS)"
-	@echo "All JS engines: $(JSENGINES)"
+	@echo "Using JS engine: $(JS)"
+#	@echo "All JS engines: $(JSENGINES)"
 	@echo "Tests defined: $(TESTS)"
-	@echo "Benchmarks defined: $(BENCHMARKS)"
-	@echo "Try make: 'test', 'benchmark', 'docs', 'bundle', or 'release'"
+	@echo "See README.org in the directory for more details."
+#	@echo "Benchmarks defined: $(BENCHMARKS)"
 
 ###
 ### Tests.
@@ -33,23 +36,18 @@ all:
 
 test: $(TESTS)
 
-$(TESTS):
+$(TESTS): bundle
 	echo "trying: $@"
 	cd $(@D) && $(JS) $(JSFLAGS) -f $(@F)
 
 ###
-### Benchmarks.
+### Just the exit code results of the tests.
 ###
 
-.PHONY: benchmark $(BENCHMARKS)
+.PHONY: pass
 
-benchmark: $(BENCHMARKS)
-
-$(BENCHMARKS):
-	for e in $(JSENGINES); do \
-           echo "Trying engine: $$e"; \
-           $$e -f $@; \
-        done
+pass:
+	make test | grep -i fail; test $$? -ne 0
 
 ###
 ### Documentation.
@@ -57,7 +55,7 @@ $(BENCHMARKS):
 
 .PHONY: docs
 
-docs: bundle
+docs:
 	naturaldocs --rebuild-output --input lib/bbop/ --project docs/.naturaldocs_project/ --output html docs/
 #	naturaldocs --rebuild-output --input lib/bbop/ --input bin/ --project docs/.naturaldocs_project/ --output html docs/
 
@@ -79,12 +77,26 @@ bundle:
 release: bundle docs
 	s3cmd -P put staging/bbop*.js s3://bbop/jsapi/
 
-###
-### Refresh test data from AmiGO.
-### TODO/BUG: Sorry that it's hard-coded; it's secret for now...
-###
+# ###
+# ### Benchmarks.
+# ###
 
-.PHONY: refresh
+# .PHONY: benchmark $(BENCHMARKS)
 
-refresh:
-	/bin/cp ../../svn/geneontology/AmiGO/trunk/javascript/lib/amigo/data/*.js ./_data/
+# benchmark: $(BENCHMARKS)
+
+# $(BENCHMARKS):
+# 	for e in $(JSENGINES); do \
+#            echo "Trying engine: $$e"; \
+#            $$e -f $@; \
+#         done
+
+# ###
+# ### Refresh test data from AmiGO.
+# ### TODO/BUG: Sorry that it's hard-coded; it's secret for now...
+# ###
+
+# .PHONY: refresh
+
+# refresh:
+# 	/bin/cp ../../svn/geneontology/AmiGO/trunk/javascript/lib/amigo/data/*.js ./_data/

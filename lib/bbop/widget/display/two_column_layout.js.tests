@@ -8,7 +8,7 @@
 
 
 // Load testing.
-load('../../../../../../javascript/trunk/staging/bbop.js');
+load('../../../../staging/bbop.js');
 var mr_t = new bbop.test();
 
 // Correct environment.
@@ -24,9 +24,7 @@ load('two_column_layout.js');
 
 // js> c.to_string()
 // 
-var tt = bbop.widgets.display.two_column_layout;
-
-var c = new tt.two_column_layout('foo', 'bar');
+var c = new bbop.widget.display.two_column_layout('foo', 'bar');
 mr_t.is_same_atom(c.to_string(),
 		  '<div class="twocol-wrapper"><div class="twocol-leftcolumn" style="margin-top: -15px;">foo</div><div class="twocol-content" style="margin-left: 26em; margin-top: -15px;">bar</div></div>',
      		  "same div compound");
