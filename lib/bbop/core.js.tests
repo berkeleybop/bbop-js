@@ -450,17 +450,6 @@ mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
 		      '[null, ["bob", "bar", {"foo": 1}]]', "dump 8");
 })();
 
-// Check hash folding.
-(function(){
-     var a_hash = {foo: 1, bar: 2};
-     mr_t.is_same_hash({}, bbop.core.fold({},{}), 'empty fold');
-     mr_t.is_same_hash(a_hash, bbop.core.fold({foo:1, bar:2},{}),'same fold');
-     mr_t.is_same_hash(a_hash, bbop.core.fold({foo:1, bar:3},{bar:2}),
-		       'distinct fold');
-     mr_t.is_different_hash(a_hash, bbop.core.fold({foo:1},{bar:2}),
-			    'bar fold');
- })();
-
 // Check hash merging.
 (function(){
      var a_hash = {foo: 1, bar: 2};
@@ -778,7 +767,7 @@ mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
  })();
 
 // sorting numbers
-//(function(){
+(function(){
 
      var asc = [2, 3, 1];
      asc.sort(bbop.core.numeric_sort_ascending);
@@ -792,7 +781,45 @@ mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
      mr_t.is_same_atom(desc[1], 2, 'desc 2');
      mr_t.is_same_atom(desc[2], 1, 'desc 3');
 
-// })();
+ })();
+
+// Check hash folding.
+(function(){
+
+     // Trivial.
+     mr_t.is_same_hash({}, bbop.core.fold({},{}), 'empty fold');
+
+     var a_hash = {foo: 1, bar: 2, bib: true, bab: false, bob: ""};
+
+     // Template trivially works.
+     mr_t.is_same_hash(a_hash, bbop.core.fold(a_hash, {}), 'same fold');
+
+     // Two parts don't make a whole (template exclusion).
+     mr_t.is_different_hash(a_hash,
+			    bbop.core.fold({foo: 1, bar: 2, bib: true},
+					   {bab: false, bob: ""}),
+			    'partial fold');
+
+     // Proper overriding for null-ish values.
+     mr_t.is_same_hash({foo: 1, bar: 2, bib: false, bab: true, bob: null},
+		       bbop.core.fold(a_hash,
+				      {foo: 1, bar: 2, bib: false,
+				       bab: true, bob: null}),
+		       'distinct fold');
+ })();
+
+// Check resourcify.
+(function(){
+
+mr_t.is_same_atom('foo_bar/b_a_b',
+		  bbop.core.resourcify("FOO BAR", "b A b"),
+		  'yup 1');
+
+mr_t.is_same_atom('foo_bar/b_a_b.bob',
+		  bbop.core.resourcify("FOO BAR", "b A b", 'BOB'),
+		  'yup 2');
+
+ })();
 
 ///
 /// End unit testing.
