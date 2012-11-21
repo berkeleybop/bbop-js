@@ -29,48 +29,72 @@
    http://api.berkeleybop.org/golr/docs/
 
 * Using
-** Local use
-
-   TODO
-
 ** Remote use (CDN)
 
-   TODO
+   Currently, the easiest way to use BBOP-JS is just to download it
+   off of the CDN and use it locally.
 
-* Build
-** Dependencies
+   For the latest, try:
+
+   - http://cdn.berkeleybop.org/jsapi/bbop.js
+   - http://cdn.berkeleybop.org/jsapi/bbop.min.js
+
+   Or, for a specific version, try:
+
+   - http://cdn.berkeleybop.org/jsapi/bbop_0.9.js
+   - http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js
+
+** Local use (building)
+
+   Building, tests, documentation, and releases are all handled with
+   make.
+
+*** Dependencies
+
+    These are the required packages on Ubuntu 12.04 LTS Desktop.
+    
+- git
+- rhino 
 - make
 - rsync
 - yui-compressor
 - naturaldocs
-** Building (the Makefile)
 
-   Building is handled with the Makefile. Just type 'make' for an overview.
-   Built files should be deposited in staging/.
+*** Getting the code
 
-*** make test
+    : mkdir -p ~/local/src/git && cd ~/local/src/git
+    : git clone git://github.com/kltm/bbop-js.git
+    : cd bbop-js
+  
+*** Building (the Makefile)
+
+   Building is handled with the Makefile. Built files should be
+   deposited in staging/. An overview of the different make commands
+   follows, but most useful one for developer is probably "make test".
+
+**** make test
 
     This depends on "bundle".
 
     Run all of the defined tests. The tests themselves run out of the
     bundle in the staging/ directory.
 
-*** make pass
+**** make pass
 
     Basically, just give the exit code results of "make test". If
     something goes wrong, you'll have to run "make test" to see
     exactly what it was.
 
-*** make docs
+**** make docs
 
     Create the documentation and put it in the docs/ directory.
 
-*** make bundle
+**** make bundle
 
     Create the BBOP-JS JavaScript libraries (standard and minified)
     and put them into the staging/ directory.
 
-*** make release
+**** make release
 
     This depends on "docs" and "bundle".
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env my_rhino
+#!/usr/bin/rhino
 /* 
  * Package: shared_annotation_count.js
  * 

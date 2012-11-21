@@ -1,4 +1,4 @@
-#!/usr/bin/env my_rhino
+#!/usr/bin/rhino
 /* 
  * Package: get_associations.js
  * 

@@ -1,4 +1,4 @@
-#!/usr/bin/env my_rhino
+#!/usr/bin/rhino
 /* 
  * Package: rhino_golr.js
  * 
@@ -8,7 +8,7 @@
  * Start a REPL in a sane GOlr environment.
  * 
  * Usage like:
- * : my_rhino -f rhino_repl.js -f -
+ * : rhino -f rhino_repl.js -f -
  * 
  * REPL usage like: rhino_repl.js 
  * : golr> go.get_query_url()
