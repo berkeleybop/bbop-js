@@ -26,7 +26,7 @@ load('../../_data/go.js');
 ///
 
 // Global testing graph.
-g = new bbop.model.graph();
+var g = new bbop.model.graph();
 
 // Add all nodes.
 //print('all nodes len: ' + bbop.model.go.nodes.length);

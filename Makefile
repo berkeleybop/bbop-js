@@ -19,7 +19,7 @@ TESTS = $(wildcard lib/*.js.tests) \
 #BENCHMARKS = $(wildcard _benchmark/*.js)
 JS = rhino #smjs or rhino, etc.
 ## Some require things like "-opt -1" in some cases (big GO tests)
-JSFLAGS = -opt -1 # rhino needs this for the big GO tree
+JSFLAGS = -opt -1 -w -strict # rhino needs this for the big GO tree
 #JSENGINES = node smjs rhino
 
 all:

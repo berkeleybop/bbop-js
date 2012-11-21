@@ -64,12 +64,12 @@ var c_item = {id: 'c'};
 var d_item = {id: 'd'};
 var obj_list = [{id: 'a'}, {id: 'b'}, {id: 'c'}];
 function id_comp(a, b){
-    retval = false;
+    var retval = false;
     if( a['id'] == b['id'] ){
 	retval = true;
     }
     return retval;
-};
+}
 mr_t.is_in_list_diy(a_item, obj_list, id_comp);
 mr_t.is_in_list_diy(b_item, obj_list, id_comp);
 mr_t.is_in_list_diy(c_item, obj_list, id_comp);

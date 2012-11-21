@@ -84,6 +84,10 @@
     something goes wrong, you'll have to run "make test" to see
     exactly what it was.
 
+    Also, since this filters out most of the output and all of the
+    Rhino warning flags are turned on, it can also act like a kind of
+    lint.
+
 **** make docs
 
     Create the documentation and put it in the docs/ directory.

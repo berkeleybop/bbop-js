@@ -412,7 +412,7 @@ mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
 		      "function", "function");
 
     // More complicated items.
-    foo = {};
+    var foo = {};
     foo.bar = function(){
 	this._is_a = 'foo.bar';
     };

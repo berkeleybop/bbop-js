@@ -8,11 +8,12 @@
 
 
 // Load testing.
-load('../../../../staging/bbop.js');
+load('../../test.js');
 var mr_t = new bbop.test();
 
 // Correct environment.
-//load('../amigo.js');
+load('../../core.js');
+load('../../html.js');
 load('two_column_layout.js');
 
 ///
