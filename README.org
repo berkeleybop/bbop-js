@@ -113,9 +113,9 @@
    TODO
 * Status
 
-  TODO: Get the link for the Jenkins builds.
+  The current build status of BBOP JS can be found [[http://build.berkeleybop.org/job/bbop-js/][here]].
 
-* TODO
+* Things TODO (old)
 
   - clean
     graph (where the remaining good new stuff is), newick_tree
