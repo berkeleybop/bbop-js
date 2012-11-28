@@ -139,7 +139,13 @@
    than BBOP JS, it should not be a problem since BBOP JS (should) do
    the proper juggling to make sure to not interfere with your code.
 
-** API Documentation
+** Documentation
+*** Wiki Documentation
+
+    The wiki for this code can be found [[https://github.com/kltm/bbop-js/wiki][here]].
+
+*** API Documentation
+
    The alpha API documentation can be current found [[http://cdn.berkeleybop.org/jsapi/bbop-js/docs/index.html][here]].
 
 ** Demos
@@ -148,7 +154,6 @@
 
    Also, [[http://amigo2.berkeleybop.org/][AmiGO 2]] is pretty much based on BBOP JS and a good place to
    think about what's possible.
-   
 
 * Status
 

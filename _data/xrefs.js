@@ -1302,7 +1302,7 @@ amigo.data.xrefs = {
       "object" : "Identifier",
       "uri_prefix" : null,
       "name" : null,
-      "url_example" : "http://omim.org/entry/190198",
+      "url_example" : "http://www.ncbi.nlm.nih.gov/htbin-post/entrez/dispomim.cgi?id=190198",
       "database" : "Mendelian Inheritance in Man",
       "example_id" : "OMIM:190198",
       "synonym" : "MIM",
@@ -1310,7 +1310,7 @@ amigo.data.xrefs = {
       "fullname" : null,
       "id" : null,
       "abbreviation" : "OMIM",
-      "url_syntax" : "http://omim.org/entry/[example_id]",
+      "url_syntax" : "http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=[example_id]",
       "datatype" : null
    },
    "imgt_hla" : {
@@ -1677,16 +1677,16 @@ amigo.data.xrefs = {
       "object" : "Identifier",
       "uri_prefix" : null,
       "name" : null,
-      "url_example" : "http://purl.obolibrary.org/obo/CL_0000041",
+      "url_example" : null,
       "database" : "Cell Type Ontology",
       "local_id_syntax" : "^[0-9]{7}$",
       "example_id" : "CL:0000041",
-      "generic_url" : "http://cellontology.org",
+      "generic_url" : "https://lists.sourceforge.net/lists/listinfo/obo-cell-type",
       "entity_type" : "CL:0000000 ! cell ",
       "fullname" : null,
       "id" : null,
       "abbreviation" : "CL",
-      "url_syntax" : "http://purl.obolibrary.org/obo/CL_[example_id]",
+      "url_syntax" : null,
       "datatype" : null
    },
    "go_ref" : {

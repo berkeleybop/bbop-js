@@ -93,13 +93,3 @@ release: bundle docs
 #            echo "Trying engine: $$e"; \
 #            $$e -f $@; \
 #         done
-
-# ###
-# ### Refresh test data from AmiGO.
-# ### TODO/BUG: Sorry that it's hard-coded; it's secret for now...
-# ###
-
-# .PHONY: refresh
-
-# refresh:
-# 	/bin/cp ../../svn/geneontology/AmiGO/trunk/javascript/lib/amigo/data/*.js ./_data/

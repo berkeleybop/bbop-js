@@ -2,11 +2,13 @@
 	  "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
+    <meta charset="utf-8" />
     <title>BBOP JS: The Demo</title>
-
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://cdn.berkeleybop.org/jsapi/bbop.min.js"></script>
+    <script type="text/javascript" src="http://cdn.berkeleybop.org/jsapi/bbop.js"></script>
+    <script type="text/javascript" src="golr.js"></script>
 
     <script type="text/javascript">
       function DemoInit(){
@@ -16,16 +18,223 @@
         function ll(str){
 	  logger.kvetch(str);
         }
-        ll('Logging on...');
+        ll('Starting init.');
 
+        //var tabs01 = jQuery("#demo01").tabs();
+        //if( tabs01 ){
+        //   ll('Applying tabs...');
+        //   tabs01.tabs();
+        //}else{
+        //   ll('No tabs!');
+        //}
+        bbop.core.each(['demo01', 'demo02', 'demo03'],
+                       function(elt_id){
+                         ll('Tabbifying: ' + elt_id);
+                         jQuery('#' + elt_id).tabs();
+                       });
+
+        ll('Done init.');
       }
       jQuery(document).ready(function(){ DemoInit(); });
     </script>
   </head>
   <body>
-    
-    <h3>Demo 01: Test</h3>
-    <div id="foo" />
-    
+
+    <div style="margin:5em;">
+
+      <h1>BBOP JS: The Demo</h1>
+	
+      <h2>Overview</h2>
+      <div>
+	<p>
+	  These demos are a new work in progress, please be patient as
+	  we get them up and apply fixes. More demos will go up as we
+	  approach beta...
+	</p>
+	<p>
+	  API documentation for the code below can be
+	  found <a href="http://cdn.berkeleybop.org/jsapi/bbop-js/docs/index.html">here</a>. Sorry
+	  that we don't have the crosslinks done yet.
+	</p>
+	<p>
+	  These demos use the public GOlr server
+	  <a href="http://golr.berkeleybop.org/">alpha</a> for data
+	  and a JSON Solr schema <a href="golr.js">blob</a> (from
+	  AmiGO 2).
+	</p>
+	<p>
+	  So, the inclusion for all of these demos is: 1 jQuery file
+	  (necessary since we're going to use the manager in a web
+	  browser environment), 2 jQuery UI files (not necessary for
+	  all of the demos, just the ones that use widgets), the
+	  single BBOP JS file, and the schema blob (which we happen to
+	  get using a file, but could be done manually).
+
+	  <pre>  &lt;link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" /&gt;
+  &lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="http://cdn.berkeleybop.org/jsapi/bbop.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="golr.js"&gt;&lt;/script&gt;</pre>
+	</p>
+	<p>
+	  A more in-depth explanation of the schema blob can be found
+	  <a href="https://github.com/kltm/bbop-js/wiki/Schema">here</a>.
+	  Remember that in the demos, amigo.data.golr is just a
+	  variable that defines the schema that we're using--there is
+	  nothing super special about it.
+	</p>
+      </div>
+      
+      <h3>Demo 01: A Small Calculation</h3>
+      <p>
+	This is a small demonstration on how to use the asynchronous
+	jQuery manager engine (bbop.golr.manager.jquery) to perform a
+	"simple" count of the ontology terms in the data store.
+      </p>
+      <p>
+	While this type of calculation is much more straightforward to
+	do in, say, a Rhino environment (bbop.golr.manager.rhino) due
+	to the fact that the web browser is inherently asynchronous,
+	it forms the basis of how widgets (and AmiGO 2) are
+	created. To see the easier command line versions of
+	calculations like these, take a look at the Rhino (as opposed
+	to NodeJS) scripts in the bin/ directory of the BBOP JS source
+	tree.
+      </p>
+      <div id="demo01" style="width:75%;">
+	<ul>
+          <li><a href="#demo01-demo">Demo</a></li>
+          <li><a href="#demo01-code">Code</a></li>
+	</ul>
+	<div id="demo01-demo">
+	  <script>
+	    jQuery(document).ready(function(){
+
+              // Create the basic environment defining variables.
+	      var gserv = 'http://golr.berkeleybop.org/';
+	      var gconf = new bbop.golr.conf(amigo.data.golr);
+
+              // Create the manager, set it's personality, then
+              // restrict it to one "document_category".
+	      var go = new bbop.golr.manager.jquery(gserv, gconf);
+	      go.set_personality('bbop_ont');
+              go.add_query_filter('document_category', 'ontology_class');
+
+              // Create the callback function to change the text
+              // in the document, then register it with the
+              // manager and start the (reset) callback.
+	      function callback(json_blob){
+	        var resp = new bbop.golr.response(json_blob);
+	        jQuery("#o01").empty();
+	        jQuery("#o01").append(resp.total_documents());
+	      }
+	      go.register('reset', 'foo', callback);
+	      go.reset();
+	    });
+	  </script>
+	  There are currently <b><span id="o01">???</span></b> terms.
+	</div>
+	<div id="demo01-code">
+	  <pre>jQuery(document).ready(function(){
+
+  // Create the basic environment defining variables.
+  var gserv = 'http://golr.berkeleybop.org/';
+  var gconf = new bbop.golr.conf(amigo.data.golr);
+
+  // Create the manager, set it's personality, then
+  // restrict it to one "document_category".
+  var go = new bbop.golr.manager.jquery(gserv, gconf);
+  go.set_personality('bbop_ont');
+  go.add_query_filter('document_category', 'ontology_class');
+
+  // Create the callback function to change the text
+  // in the document, then register it with the
+  // manager and start the (reset) callback.
+  function callback(json_blob){
+    var resp = new bbop.golr.response(json_blob);
+    jQuery("#o01").empty();
+    jQuery("#o01").append(resp.total_documents());
+  }
+  go.register('reset', 'foo', callback);
+  go.reset();
+});</pre>
+	</div>
+      </div>
+
+      <h3>Demo 02: Trivial Autocomplete</h3>
+      <p>
+	This is a minimal widget demonstration for autocomplete.
+      </p>
+      <div id="demo02" style="width:75%;">
+	<ul>
+          <li><a href="#demo02-demo">Demo</a></li>
+          <li><a href="#demo02-code">Code</a></li>
+	</ul>
+	<div id="demo02-demo">
+	  <script>
+	    jQuery(document).ready(function(){
+	      var gserv = 'http://golr.berkeleybop.org/';
+	      var gconf = new bbop.golr.conf(amigo.data.golr);
+	      var auto = new bbop.widget.search_box(gserv, gconf, 'd02');
+	      auto.set_personality('bbop_ont');
+	    });
+	  </script>
+	  <input type="text" size="25" value="" id="d02" />
+	</div>
+	<div id="demo02-code">
+	  <pre>jQuery(document).ready(function(){
+  var gserv = 'http://golr.berkeleybop.org/';
+  var gconf = new bbop.golr.conf(amigo.data.golr);
+  var auto = new bbop.widget.search_box(gserv, gconf, 'd02');
+  auto.set_personality('bbop_ont');
+});</pre>
+	</div>
+      </div>
+
+      <h3>Demo 03: Templated Autocomplete Plus Action</h3>
+      <p>
+	This is a more complete example of how the
+	bbop.widget.search_box code can work. In addition to the
+	necessary values, we've added an argument hash the defines
+	templates for the dropdown and return value as well as a
+	separate function to call when an item is selected.
+      </p>
+      <div id="demo03" style="width:75%;">
+	<ul>
+          <li><a href="#demo03-demo">Demo</a></li>
+          <li><a href="#demo03-code">Code</a></li>
+	</ul>
+	<div id="demo03-demo">
+	  <script>
+	    jQuery(document).ready(function(){
+	      var gserv = 'http://golr.berkeleybop.org/';
+	      var gconf = new bbop.golr.conf(amigo.data.golr);
+	      var a03 = {
+		'label_template': '{{annotation_class_label}} ({{id}})',
+		'value_template': '{{annotation_class_label}}',
+		'list_select_callback': function(doc){ alert(doc['id']); }
+	      };
+	      var auto = new bbop.widget.search_box(gserv, gconf, 'd03', a03);
+	      auto.set_personality('bbop_ont');
+	    });
+	  </script>
+	  <input type="text" size="25" value="" id="d03" />
+	</div>
+	<div id="demo03-code">
+	  <pre>jQuery(document).ready(function(){
+  var gserv = 'http://golr.berkeleybop.org/';
+  var gconf = new bbop.golr.conf(amigo.data.golr);
+  var a03 = {
+    'label_template': '{{annotation_class_label}} ({{id}})',
+    'value_template': '{{annotation_class_label}}',
+    'list_select_callback': function(doc){ alert(doc['id']); }
+  };
+  var auto = new bbop.widget.search_box(gserv, gconf, 'd03', a03);
+  auto.set_personality('bbop_ont');
+});</pre>
+	</div>
+      </div>
+
+    </div>
   </body>
 </html>
