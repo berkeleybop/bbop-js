@@ -7,7 +7,7 @@
 
   BBOP JS is a cross-platform client (web browsers) and server
   (NodeJS, Rhino, etc.) JavaScript library. Spun-off from its roots in
-  the Gene Ontology Consortium's AmiGO software,
+  the [[http://geneontology.org/][Gene Ontology Consortium]]'s AmiGO 2 software, BBOP JS covers:
 
   - A rich interface to Solr servers
   - Rich (mathematical/set) graph and tree facilities
