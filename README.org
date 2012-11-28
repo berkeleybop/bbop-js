@@ -145,6 +145,7 @@
 ** Demos
 
    A documented demo page going through the basics can be found [[http://cdn.berkeleybop.org/jsapi/bbop-js/demo/index.html][here]].
+
    Also, [[http://amigo2.berkeleybop.org/][AmiGO 2]] is pretty much based on BBOP JS and a good place to
    think about what's possible.
    
