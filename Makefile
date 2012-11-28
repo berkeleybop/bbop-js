@@ -77,6 +77,8 @@ bundle:
 
 release: bundle docs
 	s3cmd -P put staging/bbop*.js s3://bbop/jsapi/
+	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
+	s3cmd --recursive -P put docs/ s3://bbop/jsapi/bbop-js/docs/
 
 # ###
 # ### Benchmarks.

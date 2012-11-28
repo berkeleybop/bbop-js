@@ -1,2 +1,5 @@
 This directory is the location of consumable files generated during
 builds.
+
+It also contains a demo HTML page that puts to use some of these
+files.

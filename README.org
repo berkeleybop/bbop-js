@@ -1,4 +1,4 @@
-#+TITLE: BBOP-JS README
+#+TITLE: BBOP JS README
 #+Options: num:nil
 #+STARTUP: odd
 #+Style: <style> h1,h2,h3 {font-family: arial, helvetica, sans-serif} </style>
@@ -26,7 +26,7 @@
 * Getting the library
 ** Remote (CDN)
 
-   Currently, the easiest way to use BBOP-JS is just to download it
+   Currently, the easiest way to use BBOP JS is just to download it
    off of the CDN and use it locally.
 
    For the latest, try:
@@ -106,11 +106,49 @@
     interest to people who want to do something similar.
 
 * Using the library
+** Requirements
+
+   BBOP JS contains almost everything that it needs to work on almost
+   any platform. However, there are two exceptions to this.
+
+   The first exception is that when contacting a Solr (well, "GOlr"
+   since the schema needs to conform to what BBOP JS expects) HTTP
+   gets must be used, which are not a part of JavaScript. So, to get
+   any useful work done, you must either use one of the provided
+   engines (bbop.golr.manager.jquery, bbop.golr.manager.rhino, etc.)
+   or write your own subclass of bbop.golr.manager. Naturally, if you
+   are going to be using the jQuery engine, you'd need to have a
+   compatible jQuery loaded as well.
+
+   The second exception is similar. The drop-in BBOP JS web page
+   widgets that are provided may depend on compatible versions of
+   jQuery and jQuery UI, so you'd need to have compatible version of
+   those downloaded as well.
+
+   These two exceptions in BBOP JS are currently tested with:
+
+   - jQuery 1.8.0
+   - jQuery UI 1.8.23
+
+   Remember: these only become requirements if you are using the
+   bbop.golr.manager.jquery engine (jQuery required) or one of the
+   provided widgets (jQuery and jQuery UI)--the vast bulk of the
+   library requires no external libraries.
+
+   Also, if you are using a different version of jQuery and company
+   than BBOP JS, it should not be a problem since BBOP JS (should) do
+   the proper juggling to make sure to not interfere with your code.
+
 ** API Documentation
-   The alpha API documentation can be current found at:
-   http://api.berkeleybop.org/golr/docs/
+   The alpha API documentation can be current found [[http://cdn.berkeleybop.org/jsapi/bbop-js/docs/index.html][here]].
+
 ** Demos
-   TODO
+
+   A documented demo page going through the basics can be found [[http://cdn.berkeleybop.org/jsapi/bbop-js/demo/index.html][here]].
+   Also, [[http://amigo2.berkeleybop.org][AmiGO 2]] is pretty much based on BBOP JS and a good place to
+   think about what's possible.
+   
+
 * Status
 
   The current build status of BBOP JS can be found [[http://build.berkeleybop.org/job/bbop-js/][here]].
