@@ -94,7 +94,7 @@
 
 **** make bundle
 
-    Create the BBOP-JS JavaScript libraries (standard and minified)
+    Create the BBOP JS JavaScript libraries (standard and minified)
     and put them into the staging/ directory.
 
 **** make release
