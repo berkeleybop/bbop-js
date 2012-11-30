@@ -69,7 +69,7 @@ load('manager.js');
      gm.set_personality('bbop_ann');
      mr_t.is_same_set(gm.facets(), ['source',
 				    'evidence_type_closure',
-				    'family_tag',
+				    'family_tag_label',
 				    'taxon_closure_label',
 				    'isa_partof_closure_label',
 				    'annotation_extension_class_closure_label'],
@@ -101,11 +101,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
+		       'facet.field=family_tag_label',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'fq=document_category:"annotation"',
@@ -277,11 +277,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
+		       'facet.field=family_tag_label',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'q=*:*'].join('&'),
@@ -298,11 +298,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
+		       'facet.field=family_tag_label',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'q=*:*'].join('&'),
@@ -319,11 +319,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
+		       'facet.field=family_tag_label',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'q=*:*'].join('&'),
@@ -351,11 +351,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
+		       'facet.field=family_tag_label',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'fq=-document_category:"annotation"',
@@ -397,11 +397,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
+		       'facet.field=family_tag_label',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'q=*:*'].join('&'),
@@ -420,11 +420,11 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=evidence_type_closure',
+		       'facet.field=family_tag_label',
 		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=annotation_extension_class_closure_label',
 		       'q=foo',
@@ -434,7 +434,8 @@ load('manager.js');
 		       'qf=bioentity_label_searchable^1',
 		       'qf=annotation_extension_class^2',
 		       'qf=annotation_extension_class_label_searchable^1',
-		       'qf=family_tag_searchable^1'].join('&'),
+		       'qf=family_tag_searchable^1',
+		       'qf=family_tag_label_searchable^1'].join('&'),
 		      "foo query");
      mr_t.is_same_atom(gm_ann.get_query(), "foo", 'got query out');
 
@@ -442,82 +443,83 @@ load('manager.js');
      gm_ann.reset_query();
      mr_t.is_same_atom(gm_ann.get_query(), "*:*", 'reset query safely');
      mr_t.is_same_url(gm_ann.get_query_url(),
-		      ['http://golr.berkeleybop.org/select?defType=edismax',
-		       'qt=standard',
-		       'indent=on',
-		       'wt=json',
-		       'rows=10',
-		       'start=0',
-		       'fl=*%2Cscore',
-		       'facet=true',
-		       'facet.mincount=1',
-		       'json.nl=arrarr',
-		       'facet.limit=26',
-		       'facet.field=source',
-		       'facet.field=evidence_type_closure',
-		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
-		       'facet.field=isa_partof_closure_label',
-		       'facet.field=annotation_extension_class_closure_label',
-		       'q=*:*'].join('&'),
-		      "base again");
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'facet.field=source',
+     		       'facet.field=evidence_type_closure',
+     		       'facet.field=taxon_closure_label',
+     		       'facet.field=family_tag_label',
+     		       'facet.field=isa_partof_closure_label',
+     		       'facet.field=annotation_extension_class_closure_label',
+     		       'q=*:*'].join('&'),
+     		      "base again");
 
      // Playing with default values.
      gm_ann.set_default_query("foo:bar");
      gm_ann.reset_query();
      mr_t.is_same_atom(gm_ann.get_query(), "foo:bar", 'new default query');
      mr_t.is_same_url(gm_ann.get_query_url(),
-		      ['http://golr.berkeleybop.org/select?defType=edismax',
-		       'qt=standard',
-		       'indent=on',
-		       'wt=json',
-		       'rows=10',
-		       'start=0',
-		       'fl=*%2Cscore',
-		       'facet=true',
-		       'facet.mincount=1',
-		       'json.nl=arrarr',
-		       'facet.limit=26',
-		       'facet.field=source',
-		       'facet.field=evidence_type_closure',
-		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
-		       'facet.field=isa_partof_closure_label',
-		       'facet.field=annotation_extension_class_closure_label',
-		       'q=foo:bar',
-		       'qf=annotation_class^2',
-		       'qf=annotation_class_label_searchable^1',
-		       'qf=bioentity^2',
-		       'qf=bioentity_label_searchable^1',
-		       'qf=annotation_extension_class^2',
-		       'qf=annotation_extension_class_label_searchable^1',
-		       'qf=family_tag_searchable^1'].join('&'),
-		      "q=foo:bar");
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'facet.field=source',
+     		       'facet.field=evidence_type_closure',
+     		       'facet.field=taxon_closure_label',
+     		       'facet.field=family_tag_label',
+     		       'facet.field=isa_partof_closure_label',
+     		       'facet.field=annotation_extension_class_closure_label',
+     		       'q=foo:bar',
+     		       'qf=annotation_class^2',
+     		       'qf=annotation_class_label_searchable^1',
+     		       'qf=bioentity^2',
+     		       'qf=bioentity_label_searchable^1',
+     		       'qf=annotation_extension_class^2',
+     		       'qf=annotation_extension_class_label_searchable^1',
+     		       'qf=family_tag_searchable^1',
+     		       'qf=family_tag_label_searchable^1'].join('&'),
+     		      "q=foo:bar");
 
      // Try rolling it back.
      gm_ann.reset_default_query();
      gm_ann.reset_query();
      mr_t.is_same_atom(gm_ann.get_query(), "*:*", 'default reset query safely');
      mr_t.is_same_url(gm_ann.get_query_url(),
-		      ['http://golr.berkeleybop.org/select?defType=edismax',
-		       'qt=standard',
-		       'indent=on',
-		       'wt=json',
-		       'rows=10',
-		       'start=0',
-		       'fl=*%2Cscore',
-		       'facet=true',
-		       'facet.mincount=1',
-		       'json.nl=arrarr',
-		       'facet.limit=26',
-		       'facet.field=source',
-		       'facet.field=evidence_type_closure',
-		       'facet.field=taxon_closure_label',
-		       'facet.field=family_tag',
-		       'facet.field=isa_partof_closure_label',
-		       'facet.field=annotation_extension_class_closure_label',
-		       'q=*:*'].join('&'),
-		      "base again again");
+ 		      ['http://golr.berkeleybop.org/select?defType=edismax',
+ 		       'qt=standard',
+ 		       'indent=on',
+ 		       'wt=json',
+ 		       'rows=10',
+ 		       'start=0',
+ 		       'fl=*%2Cscore',
+ 		       'facet=true',
+ 		       'facet.mincount=1',
+ 		       'json.nl=arrarr',
+ 		       'facet.limit=25',
+ 		       'facet.field=source',
+ 		       'facet.field=evidence_type_closure',
+ 		       'facet.field=taxon_closure_label',
+ 		       'facet.field=family_tag_label',
+ 		       'facet.field=isa_partof_closure_label',
+ 		       'facet.field=annotation_extension_class_closure_label',
+ 		       'q=*:*'].join('&'),
+ 		      "base again again");
 
  })();
 
@@ -551,7 +553,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=foo'].join('&'),
 		      "qf base");
      
@@ -567,7 +569,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'qf=label^2',
 		       'qf=id^1',
 		       'q=foo'].join('&'),
@@ -587,14 +589,14 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=subset',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=is_obsolete',
 		       'q=foo',
-		       'qf=id^2',
-		       'qf=label_searchable^2',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^2',
 		       'qf=description_searchable^1',
 		       'qf=comment_searchable^0.5',
 		       'qf=synonym_searchable^1',
@@ -613,14 +615,14 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=subset',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=is_obsolete',
 		       'q=foo',
 		       'qf=id^1',
-		       'qf=label_searchable^2'].join('&'),
+		       'qf=label^2'].join('&'),
  		      "qf: forced reduced personality");
      
  })();
@@ -704,19 +706,19 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=subset',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=is_obsolete',
 		       'q=foo',
-		       'qf=id^2',
-		       'qf=label_searchable^2',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^2',
 		       'qf=description_searchable^1',
 		       'qf=comment_searchable^0.5',
 		       'qf=synonym_searchable^1',
 		       'qf=alternate_id^1'].join('&'),
-		      "load: constructed personality");    
+		      "load: constructed personality (1)");
  })();
 
 // bbop.golr.manager - 13 - bookmark/loader - 2
@@ -739,20 +741,20 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=subset',
 		       'facet.field=isa_partof_closure_label',
 		       'facet.field=is_obsolete',
 		       'q=***',
 		       'fq=foo:"bar"',
-		       'qf=id^2',
-		       'qf=label_searchable^2',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^2',
 		       'qf=description_searchable^1',
 		       'qf=comment_searchable^0.5',
 		       'qf=synonym_searchable^1',
 		       'qf=alternate_id^1'].join('&'),
-		      "load: constructed personality");    
+		      "load: constructed personality (2)");
  })();
 
 // bbop.golr.manager - 14 - unset
@@ -774,7 +776,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'foo=bar',
 		       'q=*:*'].join('&'),
 		      "unset: set foo");    
@@ -792,7 +794,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=*:*'].join('&'),
 		      "unset: unset foo");    
 
@@ -809,7 +811,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=*:*'].join('&'),
 		      "unset: unset foo");    
  })();
@@ -834,7 +836,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=*:*'].join('&'),
 		      "hilite: unset false url");    
 
@@ -851,7 +853,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=*:*'].join('&'),
 		      "hilite: current state nothing url");    
 
@@ -868,7 +870,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'hl=true',
 		       'hl.simple.pre=<em class="hilite">',
 		       'q=*:*'].join('&'),
@@ -887,7 +889,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=*:*'].join('&'),
 		      "hilite: simple turn off url"); 
 
@@ -904,7 +906,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'hl=true',
 		       'hl.simple.pre=<em class="blah">',
 		       'q=*:*'].join('&'),
@@ -923,7 +925,7 @@ load('manager.js');
 		       'facet=true',
 		       'facet.mincount=1',
 		       'json.nl=arrarr',
-		       'facet.limit=26',
+		       'facet.limit=25',
 		       'q=*:*'].join('&'),
 		      "hilite: turn off url"); 
 
@@ -957,11 +959,11 @@ load('manager.js');
      		       'wt=json',
      		       'rows=10',
      		       'start=0',
-     		       'fl=id%2Clabel%2Cdescription%2Ccomment%2Csynonym%2Calternate_id%2Csource%2Csubset%2Cisa_partof_closure_label%2Cis_obsolete%2Cscore',
+     		       'fl=annotation_class%2Cannotation_class_label%2Cdescription%2Ccomment%2Csynonym%2Calternate_id%2Csource%2Csubset%2Cisa_partof_closure_label%2Cis_obsolete%2Cscore',
      		       'facet=true',
      		       'facet.mincount=1',
      		       'json.nl=arrarr',
-     		       'facet.limit=26',
+     		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=subset',
 		       'facet.field=isa_partof_closure_label',
@@ -983,30 +985,31 @@ load('manager.js');
      		       'facet=true',
      		       'facet.mincount=1',
      		       'json.nl=arrarr',
-     		       'facet.limit=26',
-		       'facet.field=source',
-		       'facet.field=subset',
-		       'facet.field=isa_partof_closure_label',
-		       'facet.field=is_obsolete',
+     		       'facet.limit=25',
+ 		       'facet.field=source',
+ 		       'facet.field=subset',
+ 		       'facet.field=isa_partof_closure_label',
+ 		       'facet.field=is_obsolete',
      		       'q=*:*'].join('&'),
      		      "liteness on for bbop_ont off");
 
  })();
 
 // bbop.golr.manager - 17 - facet limits
-//(function(){
+(function(){
 
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
 
-// Trivialities.
-mr_t.is_same_atom(gm.get_facet_limit(), 26, 'limit: std limit');
-mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: no field limit');
-mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all');
-mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
-
-// Change limit, then reset it.
+     // Trivialities.
+     mr_t.is_same_atom(gm.get_facet_limit(), 25, 'limit: std limit');
+     mr_t.is_same_atom(gm.get_facet_limit('foo'), null,
+		       'limit: no field limit');
+     mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all');
+     mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
+     
+     // Change limit, then reset it.
      mr_t.is_true(gm.set_facet_limit(5), 'limit: global to 5 success');
      mr_t.is_same_url(gm.get_query_url(),
      		      ['http://golr.berkeleybop.org/select?defType=edismax',
@@ -1022,43 +1025,62 @@ mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
      		       'facet.limit=5',
      		       'q=*:*'].join('&'),
      		      "limit: global to 5");
-mr_t.is_same_atom(gm.get_facet_limit(), 5, 'limit: limited to 5');
-mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: still no field limit');
-mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all');
-mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
-mr_t.is_same_atom(gm.get_facet_limit(), 26, 'limit: reset std limit');
-mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: again no field limit');
+     mr_t.is_same_atom(gm.get_facet_limit(), 5, 'limit: limited to 5');
+     mr_t.is_same_atom(gm.get_facet_limit('foo'), null,
+		       'limit: still no field limit');
+     mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all');
+     mr_t.is_false(gm.reset_facet_limit('foo'), 'limit: cannot reset nothing');
+     mr_t.is_same_atom(gm.get_facet_limit(), 25, 'limit: reset std limit');
+     mr_t.is_same_atom(gm.get_facet_limit('foo'), null,
+		       'limit: again no field limit');
+     
+     // Change limit and field limit, then reset it.
+     mr_t.is_true(gm.set_facet_limit(10), 'limit: global to 10 success');
+     mr_t.is_true(gm.set_facet_limit('foo', 1), 'limit: foo to 1 success');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=10',
+     		       'f.foo.facet.limit=1',
+     		       'q=*:*'].join('&'),
+     		      "limit: global to 10, foo to 1");
+     mr_t.is_same_atom(gm.get_facet_limit(), 10, 'limit: limited to 10');
+     mr_t.is_same_atom(gm.get_facet_limit('foo'), 1, 'limit: foo to 1');
+     
+     mr_t.is_true(gm.reset_facet_limit('foo'), 'limit: foo reset');
+     mr_t.is_same_atom(gm.get_facet_limit(), 10, 'limit: limited to 10');
+     mr_t.is_same_atom(gm.get_facet_limit('foo'), null,
+		       'limit: foo gone again');
+     
+     mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all, again');
+     mr_t.is_same_atom(gm.get_facet_limit(), 25,
+		       'limit: reset std limit, again');
+     mr_t.is_same_atom(gm.get_facet_limit('foo'), null,
+		       'limit: again no field limit, again');
 
-// Change limit and field limit, then reset it.
-mr_t.is_true(gm.set_facet_limit(10), 'limit: global to 10 success');
-mr_t.is_true(gm.set_facet_limit('foo', 1), 'limit: foo to 1 success');
-mr_t.is_same_url(gm.get_query_url(),
-     		 ['http://golr.berkeleybop.org/select?defType=edismax',
-     		  'qt=standard',
-     		  'indent=on',
-     		  'wt=json',
-     		  'rows=10',
-     		  'start=0',
-     		  'fl=*%2Cscore',
-     		  'facet=true',
-     		  'facet.mincount=1',
-     		  'json.nl=arrarr',
-     		  'facet.limit=10',
-     		  'f.foo.facet.limit=1',
-     		  'q=*:*'].join('&'),
-     		 "limit: global to 10, foo to 1");
-mr_t.is_same_atom(gm.get_facet_limit(), 10, 'limit: limited to 10');
-mr_t.is_same_atom(gm.get_facet_limit('foo'), 1, 'limit: foo to 1');
-
-mr_t.is_true(gm.reset_facet_limit('foo'), 'limit: foo reset');
-mr_t.is_same_atom(gm.get_facet_limit(), 10, 'limit: limited to 10');
-mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: foo gone again');
-
-mr_t.is_true(gm.reset_facet_limit(), 'limit: can always reset all, again');
-mr_t.is_same_atom(gm.get_facet_limit(), 26, 'limit: reset std limit, again');
-mr_t.is_same_atom(gm.get_facet_limit('foo'), null, 'limit: again no field limit, again');
-
-// })();
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'q=*:*'].join('&'),
+     		      "limit: all back to normal");
+ })();
 
 
 ///
