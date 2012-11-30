@@ -91,6 +91,7 @@ Group: widget  {
       File: results_table_by_class_conf.js  (widget/display/results_table_by_class_conf.js)
       File: two_column_layout.js  (widget/display/two_column_layout.js)
       File: live_search.js  (widget/display/live_search.js)
+      File: filter_shield.js  (widget/display/filter_shield.js)
       }  # Group: display
 
    }  # Group: widget
