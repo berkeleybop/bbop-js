@@ -57,6 +57,7 @@ File: version.js  (version.js)
 Group: golr  {
 
    File: conf.js  (golr/conf.js)
+   File: response.js  (golr/response.js)
    File: manager.js  (golr/manager.js)
 
    Group: manager  {
@@ -67,7 +68,6 @@ Group: golr  {
       File: rhino.js  (golr/manager/rhino.js)
       }  # Group: manager
 
-   File: response.js  (golr/response.js)
    }  # Group: golr
 
 File: model.js  (model.js)

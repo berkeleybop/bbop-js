@@ -996,7 +996,7 @@ load('manager.js');
  })();
 
 // bbop.golr.manager - 17 - facet limits
-(function(){
+//(function(){
 
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
@@ -1080,7 +1080,7 @@ load('manager.js');
      		       'facet.limit=25',
      		       'q=*:*'].join('&'),
      		      "limit: all back to normal");
- })();
+// })();
 
 
 ///
