@@ -821,6 +821,16 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
 
  })();
 
+// Check dequote.
+(function(){
+
+     mr_t.is_same_atom('foo', bbop.core.dequote('"foo"'),
+		       'dequote 1');
+     mr_t.is_same_atom('foo', bbop.core.dequote('foo'),
+		       'dequote 2');
+
+ })();
+
 ///
 /// End unit testing.
 ///
