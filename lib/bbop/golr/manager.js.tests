@@ -1117,7 +1117,7 @@ load('manager.js');
  })();
 
 // bbop.golr.manager - 19 - get download url (hard)
-//(function(){
+(function(){
 
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
@@ -1162,9 +1162,61 @@ load('manager.js');
 		       'qf=alternate_id^1'].join('&'),
      		      "dl 2: proper url");
      
+ })();
+
+// bbop.golr.manager - 20 - get download url (session and negative)
+//(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
+     gm.set_personality('bbop_ont');
+     gm.add_query_filter('foo', 'bar', ['-']);
+     gm.add_query_filter('123', '456', ['*']);
+     gm.add_query_filter('abc', 'def', ['*', '-']);
+
+     // Harder.
+     // We should round trip back to where we came from.
+     var start_url = gm.get_query_url();
+     var dl_url = gm.get_download_url(['id1', 'id2']);
+     var end_url = gm.get_query_url();
+     mr_t.is_same_url(start_url, end_url, "dl 3: start and end at same place");
+     mr_t.is_same_url(dl_url,
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=csv',
+     		       'rows=1000',
+     		       'start=0',
+     		       'fl=id1,id2',
+     		       'facet=true',
+     		       'facet.mincount=1', 'facet.sort=count',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+		       'csv.encapsulator=',
+		       'csv.separator=%09',
+		       'csv.header=false',
+		       'csv.mv.separator=|',
+		       'fq=-foo:"bar"',
+		       'fq=123:"456"',
+		       'fq=-abc:"def"',
+ 		       'facet.field=source',
+ 		       'facet.field=subset',
+ 		       'facet.field=isa_partof_closure_label',
+ 		       'facet.field=is_obsolete',
+     		       'q=*:*'].join('&'),
+     		      "dl 3: proper url");
+
+     mr_t.is_same_atom(3, gm.get_query_filters().length,
+		       "dl 3: 3 filters");
+     mr_t.is_same_atom(2, gm.get_sticky_query_filters().length,
+		       "dl 3: 2 sticky filters");
+
+    // bbop.core.dump(gm.get_query_filters())
+
 // })();
 
-// bbop.golr.manager - 20 - query field add
+// bbop.golr.manager - 21 - query field add
 (function(){
 
      // Setup.
