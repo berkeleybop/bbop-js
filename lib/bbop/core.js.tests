@@ -831,6 +831,25 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
 
  })();
 
+// Check ensure.
+//(function(){
+
+     mr_t.is_same_atom('"foo"', bbop.core.ensure('foo', '"'),
+		       'ensure 1');
+     mr_t.is_same_atom('"foo', bbop.core.ensure('foo', '"', 'front'),
+     		       'ensure 2');
+     mr_t.is_same_atom('foo"', bbop.core.ensure('foo', '"', 'back'),
+     		       'ensure 3');
+
+     mr_t.is_same_atom('"foo"', bbop.core.ensure('"foo"', '"'),
+     		       'ensure 4');
+     mr_t.is_same_atom('"foo"', bbop.core.ensure('"foo"', '"', 'front'),
+     		       'ensure 5');
+     mr_t.is_same_atom('"foo"', bbop.core.ensure('"foo"', '"', 'back'),
+     		       'ensure 6');
+
+// })();
+
 ///
 /// End unit testing.
 ///
