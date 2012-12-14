@@ -832,7 +832,7 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
  })();
 
 // Check ensure.
-//(function(){
+(function(){
 
      mr_t.is_same_atom('"foo"', bbop.core.ensure('foo', '"'),
 		       'ensure 1');
@@ -848,7 +848,7 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
      mr_t.is_same_atom('"foo"', bbop.core.ensure('"foo"', '"', 'back'),
      		       'ensure 6');
 
-// })();
+ })();
 
 ///
 /// End unit testing.
