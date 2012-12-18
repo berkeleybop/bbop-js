@@ -84,6 +84,7 @@ Group: widget  {
    File: search_box.js  (widget/search_box.js)
    File: term_shield.js  (widget/term_shield.js)
    File: search_pane.js  (widget/search_pane.js)
+   File: repl.js  (widget/repl.js)
 
    Group: display  {
 
@@ -94,8 +95,9 @@ Group: widget  {
       File: filter_shield.js  (widget/display/filter_shield.js)
       }  # Group: display
 
-   File: repl.js  (widget/repl.js)
    }  # Group: widget
+
+File: overlay.js  (contrib/go/overlay.js)
 
 Group: Index  {
 
