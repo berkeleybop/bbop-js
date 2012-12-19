@@ -1,0 +1,5 @@
+* overlay.js/overlay.js.tests
+  This has been adandoned due to the extreme difficulty of getting
+  both client and server environments to behave nicely. See the code
+  and tests for more details, as well as some abandoned code in
+  bbop.core.evaluate.

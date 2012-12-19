@@ -1,54 +1,54 @@
-////
-//// Some unit testing for overlay.js
-////
-//// Usage:
-////    Command line: "rhino -f overlay.js.tests"
-////    Interactive: "rhino -f overlay.js.tests -f -"
-////
+// ////
+// //// Some unit testing for overlay.js
+// ////
+// //// Usage:
+// ////    Command line: "rhino -f overlay.js.tests"
+// ////    Interactive: "rhino -f overlay.js.tests -f -"
+// ////
 
 
-// Correct environment.
-load('../../test.js');
-load('../../core.js');
-load('../../logger.js');
-load('../../registry.js');
-load('../../golr/conf.js');
-load('../../golr/response.js');
-load('../../golr/manager.js');
-load('../../../../_data/golr.js');
-load('../../../../_data/server.js');
-load('overlay.js');
-// Load testing.
-// Only run these difficult test if we can grab the right envoronment.
-// try{
-//     load('../../../../staging/bbop.js');
-// } catch (x) {
-// }
+// // Correct environment.
+// load('../../test.js');
+// load('../../core.js');
+// load('../../logger.js');
+// load('../../registry.js');
+// load('../../golr/conf.js');
+// load('../../golr/response.js');
+// load('../../golr/manager.js');
+// load('../../../../_data/golr.js');
+// load('../../../../_data/server.js');
+// load('overlay.js');
+// // Load testing.
+// // Only run these difficult test if we can grab the right envoronment.
+// // try{
+// //     load('../../../../staging/bbop.js');
+// // } catch (x) {
+// // }
 
-var mr_t = new bbop.test();
+// var mr_t = new bbop.test();
 
-///
-/// Start unit testing.
-///
+// ///
+// /// Start unit testing.
+// ///
 
-// Basics.
-//(function(){
+// // Basics.
+// //(function(){
 
-// // Run the GO overlay with no subclass.
-// var retval = bbop.contrib.go.overlay();
+// // // Run the GO overlay with no subclass.
+// // var retval = bbop.contrib.go.overlay();
      
-// mr_t.is_true(retval, "no errors on creation");
+// // mr_t.is_true(retval, "no errors on creation");
      
-// // each should be a global function now.
-// mr_t.is_same_atom(bbop.core.what_is(each), 'function', "'each' is a function");
+// // // each should be a global function now.
+// // mr_t.is_same_atom(bbop.core.what_is(each), 'function', "'each' is a function");
 
-// })();
+// // })();
 
-// })();
+// // })();
 
-///
-/// End unit testing.
-///
+// ///
+// /// End unit testing.
+// ///
 
-// Final report.
-mr_t.report();
+// // Final report.
+// mr_t.report();

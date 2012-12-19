@@ -850,6 +850,25 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
 
  })();
 
+// // Check evaluate.
+// //(function(){
+
+// // Trivial.
+// var e1 = bbop.core.evaluate('1 + 1');
+// mr_t.is_same_atom(e1[0], 2, 'evaluate 1a');
+// mr_t.is_same_atom(e1[1], "2", 'evaluate 1b');
+// mr_t.is_same_atom(e1[2], true, 'evaluate 1c');
+// mr_t.is_same_atom(e1[3], 'server', 'evaluate 1d');
+
+// // Change global.
+// var e2 = bbop.core.evaluate('var foo = 3;');
+// //mr_t.is_same_atom(e2[0], 2, 'evaluate 2a');
+// //mr_t.is_same_atom(e2[1], "2", 'evaluate 2b');
+// //mr_t.is_same_atom(e2[2], true, 'evaluate 2c');
+// //mr_t.is_same_atom(e2[3], 'server', 'evaluate 2d');
+// 
+// // })();
+
 ///
 /// End unit testing.
 ///
