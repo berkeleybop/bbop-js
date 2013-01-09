@@ -97,6 +97,12 @@
     Create the BBOP JS JavaScript libraries (standard and minified)
     and put them into the staging/ directory.
 
+**** make bundle-uncompressed
+
+    The same as the above target, but skip trying to minify the
+    files. Only really useful if you can't figure out how to make
+    yui-compressor run (try clapping harder?).
+
 **** make release
 
     This depends on "docs" and "bundle".
