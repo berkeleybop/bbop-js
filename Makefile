@@ -71,6 +71,15 @@ bundle:
 	./scripts/release-js.pl -v -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r 0.9
 
 ###
+### Create exportable JS bundle, but skip minifying.
+###
+
+.PHONY: bundle-uncompressed
+
+bundle-uncompressed:
+	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r 0.9
+
+###
 ### Release: docs and bundle; then to an upload.
 ###
 
