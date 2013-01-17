@@ -2,8 +2,8 @@
 //// Some unit testing for core.js
 ////
 //// Usage:
-////    Command line: "js -f core.tests.js"
-////    Interactive: "js -f core.tests.js -f -"
+////    Command line: "js -f core.js.tests"
+////    Interactive: "js -f core.js.tests -f -"
 ////
 
 
@@ -848,6 +848,49 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
      mr_t.is_same_atom('"foo"', bbop.core.ensure('"foo"', '"', 'back'),
      		       'ensure 6');
 
+ })();
+
+// Check trim.
+(function(){
+
+     mr_t.is_same_atom('foo', bbop.core.trim('foo'),
+		       'trim 1');
+     mr_t.is_same_atom('foo', bbop.core.trim('\tfoo  '),
+		       'trim 2');
+     mr_t.is_same_atom('foo', bbop.core.trim('\tfoo \t '),
+		       'trim 3');
+     mr_t.is_same_atom('foo', bbop.core.trim(' \t\nfoo \t '),
+		       'trim 4');
+ })();
+
+// Check splode.
+(function(){
+
+     // Trivial.
+     var s1 = bbop.core.splode('foo bar');
+     mr_t.is_same_set(['foo', 'bar'], s1,
+		      'splode trivial 1');
+     
+     // Looking at empty weirdness.
+     var s2 = bbop.core.splode(' foo bar ');
+     mr_t.is_same_set(['', 'foo', 'bar', ''], s2,
+		      'splode 2');
+     
+     // Looking at empty weirdness with ';' as delimiter.
+     var s3 = bbop.core.splode(' ; foo;bar;', ';');
+     mr_t.is_same_set([' ', ' foo', 'bar', ''], s3,
+		      'splode 3');
+     
+     // Looking at more TSV.
+     var s4 = bbop.core.splode('\t\tfoo\tbar', /\t/);
+     mr_t.is_same_set(['', '', 'foo', 'bar'], s4,
+		      'splode 4');
+     
+     // Looking at multi-line files.
+     var s5 = bbop.core.splode('foo\tbar\nbib\tbob\n', /\n/);
+     mr_t.is_same_set(['foo\tbar', 'bib\tbob', ''], s5,
+		      'splode 5');
+     
  })();
 
 // // Check evaluate.
