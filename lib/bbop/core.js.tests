@@ -850,17 +850,17 @@ mr_t.is_same_atom('foo_bar/b_a_b.bob',
 
  })();
 
-// Check trim.
+// Check chomp.
 (function(){
 
-     mr_t.is_same_atom('foo', bbop.core.trim('foo'),
-		       'trim 1');
-     mr_t.is_same_atom('foo', bbop.core.trim('\tfoo  '),
-		       'trim 2');
-     mr_t.is_same_atom('foo', bbop.core.trim('\tfoo \t '),
-		       'trim 3');
-     mr_t.is_same_atom('foo', bbop.core.trim(' \t\nfoo \t '),
-		       'trim 4');
+     mr_t.is_same_atom('foo', bbop.core.chomp('foo'),
+		       'chomp 1');
+     mr_t.is_same_atom('foo', bbop.core.chomp('\tfoo  '),
+		       'chomp 2');
+     mr_t.is_same_atom('foo', bbop.core.chomp('\tfoo \t '),
+		       'chomp 3');
+     mr_t.is_same_atom('foo', bbop.core.chomp(' \t\nfoo \t '),
+		       'chomp 4');
  })();
 
 // Check splode.
