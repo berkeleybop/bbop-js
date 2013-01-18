@@ -79,7 +79,7 @@ each(file_lines,
 	     var parsed_logic = splode(logic, ' OR ');
 	     var or_log_bun = [arg1, arg2, parsed_logic];
 	     //print('TODO: Logic check: ' + bbop.core.dump(or_log_bun));
-	     logic_checks[arg1 + '^' + arg2 + '_' + logic] = or_log_bun;
+	     logic_checks[arg1 + '^' + arg2 + ' + ' + logic] = or_log_bun;
 	 }
      });
 
@@ -91,59 +91,65 @@ go.add_query_filter('document_category', 'annotation', ['*']);
 go.set_personality('bbop_ann');
 go.debug(false); // I think the default is still on?
 
+// Runs an n-way AND in the closure and returns the count.
+function run_n_way_and (arg_list){
+    
+    // Set the next query.
+    go.reset_query_filters(); // reset from the last iteration
+    // Add all of the items in the simple 
+    each(arg_list,
+	 function(arg){
+	     go.add_query_filter('isa_partof_closure', arg);
+	 });
+
+    // Fetch the data and grab the number we want.
+    var resp = new bbop.golr.response(go.fetch());
+    var count = resp.total_documents();
+
+    return count;
+}
+
 // First, we cycle though all the simple exclusivity tests.
 print('Running simple checks...');
 each(simple_checks,
      function(key, arg_list){
-
-	 // Set the next query.
-	 go.reset_query_filters(); // reset from the last iteration
-	 // Add all of the items in the simple 
-	 each(arg_list,
-	      function(arg){
-		  go.add_query_filter('isa_partof_closure', arg);
-	      });
-
-	 // Fetch the data and grab the number we want.
-	 var resp = new bbop.golr.response(go.fetch());
-	 var count = resp.total_documents();
-
+	 var count = run_n_way_and(arg_list);
 	 print('Checked exclusive: '+ arg_list.join(' & ') +' ('+ count +')');
 	 if( count != 0 ){
 	     check_errors.push('ERROR: count of ' + count + ' on: ' + key);
 	 }
      });
 
-// // Now try the OR(?) logic tests.
-// print('Running logic checks...');
-// each(logic_checks,
-//      function(key, arg_list){
+// Now try the OR(?) logic tests.
+print('Running AND series logic checks...');
+each(logic_checks,
+     function(key, arg_list){
 	 
-// 	 var arg1 = arg_list[0];
-// 	 var arg2 = arg_list[1];
-// 	 var or_list = arg_list[2];
+	 var arg1 = arg_list[0];
+	 var arg2 = arg_list[1];
+	 var or_list = arg_list[2];
+
+	 // print('To check (inclusive): ' + arg1 + ', ' + arg2  + '; ' +  
+	 //       or_list.join(' & '));
 	 
-// 	 // Set the next query.
-// 	 go.reset_query_filters(); // reset from the last iteration
+	 // Cycle through the different possibilities.
+	 var total_cnt = 0;
+	 each(or_list,
+	      function(or_arg){
+		  var curr_cnt = run_n_way_and([arg1, arg2, or_arg]);
+		  total_cnt += curr_cnt;
+	      });
 	 
-// 	 go.add_query_filter('isa_partof_closure', arg1);
-// 	 go.add_query_filter('isa_partof_closure', arg2);
-
-// 	 // Add all of the items in the simple 
-// 	 each(or_list,
-// 	      function(arg){
-// 		  go.add_query_filter('isa_partof_closure', arg);
-// 	      });
-
-// 	 // Fetch the data and grab the number we want.
-// 	 var resp = new bbop.golr.response(go.fetch());
-// 	 var count = resp.total_documents();
-
-// 	 print('Checked exclusive: '+ arg_list.join(' & ') +' ('+ count +')');
-// 	 if( count != 0 ){
-// 	     check_errors.push('ERROR: count of ' + count + ' on: ' + key);
-// 	 }
-//      });
+	 // Test the count to make sure that there were annotations
+	 // for at least one of the choices.
+	 print('Checked inclusive: ' + arg1 + ', ' + arg2  + '; ' +  
+	       or_list.join(' & ') + ' (' + total_cnt + ')');
+	 if( total_cnt == 0 ){
+	     check_errors.push('ERROR: no co-annotation for: ' + key);
+	     // }else{
+	     //     check_errors.push('PASS: co-annotation for: ' + key);
+	 }
+     });
 
 // Report.
 print('Looked at ' + file_lines.length + ' rules.');
