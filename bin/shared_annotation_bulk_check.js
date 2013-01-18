@@ -12,12 +12,10 @@
 
 // Load the necessary remote files.
 print('Downloading libraries...');
-// BUG: bbop.core.chomp does not exist in min? Still percolating?
-eval(readUrl('https://s3.amazonaws.com/bbop/jsapi/bbop.min.js'));
-//eval(readUrl('http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js'));
+// // BUG: bbop.core.chomp does not exist in min? Still percolating through CDN?
+//eval(readUrl('https://s3.amazonaws.com/bbop/jsapi/bbop.min.js'));
+eval(readUrl('http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js'));
 eval(readUrl('http://cdn.berkeleybop.org/jsapi/amigo_0.9.min.js'));
-//eval(readUrl('http://cdn.berkeleybop.org/jsapi/bbop_0.9.js'));
-//eval(readUrl('http://cdn.berkeleybop.org/jsapi/amigo_0.9.js'));
 
 // Aliases.
 var each = bbop.core.each;
@@ -88,6 +86,7 @@ print('Setting up manager.');
 var gconf = new bbop.golr.conf(amigo.data.golr);
 var go = new bbop.golr.manager.rhino('http://golr.berkeleybop.org/', gconf);
 go.add_query_filter('document_category', 'annotation', ['*']);
+//go.add_query_filter('taxon', 'NCBITaxon:4896', ['*']);
 go.set_personality('bbop_ann');
 go.debug(false); // I think the default is still on?
 
@@ -143,7 +142,7 @@ each(logic_checks,
 	 // Test the count to make sure that there were annotations
 	 // for at least one of the choices.
 	 print('Checked inclusive: ' + arg1 + ', ' + arg2  + '; ' +  
-	       or_list.join(' & ') + ' (' + total_cnt + ')');
+	       or_list.join(' || ') + ' (' + total_cnt + ')');
 	 if( total_cnt == 0 ){
 	     check_errors.push('ERROR: no co-annotation for: ' + key);
 	     // }else{
