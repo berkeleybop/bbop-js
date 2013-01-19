@@ -13,8 +13,8 @@
 // Load the necessary remote files.
 print('Downloading libraries...');
 // // BUG: bbop.core.chomp does not exist in min? Still percolating through CDN?
-//eval(readUrl('https://s3.amazonaws.com/bbop/jsapi/bbop.min.js'));
-eval(readUrl('http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js'));
+eval(readUrl('https://s3.amazonaws.com/bbop/jsapi/bbop.min.js'));
+//eval(readUrl('http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js'));
 eval(readUrl('http://cdn.berkeleybop.org/jsapi/amigo_0.9.min.js'));
 
 // Aliases.
@@ -22,6 +22,7 @@ var each = bbop.core.each;
 var chomp = bbop.core.chomp;
 var splode = bbop.core.splode;
 var is_defined = bbop.core.is_defined;
+var ensure = bbop.core.ensure;
 
 // Helper.
 function err (str){
@@ -48,7 +49,9 @@ if( ! is_defined(file_str) ||
 
 // Our rule variables.
  // Looks like {idA : [arg1A, arg2A], ...}
-var simple_checks = {};
+var no_overlap_checks = {};
+ // Looks like {idA : [arg1A, arg2A], ...}
+var overlap_checks = {};
 // Looks like {idA : [arg1A, arg2A, [or1A, or2A, ...]], ...}
 var logic_checks = {};
 var check_errors = [];
@@ -71,13 +74,19 @@ each(file_lines,
 	 if( logic == 'NO_OVERLAP' ){
 	     // Simple check.
 	     //print('Simple check: ' + arg1 + ', ' + arg2);
-	     simple_checks[arg1 + '^' + arg2] = [arg1, arg2];
+	     no_overlap_checks[arg1 + ';' + arg2] = [arg1, arg2];
 	 }else{
 	     // Parse logic.
 	     var parsed_logic = splode(logic, ' OR ');
-	     var or_log_bun = [arg1, arg2, parsed_logic];
-	     //print('TODO: Logic check: ' + bbop.core.dump(or_log_bun));
-	     logic_checks[arg1 + '^' + arg2 + ' + ' + logic] = or_log_bun;
+	     // Decide on simple overlap or group check.
+	     if( parsed_logic.length == 1 ){
+		 var arg3 = parsed_logic[0];
+		 overlap_checks[arg1+';'+arg2+';'+arg3] = [arg1, arg2, arg3];
+	     }else{
+		 var or_log_bun = [arg1, arg2, parsed_logic];
+		 //print('TODO: Logic check: ' + bbop.core.dump(or_log_bun));
+		 logic_checks[arg1 + ';' + arg2 + ';' + logic] = or_log_bun;
+	     }
 	 }
      });
 
@@ -91,10 +100,8 @@ go.set_personality('bbop_ann');
 go.debug(false); // I think the default is still on?
 
 // Runs an n-way AND in the closure and returns the count.
-function run_n_way_and (arg_list){
+function run_n_way_and(arg_list){
     
-    // Set the next query.
-    go.reset_query_filters(); // reset from the last iteration
     // Add all of the items in the simple 
     each(arg_list,
 	 function(arg){
@@ -103,19 +110,31 @@ function run_n_way_and (arg_list){
 
     // Fetch the data and grab the number we want.
     var resp = new bbop.golr.response(go.fetch());
-    var count = resp.total_documents();
+    go.reset_query_filters(); // reset from the last iteration
 
+    var count = resp.total_documents();
     return count;
 }
 
 // First, we cycle though all the simple exclusivity tests.
-print('Running simple checks...');
-each(simple_checks,
+print('Running simple exclusivity checks...');
+each(no_overlap_checks,
      function(key, arg_list){
 	 var count = run_n_way_and(arg_list);
-	 print('Checked exclusive: '+ arg_list.join(' & ') +' ('+ count +')');
+	 print('Checked exclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count != 0 ){
-	     check_errors.push('ERROR: count of ' + count + ' on: ' + key);
+	     check_errors.push('ERROR: exclusive count of ' + count + ' on: ' + key);
+	 }
+     });
+
+// First, we cycle though all the simple exclusivity tests.
+print('Running simple inclusivity checks...');
+each(overlap_checks,
+     function(key, arg_list){
+	 var count = run_n_way_and(arg_list);
+	 print('Checked inclusive: '+ arg_list.join(' && ') +' ('+ count +')');
+	 if( count == 0 ){
+	     check_errors.push('ERROR: inclusive count of ' + count + ' on: ' + key);
 	 }
      });
 
@@ -129,24 +148,61 @@ each(logic_checks,
 	 var or_list = arg_list[2];
 
 	 // print('To check (inclusive): ' + arg1 + ', ' + arg2  + '; ' +  
-	 //       or_list.join(' & '));
+	 //       or_list.join(' && '));
 	 
-	 // Cycle through the different possibilities.
-	 var total_cnt = 0;
-	 each(or_list,
-	      function(or_arg){
-		  var curr_cnt = run_n_way_and([arg1, arg2, or_arg]);
-		  total_cnt += curr_cnt;
-	      });
-	 
-	 // Test the count to make sure that there were annotations
-	 // for at least one of the choices.
-	 print('Checked inclusive: ' + arg1 + ', ' + arg2  + '; ' +  
-	       or_list.join(' || ') + ' (' + total_cnt + ')');
-	 if( total_cnt == 0 ){
-	     check_errors.push('ERROR: no co-annotation for: ' + key);
-	     // }else{
-	     //     check_errors.push('PASS: co-annotation for: ' + key);
+	 // First, see if there is any point in proceeding.
+	 var check_cnt = run_n_way_and([arg1, arg2]);
+	 if( check_cnt == 0 ){
+	     
+	     print('Checked logical; trivially passed with no base overlap: ' +
+		   arg1 + ' && ' + arg2);
+
+	 }else{
+
+	     //print('Logic parse...');
+
+	     // Umm...ugh--we're going to try some actual logic. This
+	     // should be more built into the manager at some point.
+	     var ors = new bbop.logic('OR');
+	     each(or_list,
+	     	  function(or_arg){
+	     	      ors.add(ensure(or_arg, '"'));
+	     	  });
+	     //print('Logic parse: OR: ' + ors.to_string());
+	     var ands = new bbop.logic('AND');
+	     ands.add(ensure(arg1, '"'));
+	     ands.add(ensure(arg2, '"'));
+	     ands.add(ors);
+	     var raw_logic = ands.to_string();
+	     print('Logic parsed to: ' + raw_logic);
+
+	     // Corrected because rhino sucks.
+	     var final_logic = raw_logic.replace('(', '%28', 'g');
+	     final_logic = final_logic.replace(')', '%29', 'g');
+	     final_logic = final_logic.replace('"', '%22', 'g');
+	     final_logic = final_logic.replace(' ', '%20', 'g');
+
+	     // Set the next query with our logic ball.
+	     //go.add_query_filter('isa_partof_closure', final_logic);
+	     go.set_extra('fq=isa_partof_closure:%28' + final_logic + '%29');
+
+	     // Fetch the data and grab the number we want.
+	     var resp = new bbop.golr.response(go.fetch());
+	     go.reset_query_filters(); // reset from the last iteration
+	     go.remove_extra(); // have to remove this manually each time
+
+	     var count = resp.total_documents();
+	     //print('\tcount of: ' + count);
+
+	     // Test the count to make sure that there were annotations
+	     // for at least one of the choices.
+	     print('Checked inclusive: ' + arg1 + ' && ' + arg2  + ' && (' +  
+	     	   or_list.join(' || ') + ') (' + count + ')');
+	     if( count == 0 ){
+	     	 check_errors.push('ERROR: no co-annotations for: ' + key);
+	     	 // }else{
+	     	 //     check_errors.push('PASS: co-annotation for: ' + key);
+	     }
 	 }
      });
 
