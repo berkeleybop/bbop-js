@@ -174,7 +174,7 @@ each(logic_checks,
 	     ands.add(ensure(arg2, '"'));
 	     ands.add(ors);
 	     var raw_logic = ands.to_string();
-	     print('Logic parsed to: ' + raw_logic);
+	     //print('Logic parsed to: ' + raw_logic);
 
 	     // Corrected because rhino sucks.
 	     var final_logic = raw_logic.replace('(', '%28', 'g');
