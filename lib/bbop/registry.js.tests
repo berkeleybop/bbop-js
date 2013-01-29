@@ -2,8 +2,8 @@
 //// Some unit testing for registry.js
 ////
 //// Usage:
-////    Command line: "js -f registry.js.tests"
-////    Interactive: "js -f registry.js.tests -f -"
+////    Command line: "rhino -f registry.js.tests"
+////    Interactive: "rhino -f registry.js.tests -f -"
 ////
 
 
@@ -62,6 +62,11 @@ load('registry.js');
      reg.register('stop', '-1', sum, -1);
      reg.apply_callbacks('stop', [2, 3]);
      mr_t.is_same_atom(acc, 5, "apply test 3");
+
+     // is_registered
+     mr_t.is_same_atom(null, reg.is_registered('foo', 'bar'), "is_r? test 1");
+     mr_t.is_false(reg.is_registered('stop', 'bar'), "is_r? test 2");
+     mr_t.is_true(reg.is_registered('stop', '-1'), "is_r? test 3");
      
  })();
 
