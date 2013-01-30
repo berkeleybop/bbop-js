@@ -1,5 +1,6 @@
 lib/bbop/core.js
 lib/bbop/version.js
+lib/bbop/json.js
 lib/bbop/logger.js
 lib/bbop/template.js
 lib/bbop/logic.js

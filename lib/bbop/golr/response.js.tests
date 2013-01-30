@@ -2,8 +2,8 @@
 //// Some unit testing for package response.js
 ////
 //// Usage:
-////    Command line: "js -f response.js.tests"
-////    Interactive: "js -f response.js.tests -f -"
+////    Command line: "rhino -f response.js.tests"
+////    Interactive: "rhino -f response.js.tests -f -"
 ////
 //// To get fresh data from an AmiGO install (must be done periodically):
 ////    cp /srv/www/htdocs/amigo2/javascript/bbop/golr_meta.js /home/sjcarbon/local/src/svn/geneontology/javascript/trunk/_data/
@@ -15,7 +15,7 @@ var mr_t = new bbop.test();
 
 // Correct environment.
 load('../core.js');
-//load('logger.js');
+load('../json.js');
 load('response.js');
 
 ///
@@ -226,7 +226,7 @@ load('response.js');
  })();
 
 // bbop.golr.response get_doc, get_doc_field, get_doc_field_hl
-(function(){
+//(function(){
 
      var robj = {
 	 "responseHeader":{
@@ -473,44 +473,54 @@ load('response.js');
 		       'get_doc: do2');
 
      // get_doc_field
-     mr_t.is_same_atom(bgr.get_doc_field(0, 'id'),
-		       'PomBase:SPCC548.04_:_GO:0031386',
+     var did = 'PomBase:SPCC548.04_:_GO:0031386';
+     mr_t.is_same_atom(bgr.get_doc_field(0, 'id'), did,
 		       'get_doc_field: [0]');
      mr_t.is_same_atom(bgr.get_doc_field(1, 'id'),
 		       'PomBase:SPAC1783.06c_:_GO:0031386',
 		       'get_doc_field: [1]');
-     mr_t.is_same_atom(bgr.get_doc_field(2, 'id'),
-		       null,
+     mr_t.is_same_atom(bgr.get_doc_field(2, 'id'), null,
 		       'get_doc_field: [2]');
-     mr_t.is_same_atom(bgr.get_doc_field('PomBase:SPCC548.04_:_GO:0031386', 'id'),
-		       'PomBase:SPCC548.04_:_GO:0031386',
+     mr_t.is_same_atom(bgr.get_doc_field(did, 'id'), did,
 		       'get_doc_field: id 0');
-     mr_t.is_same_atom(bgr.get_doc_field('PomBase:SPAC1783.06c_:_GO:0031386', 'id'),
-		       'PomBase:SPAC1783.06c_:_GO:0031386',
+     mr_t.is_same_atom(bgr.get_doc_field(did, 'id'), did,
 		       'get_doc_field: id 1');
-     mr_t.is_same_atom(bgr.get_doc_field('foo', 'id'),
-		       null,
+     mr_t.is_same_atom(bgr.get_doc_field('foo', 'id'), null,
 		       'get_doc_field: id foo');
 
      // get_doc_field_hl
-     mr_t.is_same_atom(bgr.get_doc_field_hl(0, 'id'),
-		       null,
+     mr_t.is_same_atom(bgr.get_doc_field_hl(0, 'id'), null,
 		       'get_doc_field_hl: [0]');
-     mr_t.is_same_atom(bgr.get_doc_field_hl(1, 'foo'),
-		       null,
+     mr_t.is_same_atom(bgr.get_doc_field_hl(1, 'foo'), null,
 		       'get_doc_field_hl: no foo 1');
-     mr_t.is_same_atom(bgr.get_doc_field_hl(2, 'foo'),
-		       null,
+     mr_t.is_same_atom(bgr.get_doc_field_hl(2, 'foo'), null,
 		       'get_doc_field_hl: no foo 2');
-     mr_t.is_same_atom(bgr.get_doc_field_hl('PomBase:SPCC548.04_:_GO:0031386',
-					    'annotation_class_label_searchable'),
+     mr_t.is_same_atom(bgr.get_doc_field_hl(did, 'annotation_class_label_searchable'),
 		       'protein <em class=\"hilite\">tag</em>',
 		       'get_doc_field_hl: id acls');
      mr_t.is_same_atom(bgr.get_doc_field_hl(1, 'annotation_class_label_searchable'),
 		       'protein <em class=\"hilite\">tag</em>',
 		       'get_doc_field_hl: [1] acls');
 
-})();
+// Trying out a bit of get_doc_label...
+// Should fail since technically there is not enough evidence to prove that 
+// we're looking at the thing we want.
+mr_t.is_same_atom(bgr.get_doc_label(0, 'bioentity'),
+		  'urm1',
+		  'get_doc_label: trivial look-up');
+mr_t.is_same_atom(bgr.get_doc_label(0, 'evidence_with'),
+		  null,
+		  'get_doc_label: no label possible');
+mr_t.is_same_atom(bgr.get_doc_label(0, 'isa_partof_closure'),
+		  null,
+		  'get_doc_label: not enough evidence');
+mr_t.is_same_atom(bgr.get_doc_label(0, 'isa_partof_closure', "GO:0003674"),
+		  'molecular_function',
+		  'get_doc_label: enough evidence 1');
+mr_t.is_same_atom(bgr.get_doc_label(0, 'isa_partof', "GO:0003674"),
+		  null,
+		  'get_doc_label: no label part, so early fail');
+//})();
 
 ///
 /// End unit testing.
