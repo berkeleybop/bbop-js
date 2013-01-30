@@ -1,0 +1,38 @@
+////
+//// Some unit testing for json.js
+////
+//// Usage:
+////    Command line: "rhino -f json.js.tests"
+////    Interactive: "rhino -f json.js.tests -f -"
+////
+
+
+// Load testing.
+load('test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('core.js');
+//load('logger.js');
+load('json.js');
+
+///
+/// Start unit testing.
+///
+
+// Simple JSON.
+(function(){
+
+mr_t.is_same_atom(bbop.json.stringify({"foo": 4, "bar": false}),
+		  '{"foo":4,"bar":false}', 'hash to string');
+mr_t.is_same_set(bbop.json.parse('[1, 2, "three", true]'),
+		 [1, 2, "three", true], 'string to list');
+     
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
