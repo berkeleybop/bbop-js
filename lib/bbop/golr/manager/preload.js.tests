@@ -2,8 +2,8 @@
 //// Some unit testing for package preload.js
 ////
 //// Usage:
-////    Command line: "js -f preload.js.tests"
-////    Interactive: "js -f preload.js.tests -f -"
+////    Command line: "rhino -f preload.js.tests"
+////    Interactive: "rhino -f preload.js.tests -f -"
 ////
 
 // Load testing.
@@ -73,26 +73,57 @@ load('preload.js');
 })();
 
 // check overrride
-(function(){
+//(function(){
 
+     var data = {
+	 "responseHeader":{
+	     "status":0,
+	     "QTime":25,
+	     "params":{
+		 "facet":"true",
+		 "facet.mincount":"1",
+		 "indent":"on",
+		 "facet.limit":"25",
+		 "qf":["annotation_class^2",
+		       "family_tag_label_searchable^1"],
+		 "hl.simple.pre":"<em class=\"hilite\">",
+		 "json.nl":"arrarr",
+		 "wt":"json",
+		 "hl":"true",
+		 "rows":"10",
+		 "defType":"edismax",
+		 "fl":"*,score",
+		 "facet.sort":"count",
+		 "start":"0",
+		 "q":"neuro*",
+		 "facet.field":["source",
+				"annotation_extension_class_closure_label"],
+		 "qt":"standard",
+		 "fq":["document_category:\"annotation\"",
+		       "source:\"MGI\""]}},
+	 "response":{"numFound":28,"start":0,"maxScore":1.0,"docs":[]}
+     };
+     
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var go = new bbop.golr.manager.preload('http://golr.berkeleybop.org/',
 					    gconf);
      
-     var a = 1;
+     var a = 'foo';
      function replace(in_thing){
 	 a = in_thing;
      }
      go.register('search', 'do', replace);
      
-     mr_t.is_same_atom(a, 1, "not updated"),
-     go.load(2);
+     mr_t.is_same_atom(a, 'foo', "not updated"),
+     go.load(data);
      go.search();
      //go.update('search');
-     mr_t.is_same_atom(a, 2, "updated to 2");
+     mr_t.is_same_atom(bbop.core.what_is(a),
+		       'bbop.golr.response',
+		       "updated to 2");
      
- })();
+// })();
 
 ///
 /// End unit testing.

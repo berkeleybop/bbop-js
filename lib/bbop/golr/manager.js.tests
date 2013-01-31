@@ -2,8 +2,8 @@
 //// Some unit testing for package manager.js
 ////
 //// Usage:
-////    Command line: "js -f manager.js.tests"
-////    Interactive: "js -f manager.js.tests -f -"
+////    Command line: "rhino -f manager.js.tests"
+////    Interactive: "rhino -f manager.js.tests -f -"
 ////
 
 // Load testing.
