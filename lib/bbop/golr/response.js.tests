@@ -225,7 +225,7 @@ load('response.js');
 
  })();
 
-// bbop.golr.response get_doc, get_doc_field, get_doc_field_hl
+// bbop.golr.response get_doc, get_doc_field, get_doc_highlight
 //(function(){
 
      var robj = {
@@ -488,19 +488,19 @@ load('response.js');
      mr_t.is_same_atom(bgr.get_doc_field('foo', 'id'), null,
 		       'get_doc_field: id foo');
 
-     // get_doc_field_hl
-     mr_t.is_same_atom(bgr.get_doc_field_hl(0, 'id'), null,
-		       'get_doc_field_hl: [0]');
-     mr_t.is_same_atom(bgr.get_doc_field_hl(1, 'foo'), null,
-		       'get_doc_field_hl: no foo 1');
-     mr_t.is_same_atom(bgr.get_doc_field_hl(2, 'foo'), null,
-		       'get_doc_field_hl: no foo 2');
-     mr_t.is_same_atom(bgr.get_doc_field_hl(did, 'annotation_class_label_searchable'),
+     // get_doc_highlight
+     mr_t.is_same_atom(bgr.get_doc_highlight(0, 'id', 'protein tag'), null,
+		       'get_doc_highlight: [0]');
+     mr_t.is_same_atom(bgr.get_doc_highlight(1, 'foo', 'protein tag'), null,
+		       'get_doc_highlight: no foo 1', 'protein tag');
+     mr_t.is_same_atom(bgr.get_doc_highlight(2, 'foo'), null,
+		       'get_doc_highlight: no foo 2', 'protein tag');
+     mr_t.is_same_atom(bgr.get_doc_highlight(did, 'annotation_class_label_searchable', 'protein tag'),
 		       'protein <em class=\"hilite\">tag</em>',
-		       'get_doc_field_hl: id acls');
-     mr_t.is_same_atom(bgr.get_doc_field_hl(1, 'annotation_class_label_searchable'),
+		       'get_doc_highlight: id acls');
+     mr_t.is_same_atom(bgr.get_doc_highlight(1, 'annotation_class_label_searchable', 'protein tag'),
 		       'protein <em class=\"hilite\">tag</em>',
-		       'get_doc_field_hl: [1] acls');
+		       'get_doc_highlight: [1] acls');
 
 // Trying out a bit of get_doc_label...
 // Should fail since technically there is not enough evidence to prove that 
@@ -519,7 +519,7 @@ mr_t.is_same_atom(bgr.get_doc_label(0, 'isa_partof_closure', "GO:0003674"),
 		  'get_doc_label: enough evidence 1');
 mr_t.is_same_atom(bgr.get_doc_label(0, 'isa_partof', "GO:0003674"),
 		  null,
-		  'get_doc_label: no label part, so early fail');
+		  'get_doc_label: no label part, so early bail');
 //})();
 
 ///

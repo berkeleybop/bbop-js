@@ -23,10 +23,10 @@ load('json.js');
 // Simple JSON.
 (function(){
 
-mr_t.is_same_atom(bbop.json.stringify({"foo": 4, "bar": false}),
-		  '{"foo":4,"bar":false}', 'hash to string');
-mr_t.is_same_set(bbop.json.parse('[1, 2, "three", true]'),
-		 [1, 2, "three", true], 'string to list');
+     mr_t.is_same_atom(bbop.json.stringify({"foo": 4, "bar": false}),
+		       '{"foo":4,"bar":false}', 'hash to string');
+     mr_t.is_same_set(bbop.json.parse('[1, 2, "three", true]'),
+		      [1, 2, "three", true], 'string to list');
      
  })();
 
