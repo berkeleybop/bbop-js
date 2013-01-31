@@ -98,6 +98,7 @@ Group: widget  {
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
+File: json.js  (json.js)
 
 Group: Index  {
 
