@@ -35,8 +35,7 @@ if( bbop.core.is_defined(opt) ){
 }
 
 // Get data.
-var json_data = go.fetch();
-var resp = new bbop.golr.response(json_data);
+var resp = go.fetch();
 var doc = resp.get_doc(0);
 
 // Dump data.

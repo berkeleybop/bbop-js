@@ -109,7 +109,7 @@ function run_n_way_and(arg_list){
 	 });
 
     // Fetch the data and grab the number we want.
-    var resp = new bbop.golr.response(go.fetch());
+    var resp = go.fetch();
     go.reset_query_filters(); // reset from the last iteration
 
     var count = resp.total_documents();
@@ -187,7 +187,7 @@ each(logic_checks,
 	     go.set_extra('fq=isa_partof_closure:%28' + final_logic + '%29');
 
 	     // Fetch the data and grab the number we want.
-	     var resp = new bbop.golr.response(go.fetch());
+	     var resp = go.fetch();
 	     go.reset_query_filters(); // reset from the last iteration
 	     go.remove_extra(); // have to remove this manually each time
 

@@ -28,10 +28,9 @@ require('../_data/golr');
 var term_acc = process.argv[process.argv.length -1];
 
 // Define what we do when our (async) information comes back.
-function report(json_data){
+function report(resp){
 
     // Gather out info graph info from the first doc.
-    var resp = new bbop.golr.response(json_data);
     var doc = resp.documents()[0];
     var graph_json = doc['topology_graph'];
     var graph = new bbop.model.graph();

@@ -47,7 +47,7 @@ for(var v_i = 0; v_i < term_accs.length; v_i++){
 	go.add_query_filter('isa_partof_closure', h);
 
 	// Fetch the data and grab the number we want.
-	var resp = new bbop.golr.response(go.fetch());
+	var resp = go.fetch();
 	var count = resp.total_documents();
 	print(h + ', ' + v + ': ' + count);
    }

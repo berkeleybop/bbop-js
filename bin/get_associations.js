@@ -33,7 +33,7 @@ go.add_query_filter('isa_partof_closure', term_acc);
 
 // Loop over the fetched docs.
 var loop = bbop.core.each;
-var resp = new bbop.golr.response(go.fetch());
+var resp = go.fetch();
 loop(resp.documents(go.fetch()),
      function(doc){
 	 print(doc['bioentity'] + '\t' +
