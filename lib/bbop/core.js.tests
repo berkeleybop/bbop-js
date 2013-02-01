@@ -2,8 +2,8 @@
 //// Some unit testing for core.js
 ////
 //// Usage:
-////    Command line: "js -f core.js.tests"
-////    Interactive: "js -f core.js.tests -f -"
+////    Command line: "rhino -f core.js.tests"
+////    Interactive: "rhino -f core.js.tests -f -"
 ////
 
 
