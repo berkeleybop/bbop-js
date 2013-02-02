@@ -2,3 +2,6 @@ This directory contains standalone JS executables that can run against
 a/the GOlr server.
 
 These scripts may be NodeJS, Rhino, or something else new...
+
+For information about the weirdness in NodeJS scripts and handling,
+please see node_runner.js

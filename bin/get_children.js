@@ -1,48 +1,63 @@
-#!/home/sjcarbon/local/src/tarballs/node-v0.8.10-linux-x64/bin/node
-/* 
+/* #!/home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
+ *  
  * Package: get_children.js
  * 
- * This is a NodeJS script.
+ * This is a node_runner.js script.
  * 
  * Get the ids and labels of the children of the specified term.
  * 
  * Usage like:
- *  : get_children.js GO:0022008
+ *  : node_runner.js get_children.js GO:0022008
  * 
  * This is also a bit of a unit test for the NodeJS update function.
  * 
  * TODO: Maybe NodeJS isn't such a hot idea for scripting; how about
  * Rhino?
+ * 
+ * See also:
+ * <node_runner.js>
  */
 
-// Loading the necessary files.
-// TODO/BUG: These should be pointing at the remote files, not the
-// local ones.
-require('../staging/bbop');
-require('../_data/golr');
-//require('./../../../AmiGO/trunk/staging/bbop-amigo');
+function _ll(s){
+   console.log(s);
+};
+// // Temp logger.
+// var logger = new bbop.logger();
+// logger.DEBUG = true;
+// function _ll(str){ logger.kvetch('TT: ' + str); }
 
-// First, get the last arg
-//console.log(process.argv.length);
-//console.log(process.argv[process.argv.length -1]);
-var term_acc = process.argv[process.argv.length -1];
+
+// Check our args from the outside world.
+//_ll('In.');
+//_ll('arglist: ' + arglist);
+var term_acc = null;
+if( arglist && arglist.length > 0 ){
+    term_acc = arglist[0];
+}
+if( ! term_acc ){
+    _ll('no proper argument');
+    process.kill();
+}
+//_ll('term_acc: ' + term_acc);
 
 // Define what we do when our (async) information comes back.
 function report(resp){
 
+    //_ll('In report().');
+
     // Gather out info graph info from the first doc.
-    var doc = resp.documents()[0];
+    var doc = resp.get_doc(0);
     var graph_json = doc['topology_graph'];
     var graph = new bbop.model.graph();
     graph.load_json(JSON.parse(graph_json));
     var kids = graph.get_child_nodes(term_acc);
 
     // Dump to STDOUT.
-    //console.log(kids);
+    //_ll(kids);
     var loop = bbop.core.each;
     loop(kids,
 	 function(kid){
-	     process.stdout.write(kid.id() + "\t" + kid.label() + "\n");
+	     _ll(kid.id() + "\t" + kid.label());
 	 });
 }
 
@@ -52,4 +67,5 @@ gconf = new bbop.golr.conf(amigo.data.golr);
 go = new bbop.golr.manager.nodejs('http://golr.berkeleybop.org/', gconf);
 go.set_id(term_acc);
 go.register('search', 'do', report);
+//_ll('get_query_url(): ' + go.get_query_url());
 go.update('search');
