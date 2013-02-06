@@ -95,6 +95,7 @@ Group: widget  {
       File: filter_shield.js  (widget/display/filter_shield.js)
       }  # Group: display
 
+   File: dialog.js  (widget/dialog.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
