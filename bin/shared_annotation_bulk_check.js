@@ -36,6 +36,7 @@ var sdata = new amigo.data.server();
 function _link_to_a2(bookmark){
 
     var retl =
+	// BUG/TODO:
 	//sdata.app_base() + '/' + 
 	'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
 	linker.url(encodeURIComponent(bookmark), 'search');
