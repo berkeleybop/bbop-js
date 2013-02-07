@@ -30,6 +30,20 @@ function err (str){
     java.lang.System.exit(1);    
 }
 
+// Helper to bookmark into A2
+var linker = new amigo.linker();
+var sdata = new amigo.data.server();
+function _link_to_a2(bookmark){
+
+    var retl =
+	//sdata.app_base() + '/' + 
+	'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
+	linker.url(encodeURIComponent(bookmark), 'search');
+
+    return retl;
+}
+
+
 // First, see if we have our input file.
 var file_to_read = arguments[0];
 if( ! is_defined(file_to_read) ){
@@ -99,7 +113,8 @@ go.add_query_filter('document_category', 'annotation', ['*']);
 go.set_personality('bbop_ann');
 go.debug(false); // I think the default is still on?
 
-// Runs an n-way AND in the closure and returns the count.
+// Runs an n-way AND in the closure and returns the count and a
+// bookmark to the data in question.
 function run_n_way_and(arg_list){
     
     // Add all of the items in the simple 
@@ -110,20 +125,28 @@ function run_n_way_and(arg_list){
 
     // Fetch the data and grab the number we want.
     var resp = go.fetch();
-    go.reset_query_filters(); // reset from the last iteration
-
     var count = resp.total_documents();
-    return count;
+    var bookmark = go.get_state_url();
+
+    // Reset from the last iteration.
+    go.reset_query_filters();
+
+    return [count, bookmark];
 }
 
 // First, we cycle though all the simple exclusivity tests.
 print('Running simple exclusivity checks...');
 each(no_overlap_checks,
      function(key, arg_list){
-	 var count = run_n_way_and(arg_list);
+	 var run_results = run_n_way_and(arg_list);
+	 var count = run_results[0];
+	 var bookmark = run_results[1];
 	 print('Checked exclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count != 0 ){
-	     check_errors.push('ERROR: exclusive count of ' + count + ' on: ' + key);
+	     check_errors.push('ERROR: exclusive count of ' +
+			       count + ' on: ' +
+			       key + "\n\t" +
+			       _link_to_a2(bookmark));
 	 }
      });
 
@@ -131,10 +154,15 @@ each(no_overlap_checks,
 print('Running simple inclusivity checks...');
 each(overlap_checks,
      function(key, arg_list){
-	 var count = run_n_way_and(arg_list);
+	 var run_results = run_n_way_and(arg_list);
+	 var count = run_results[0];
+	 var bookmark = run_results[1];
 	 print('Checked inclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count == 0 ){
-	     check_errors.push('ERROR: inclusive count of ' + count + ' on: ' + key);
+	     check_errors.push('ERROR: inclusive count of ' +
+			       count + ' on: ' +
+			       key + "\n\t" +
+			       _link_to_a2(bookmark));
 	 }
      });
 
@@ -151,7 +179,8 @@ each(logic_checks,
 	 //       or_list.join(' && '));
 	 
 	 // First, see if there is any point in proceeding.
-	 var check_cnt = run_n_way_and([arg1, arg2]);
+	 var run_results = run_n_way_and([arg1, arg2]);
+	 var check_cnt = run_results[0];
 	 if( check_cnt == 0 ){
 	     
 	     print('Checked logical; trivially passed with no base overlap: ' +
@@ -186,20 +215,23 @@ each(logic_checks,
 	     //go.add_query_filter('isa_partof_closure', final_logic);
 	     go.set_extra('fq=isa_partof_closure:%28' + final_logic + '%29');
 
-	     // Fetch the data and grab the number we want.
+	     // Fetch the data and grab the info we want.
 	     var resp = go.fetch();
-	     go.reset_query_filters(); // reset from the last iteration
-	     go.remove_extra(); // have to remove this manually each time
-
 	     var count = resp.total_documents();
-	     //print('\tcount of: ' + count);
+	     var bookmark = go.get_state_url();
+
+	     // Reset from the last iteration.
+	     go.reset_query_filters();
+	     go.remove_extra(); // have to remove this manually each time
 
 	     // Test the count to make sure that there were annotations
 	     // for at least one of the choices.
 	     print('Checked inclusive: ' + arg1 + ' && ' + arg2  + ' && (' +  
 	     	   or_list.join(' || ') + ') (' + count + ')');
 	     if( count == 0 ){
-	     	 check_errors.push('ERROR: no co-annotations for: ' + key);
+	     	 check_errors.push('ERROR: no co-annotations for: ' +
+				   key + "\n\t" +
+				   _link_to_a2(bookmark));
 	     	 // }else{
 	     	 //     check_errors.push('PASS: co-annotation for: ' + key);
 	     }
