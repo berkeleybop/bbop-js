@@ -60,8 +60,8 @@ load('../../../_data/golr.js');
 		       cc.description(), "desc");
      mr_t.is_same_atom(20, cc.weight(), "w");
      mr_t.is_same_atom("bbop_ann", cc.id(), "id");
-     // mr_t.is_same_atom('_searchable', cc.searchable_extension(),
-     // 		       "searchable_extension");
+     mr_t.is_same_atom('_searchable', cc.searchable_extension(),
+     		       "searchable_extension");
      
      // More complicated.
      mr_t.is_same_atom(null, cc.get_field('blork'), "s1");
