@@ -16,6 +16,7 @@ lib/bbop/golr/manager/preload.js
 lib/bbop/golr/manager/nodejs.js
 lib/bbop/golr/manager/rhino.js
 lib/bbop/golr/manager/jquery.js
+lib/bbop/widget/display/clickable_object.js
 lib/bbop/widget/display/meta_results.js
 lib/bbop/widget/display/results_table_by_class_conf.js
 lib/bbop/widget/display/two_column_layout.js

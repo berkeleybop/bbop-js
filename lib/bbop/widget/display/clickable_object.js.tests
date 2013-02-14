@@ -1,0 +1,42 @@
+////
+//// Some testing for the clickable thingy.
+////
+//// Usage:
+////    Command line: "js -f clickable_object.js.tests"
+////    Interactive: "js -f clickable_object.js.tests -f -"
+////
+
+
+// Load testing.
+load('../../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../../core.js');
+load('../../html.js');
+load('clickable_object.js');
+
+///
+/// Start testing.
+///
+
+(function(){
+
+     var i = new bbop.widget.display.clickable_object('foo', 'bar', 'bib');
+     mr_t.is_same_atom(i.to_string(),
+		       '<img id="bib" src="bar" title="foo" />',
+		       "same image");
+
+     var s = new bbop.widget.display.clickable_object('foo', '', 'bib');
+     mr_t.is_same_atom(s.to_string(),
+		       '<span id="bib">foo</span>',
+		       "same span");
+
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
