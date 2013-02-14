@@ -93,6 +93,7 @@ Group: widget  {
       File: two_column_layout.js  (widget/display/two_column_layout.js)
       File: live_search.js  (widget/display/live_search.js)
       File: filter_shield.js  (widget/display/filter_shield.js)
+      File: clickable_object.js  (widget/display/clickable_object.js)
       }  # Group: display
 
    File: dialog.js  (widget/dialog.js)
