@@ -10,7 +10,28 @@
     <script type="text/javascript" src="../lib/external/raphael-min.js"></script>
     <script type="text/javascript" src="../lib/graph/render/phylo.js"></script>
     <script type="text/javascript" src="global_graph_P34889.js"></script>
-    <script type="text/javascript" src="ggdemo.js"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        var r = new bbop.render.phylo.renderer('test0', true);
+        var nodes = global_graph.nodes;
+        var edges = global_graph.edges;
+        console.log(nodes.length + " nodes");
+        console.log(edges.length + " edges");
+    
+        for (var i = 0; i < nodes.length; i++) {
+            r.add_node(nodes[i].id);
+        }
+        for (var i = 0; i < edges.length; i++) {
+            r.add_edge(edges[i].sub, edges[i].obj, parseFloat(edges[i].meta));
+        }
+    
+        r.use_animation = true;
+        r.box_width = 115;
+        console.profile();
+        r.display();
+        console.profileEnd();
+      };
+    </script>
     <!--<script type="text/javascript" src="golr.js"></script>-->
   </head>
   <body style="border: 0px; margin: 0px; padding: 0px;">
