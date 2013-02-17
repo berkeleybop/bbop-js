@@ -3,37 +3,67 @@
   <head>
     <title>div phylo test</title>
     <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" />-->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js"></script>
+    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js"></script>-->
     <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>-->
+
     <script type="text/javascript" src="../staging/bbop.js"></script>
-    <script type="text/javascript" src="../lib/bbop/model/tree.js"></script>
     <script type="text/javascript" src="../lib/graph/render/phylo-div.js"></script>
     <script type="text/javascript" src="global_graph_P34889.js"></script>
     <script type="text/javascript">
+      var r;
       window.onload = function() {
-        var r = new bbop.render.phylo.renderer('test0');
+        r = new bbop.render.phylo.divrenderer('test0', {
+          leaf_font: "16px Helvetica, Arial, sans-serif",
+          //leaf_border: 0,
+          //leaf_padding: 3,
+          box_spacing: 6
+        });
+
+        //r.leaf_style.background = "#dde";
+
+        if (0) {
+          r.leaf_style.display = "none";
+          r.node_style.display = "none";
+        }
+
         var nodes = global_graph.nodes;
         var edges = global_graph.edges;
         console.log(nodes.length + " nodes");
         console.log(edges.length + " edges");
-    
+
+        // vary_labels_by is for testing to make sure we handle
+        // label widths correctly
+        var vary_labels_by = 0;
+        var varying_labels = {};
         for (var i = 0; i < nodes.length; i++) {
-            r.add_node(nodes[i].id);
+            varying_labels[nodes[i].id] =
+                nodes[i].id
+                + Array((Math.random() * vary_labels_by) | 0).join("x");
+            r.add_node(varying_labels[nodes[i].id]);
         }
         for (var i = 0; i < edges.length; i++) {
-            r.add_edge(edges[i].sub, edges[i].obj, parseFloat(edges[i].meta));
+            r.add_edge(varying_labels[edges[i].sub],
+                       varying_labels[edges[i].obj],
+                       parseFloat(edges[i].meta));
         }
     
-        r.use_animation = true;
-        r.box_width = 115;
         console.profile();
+        var start = (new Date).getTime();
         r.display();
+        var displayTime = (new Date).getTime() - start;
+
         console.profileEnd();
+        console.log("row height: " + r.row_height);
+
+        document.getElementById("messagespan").appendChild(
+          document.createTextNode("display(): " + displayTime + " ms")
+        );
       };
     </script>
     <!--<script type="text/javascript" src="golr.js"></script>-->
   </head>
   <body style="border: 0px; margin: 0px; padding: 0px;">
-    <div id="test0" style="top: 0px; left: 0px; margin: 0px; padding: 0px; width: 100%;"></div>
+    <span id="messagespan"></span>
+    <div id="test0" style="position:absolute; margin: 10px; padding: 0px; width: 80%; border: 5px solid #888;"></div>
   </body>
 </html>
