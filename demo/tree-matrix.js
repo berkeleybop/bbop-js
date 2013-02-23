@@ -1,5 +1,6 @@
 bbop.core.require('bbop', 'core');
 bbop.core.require('bbop', 'render', 'phylo');
+bbop.core.require('jQuery');
 
 var tree_matrix;
 
@@ -10,7 +11,8 @@ tree_matrix = function(parent, phylo_graph, column_descriptors,
     var default_config = {
         initial_tree_width: 600,
         cell_width: 16,
-        header_height: 35
+        header_height: 35,
+        scale_drag_linewidth: 4
     };
 
     if( "object" == typeof config ){
@@ -50,10 +52,12 @@ tree_matrix = function(parent, phylo_graph, column_descriptors,
     this.tree = new bbop.render.phylo.divrenderer(this.tree_parent, {
         leaf_font: "14px Helvetica, Arial, sans-serif",
         leaf_border: 0,
-        leaf_padding: 1,
+        leaf_padding: 0,
         box_spacing: 4
     });
+
     this.tree.leaf_style.background = "none";
+    this.tree.node_style["border-radius"] = "5px";
     if( 0 ){
         this.tree.leaf_style.display = "none";
         this.tree.node_style.display = "none";
@@ -75,7 +79,7 @@ tree_matrix = function(parent, phylo_graph, column_descriptors,
     //create one row for the matrix header row
     var row = document.createElement("tr");
     this.top_left_cell = document.createElement("th");
-    this.top_left_cell.style.width = this.config.initial_tree_width + "px";
+    this.top_left_cell.style.width = this.tree_width + "px";
     this.top_left_cell.style.border = "none";
     row.appendChild(this.top_left_cell);
     for (var i = 0; i < column_descriptors.length; i++) {
@@ -131,6 +135,46 @@ tree_matrix = function(parent, phylo_graph, column_descriptors,
     this.parent.style.width = ( this.tree_width
                                 + ( this.config.cell_width
                                     * column_descriptors.length ) ) + "px";
+
+    this.scale_drag_elem = document.createElement("div");
+    this.scale_drag_elem.style.cssText = [
+        "position: absolute",
+        "top: 0px",
+        "left: " + this.tree_width + "px",
+        "height: " + ( this.tree.tree_height
+                       + this.config.header_height) + "px",
+        "width: " + this.config.scale_drag_linewidth + "px",
+        "background: #5f5",
+        "cursor: ew-resize"
+    ].join(";") + ";";
+    var scale_drag_handle = document.createElement("div");
+    scale_drag_handle.style.cssText = [
+        "position: absolute",
+        "top: 0px",
+        "right: 0px",
+        "height: " + this.config.header_height + "px",
+        "width: " + this.config.header_height + "px",
+        "background: #5f5",
+        "border-radius: 40% 0px 0px 40%"
+    ].join(";") + ";";
+    scale_drag_handle.title = "drag left or right to re-scale the tree";
+    this.scale_drag_elem.appendChild(scale_drag_handle);
+
+    var self = this;
+    this.phylo_table.appendChild(this.scale_drag_elem);
+    $( this.scale_drag_elem ).draggable({
+        axis: "x",
+        drag: function( event, ui ) {
+            self.tree_width = ui.position.left;
+            self.tree_parent.style.width = self.tree_width + "px";
+            self.parent.style.width =
+                ( self.tree_width
+                  + ( self.config.cell_width
+                      * column_descriptors.length ) ) + "px";
+            self.top_left_cell.style.width = ( self.tree_width ) + "px";
+            self.tree.width_changed( self.tree_width );
+        }
+    });
 }
 
 tree_matrix.prototype.set_styles = function(css_string) {
