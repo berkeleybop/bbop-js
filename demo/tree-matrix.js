@@ -50,14 +50,14 @@ tree_matrix = function(parent, phylo_graph, column_descriptors,
     this.phylo_table.appendChild(this.tree_parent);
         
     this.tree = new bbop.render.phylo.divrenderer(this.tree_parent, {
-        leaf_font: "14px Helvetica, Arial, sans-serif",
+        leaf_font: "Helvetica, Arial, sans-serif",
+        box_height: 22,
         leaf_border: 0,
-        leaf_padding: 0,
+        leaf_padding: 5,
         box_spacing: 4
     });
 
     this.tree.leaf_style.background = "none";
-    this.tree.node_style["border-radius"] = "5px";
     if( 0 ){
         this.tree.leaf_style.display = "none";
         this.tree.node_style.display = "none";

@@ -13,9 +13,9 @@
       var r;
       window.onload = function() {
         r = new bbop.render.phylo.divrenderer('test0', {
-          leaf_font: "16px Helvetica, Arial, sans-serif",
-          //leaf_border: 0,
-          //leaf_padding: 3,
+          box_height: 24,
+          leaf_font: "Helvetica, Arial, sans-serif",
+          leaf_padding: 4,
           box_spacing: 6
         });
 
@@ -49,6 +49,8 @@
     
         console.profile();
         var start = (new Date).getTime();
+
+        r.sort_tree("ladderize_up");
         r.display();
         var displayTime = (new Date).getTime() - start;
 
