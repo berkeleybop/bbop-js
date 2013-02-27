@@ -8,6 +8,7 @@ lib/bbop/test.js
 lib/bbop/registry.js
 lib/bbop/html.js
 lib/bbop/model.js
+lib/bbop/model/tree.js
 lib/bbop/model/bracket.js
 lib/bbop/golr/conf.js
 lib/bbop/golr/response.js
@@ -28,4 +29,5 @@ lib/bbop/widget/dialog.js
 lib/bbop/widget/term_shield.js
 lib/bbop/widget/search_pane.js
 lib/bbop/widget/repl.js
+lib/bbop/widget/phylo.js
 lib/bbop/contrib/go/overlay.js

@@ -34,11 +34,11 @@ amigo.data.golr = {
    "bbop_bio" : {
       "searchable_extension" : "_searchable",
       "result_weights" : "bioentity^6.0 bioentity_name^5.0 taxon^4.0 family_tag^3.0 type^2.0 source^1.0",
-      "filter_weights" : "source^7.0 type^6.0 family_tag_label^5.0 taxon_closure_label^4.0 isa_partof_closure_label^3.0",
+      "filter_weights" : "source^7.0 type^6.0 family_tag_label^5.0 taxon_closure_label^4.0 isa_partof_closure_label^3.0 regulates_closure_label^2.0",
       "_infile" : "/home/sjcarbon/local/src/git/amigo/metadata//bio-config.yaml",
       "display_name" : "Bioentities",
       "description" : "A description of bioentities file for GOlr.",
-      "boost_weights" : "bioentity^2.0 bioentity_label^2.0 bioentity_name^1.0 isa_partof_closure_label^1.0 family_tag^1.0 family_tag_label^1.0",
+      "boost_weights" : "bioentity^2.0 bioentity_label^2.0 bioentity_name^1.0 isa_partof_closure_label^1.0 regulates_closure_label^1.0 family_tag^1.0 family_tag_label^1.0",
       "fields" : [
          {
             "transform" : [],
@@ -182,6 +182,30 @@ amigo.data.golr = {
             "cardinality" : "multi",
             "type" : "string",
             "id" : "isa_partof_closure_label",
+            "property" : []
+         },
+         {
+            "transform" : [],
+            "description" : "Closure of ids/accs over regulates.",
+            "display_name" : "Regulates closure",
+            "indexed" : "true",
+            "searchable" : "false",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure",
+            "property" : []
+         },
+         {
+            "transform" : [],
+            "description" : "Closure of labels over regulates.",
+            "display_name" : "Regulates closure (labels)",
+            "indexed" : "true",
+            "searchable" : "true",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure_label",
             "property" : []
          },
          {
@@ -376,6 +400,30 @@ amigo.data.golr = {
             "cardinality" : "single",
             "type" : "string",
             "id" : "taxon",
+            "property" : []
+         },
+         "regulates_closure_label" : {
+            "transform" : [],
+            "description" : "Closure of labels over regulates.",
+            "display_name" : "Regulates closure (labels)",
+            "indexed" : "true",
+            "searchable" : "true",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure_label",
+            "property" : []
+         },
+         "regulates_closure" : {
+            "transform" : [],
+            "description" : "Closure of ids/accs over regulates.",
+            "display_name" : "Regulates closure",
+            "indexed" : "true",
+            "searchable" : "false",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure",
             "property" : []
          },
          "bioentity" : {
@@ -790,7 +838,7 @@ amigo.data.golr = {
    "bbop_ann" : {
       "searchable_extension" : "_searchable",
       "result_weights" : "annotation_class^9.0 evidence_type^8.0 bioentity^7.0 bioentity_name^5.0 source^4.0 taxon^3.0 evidence_with^2.0 family_tag^1.5 annotation_extension_class^1.0",
-      "filter_weights" : "source^7.0 assigned_by^6.5 evidence_type_closure^6.0 family_tag_label^5.5 taxon_closure_label^5.0 isa_partof_closure_label^4.0 annotation_extension_class_closure_label^3.0",
+      "filter_weights" : "source^7.0 assigned_by^6.5 evidence_type_closure^6.0 family_tag_label^5.5 taxon_closure_label^5.0 isa_partof_closure_label^4.0 regulates_closure_label^3.0 annotation_extension_class_closure_label^2.0",
       "_infile" : "/home/sjcarbon/local/src/git/amigo/metadata//ann-config.yaml",
       "display_name" : "Annotations",
       "description" : "A description of annotations for GOlr and AmiGO.",
@@ -926,6 +974,30 @@ amigo.data.golr = {
             "cardinality" : "multi",
             "type" : "string",
             "id" : "isa_partof_closure_label",
+            "property" : []
+         },
+         {
+            "transform" : [],
+            "description" : "Closure of ids/accs over regulates.",
+            "display_name" : "Regulates closure",
+            "indexed" : "true",
+            "searchable" : "false",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure",
+            "property" : []
+         },
+         {
+            "transform" : [],
+            "description" : "Closure of labels over regulates.",
+            "display_name" : "Regulates closure (labels)",
+            "indexed" : "true",
+            "searchable" : "true",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure_label",
             "property" : []
          },
          {
@@ -1410,6 +1482,30 @@ amigo.data.golr = {
             "id" : "taxon",
             "property" : []
          },
+         "regulates_closure_label" : {
+            "transform" : [],
+            "description" : "Closure of labels over regulates.",
+            "display_name" : "Regulates closure (labels)",
+            "indexed" : "true",
+            "searchable" : "true",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure_label",
+            "property" : []
+         },
+         "regulates_closure" : {
+            "transform" : [],
+            "description" : "Closure of ids/accs over regulates.",
+            "display_name" : "Regulates closure",
+            "indexed" : "true",
+            "searchable" : "false",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure",
+            "property" : []
+         },
          "isa_partof_closure" : {
             "transform" : [],
             "description" : "Closure of ids/accs over isa and partof.",
@@ -1552,7 +1648,7 @@ amigo.data.golr = {
    "bbop_ont" : {
       "searchable_extension" : "_searchable",
       "result_weights" : "annotation_class^8.0 description^6.0 source^4.0 synonym^3.0 alternate_id^2.0 comment^1.0",
-      "filter_weights" : "source^4.0 subset^2.0 isa_partof_closure_label^1.0 is_obsolete^0.0",
+      "filter_weights" : "source^4.0 subset^3.0 isa_partof_closure_label^2.0 regulates_closure_label^1.0 is_obsolete^0.0",
       "_infile" : "/home/sjcarbon/local/src/git/amigo/metadata//ont-config.yaml",
       "display_name" : "Ontology",
       "description" : "Test mapping of ontology class for GO.",
@@ -1754,7 +1850,8 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "isa_partof_closure",
             "property" : [
-               "getIsaPartofIDClosure"
+               "getRelationIDClosure",
+               "BFO:0000050"
             ]
          },
          {
@@ -1768,7 +1865,44 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "isa_partof_closure_label",
             "property" : [
-               "getIsaPartofLabelClosure"
+               "getRelationLabelClosure",
+               "BFO:0000050"
+            ]
+         },
+         {
+            "transform" : [],
+            "description" : "Closure of ids/accs over regulates.",
+            "display_name" : "Regulates closure",
+            "indexed" : "true",
+            "searchable" : "false",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure",
+            "property" : [
+               "getRelationIDClosure",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
+            ]
+         },
+         {
+            "transform" : [],
+            "description" : "Closure of labels over regulates.",
+            "display_name" : "Regulates closure (labels)",
+            "indexed" : "true",
+            "searchable" : "true",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure_label",
+            "property" : [
+               "getRelationLabelClosure",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
             ]
          },
          {
@@ -1926,7 +2060,8 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "isa_partof_closure_label",
             "property" : [
-               "getIsaPartofLabelClosure"
+               "getRelationLabelClosure",
+               "BFO:0000050"
             ]
          },
          "replaced_by" : {
@@ -1972,6 +2107,42 @@ amigo.data.golr = {
                "getDef"
             ]
          },
+         "regulates_closure_label" : {
+            "transform" : [],
+            "description" : "Closure of labels over regulates.",
+            "display_name" : "Regulates closure (labels)",
+            "indexed" : "true",
+            "searchable" : "true",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure_label",
+            "property" : [
+               "getRelationLabelClosure",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
+            ]
+         },
+         "regulates_closure" : {
+            "transform" : [],
+            "description" : "Closure of ids/accs over regulates.",
+            "display_name" : "Regulates closure",
+            "indexed" : "true",
+            "searchable" : "false",
+            "required" : "false",
+            "cardinality" : "multi",
+            "type" : "string",
+            "id" : "regulates_closure",
+            "property" : [
+               "getRelationIDClosure",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
+            ]
+         },
          "transitivity_graph" : {
             "transform" : [],
             "description" : "JSON blob form of the local relation transitivity graph.",
@@ -1997,7 +2168,8 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "isa_partof_closure",
             "property" : [
-               "getIsaPartofIDClosure"
+               "getRelationIDClosure",
+               "BFO:0000050"
             ]
          },
          "synonym" : {

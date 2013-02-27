@@ -3,8 +3,8 @@
 //// model.js tests while we're at it...
 ////
 //// Usage:
-////    Command line: "js -f tree.tests.js"
-////    Interactive: "js -f tree.tests.js -f -"
+////    Command line: "rhino -f tree.js.tests"
+////    Interactive: "rhino -f tree.js.tests -f -"
 ////
 
 
