@@ -29,5 +29,5 @@ lib/bbop/widget/dialog.js
 lib/bbop/widget/term_shield.js
 lib/bbop/widget/search_pane.js
 lib/bbop/widget/repl.js
-lib/bbop/widget/phylo.js
+lib/bbop/widget/phylo_old.js
 lib/bbop/contrib/go/overlay.js
