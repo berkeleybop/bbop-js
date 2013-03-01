@@ -1,5 +1,5 @@
 bbop.core.require('bbop', 'core');
-bbop.core.require('bbop', 'render', 'phylo');
+bbop.core.require('bbop', 'widget', 'phylo');
 bbop.core.require('jQuery');
 
 var tree_matrix;
@@ -52,7 +52,7 @@ tree_matrix = function(parent, phylo_graph, column_descriptors,
     ].join(";") + ";";
     this.parent.appendChild(this.tree_parent);
         
-    this.tree = new bbop.render.phylo.divrenderer(this.tree_parent, {
+    this.tree = new bbop.widget.phylo.renderer(this.tree_parent, {
         leaf_font: "Helvetica, Arial, sans-serif",
         box_height: 18,
         leaf_border: 0,

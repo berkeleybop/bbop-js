@@ -7,12 +7,12 @@
     <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>-->
 
     <script type="text/javascript" src="../staging/bbop.js"></script>
-    <script type="text/javascript" src="../lib/graph/render/phylo-div.js"></script>
+    <script type="text/javascript" src="../lib/bbop/widget/phylo.js"></script>
     <script type="text/javascript" src="global_graph_P34889.js"></script>
     <script type="text/javascript">
       var r;
       window.onload = function() {
-        r = new bbop.render.phylo.divrenderer('test0', {
+        r = new bbop.widget.phylo.renderer('test0', {
           box_height: 24,
           leaf_font: "Helvetica, Arial, sans-serif",
           leaf_padding: 4,
