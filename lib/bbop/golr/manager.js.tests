@@ -452,7 +452,8 @@ load('manager.js');
 		       'qf=annotation_extension_class^2',
 		       'qf=annotation_extension_class_label_searchable^1',
 		       'qf=family_tag_searchable^1',
-		       'qf=family_tag_label_searchable^1'].join('&'),
+		       'qf=family_tag_label_searchable^1',
+		       'qf=bioentity_isoform^1'].join('&'),
 		      "foo query");
      mr_t.is_same_atom(gm_ann.get_query(), "foo", 'got query out');
 
@@ -515,7 +516,8 @@ load('manager.js');
      		       'qf=annotation_extension_class^2',
      		       'qf=annotation_extension_class_label_searchable^1',
      		       'qf=family_tag_searchable^1',
-     		       'qf=family_tag_label_searchable^1'].join('&'),
+		       'qf=family_tag_label_searchable^1',
+		       'qf=bioentity_isoform^1'].join('&'),
      		      "q=foo:bar");
 
      // Try rolling it back.
