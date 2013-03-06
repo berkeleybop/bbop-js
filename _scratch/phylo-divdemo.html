@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>div phylo test</title>
+    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" />-->
+    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js"></script>-->
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>-->
+
+    <script type="text/javascript" src="../staging/bbop.js"></script>
+    <script type="text/javascript" src="../lib/bbop/widget/phylo.js"></script>
+    <script type="text/javascript" src="global_graph_P34889.js"></script>
+    <script type="text/javascript">
+      var r;
+      window.onload = function() {
+        r = new bbop.widget.phylo.renderer('test0', {
+          box_height: 24,
+          leaf_font: "Helvetica, Arial, sans-serif",
+          leaf_padding: 4,
+          box_spacing: 6
+        });
+
+        //r.leaf_style.background = "#dde";
+
+        if (0) {
+          r.leaf_style.display = "none";
+          r.node_style.display = "none";
+        }
+
+        var nodes = global_graph.nodes;
+        var edges = global_graph.edges;
+        console.log(nodes.length + " nodes");
+        console.log(edges.length + " edges");
+
+        // vary_labels_by is for testing to make sure we handle
+        // label widths correctly
+        var vary_labels_by = 0;
+        var varying_labels = {};
+        for (var i = 0; i < nodes.length; i++) {
+            varying_labels[nodes[i].id] =
+                nodes[i].id
+                + Array((Math.random() * vary_labels_by) | 0).join("x");
+            r.add_node(varying_labels[nodes[i].id]);
+        }
+        for (var i = 0; i < edges.length; i++) {
+            r.add_edge(varying_labels[edges[i].sub],
+                       varying_labels[edges[i].obj],
+                       parseFloat(edges[i].meta));
+        }
+    
+        console.profile();
+        var start = (new Date).getTime();
+
+        r.sort_tree("ladderize_up");
+        r.display();
+        var displayTime = (new Date).getTime() - start;
+
+        console.profileEnd();
+        console.log("row height: " + r.row_height);
+
+        document.getElementById("messagespan").appendChild(
+          document.createTextNode("display(): " + displayTime + " ms")
+        );
+      };
+    </script>
+    <!--<script type="text/javascript" src="golr.js"></script>-->
+  </head>
+  <body style="border: 0px; margin: 0px; padding: 0px;">
+    <span id="messagespan"></span>
+    <div id="test0" style="position:absolute; margin: 10px; padding: 0px; width: 80%; border: 5px solid #888;"></div>
+  </body>
+</html>
