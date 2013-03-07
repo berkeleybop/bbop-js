@@ -55,7 +55,7 @@ load('manager.js');
  })();
 
 // bbop.golr.manager - 2 - facets
-(function(){
+//(function(){
 
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
@@ -69,6 +69,8 @@ load('manager.js');
      gm.set_personality('bbop_ann');
      mr_t.is_same_set(gm.facets(), ['source',
 				    'assigned_by',
+				    'aspect',
+				    'taxon_closure_label',
 				    'evidence_type_closure',
 				    'family_tag_label',
 				    'taxon_closure_label',
@@ -78,7 +80,7 @@ load('manager.js');
 		      "personality");
      gm.facets([]);
      mr_t.is_same_set(gm.facets(), [], "no facets again");
- })();
+// })();
 
 // bbop.golr.manager - 3 - simulation
 (function(){
@@ -106,6 +108,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
 		       'facet.field=family_tag_label',
@@ -284,6 +287,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
 		       'facet.field=family_tag_label',
@@ -307,6 +311,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
 		       'facet.field=family_tag_label',
@@ -330,6 +335,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
 		       'facet.field=family_tag_label',
@@ -364,6 +370,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
 		       'facet.field=family_tag_label',
@@ -412,6 +419,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=taxon_closure_label',
 		       'facet.field=family_tag_label',
@@ -437,6 +445,7 @@ load('manager.js');
 		       'facet.limit=25',
 		       'facet.field=source',
 		       'facet.field=assigned_by',
+		       'facet.field=aspect',
 		       'facet.field=evidence_type_closure',
 		       'facet.field=family_tag_label',
 		       'facet.field=taxon_closure_label',
@@ -474,6 +483,7 @@ load('manager.js');
      		       'facet.limit=25',
      		       'facet.field=source',
      		       'facet.field=assigned_by',
+		       'facet.field=aspect',
      		       'facet.field=evidence_type_closure',
      		       'facet.field=taxon_closure_label',
      		       'facet.field=family_tag_label',
@@ -501,6 +511,7 @@ load('manager.js');
      		       'facet.limit=25',
      		       'facet.field=source',
      		       'facet.field=assigned_by',
+		       'facet.field=aspect',
      		       'facet.field=evidence_type_closure',
      		       'facet.field=taxon_closure_label',
      		       'facet.field=family_tag_label',
@@ -538,6 +549,7 @@ load('manager.js');
  		       'facet.limit=25',
  		       'facet.field=source',
  		       'facet.field=assigned_by',
+		       'facet.field=aspect',
  		       'facet.field=evidence_type_closure',
  		       'facet.field=taxon_closure_label',
  		       'facet.field=family_tag_label',

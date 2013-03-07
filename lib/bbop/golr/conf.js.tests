@@ -48,7 +48,7 @@ load('../../../_data/golr.js');
  })();
 
 // bbop.golr.conf_class
-(function(){
+//(function(){
 
      // Absolute basics.
      var cc = new bbop.golr.conf_class(amigo.data.golr['bbop_ann']);
@@ -73,16 +73,16 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom(null, boosts['ashdlas'], "no boost");
 
      // Look at weights as a group.
-     var ordered_filter_list_5 = cc.field_order_by_weight('filter', 5.0);
-     mr_t.is_same_atom(5, ordered_filter_list_5.length, "ofl5 len");
-     mr_t.is_same_atom('source', ordered_filter_list_5[0], "ofl5 first");
+     var ordered_filter_list_6 = cc.field_order_by_weight('filter', 5.0);
+     mr_t.is_same_atom(6, ordered_filter_list_6.length, "ofl5 len");
+     mr_t.is_same_atom('source', ordered_filter_list_6[0], "ofl5 first");
      mr_t.is_same_atom('taxon_closure_label',
-		       ordered_filter_list_5[ordered_filter_list_5.length -1],
+		       ordered_filter_list_6[ordered_filter_list_6.length -1],
 		       "ofl5 last");
      var ordered_filter_list_all = cc.field_order_by_weight('filter');
-     mr_t.is_same_atom(8, ordered_filter_list_all.length, "ofla len");
+     mr_t.is_same_atom(9, ordered_filter_list_all.length, "ofla len");
      mr_t.is_same_atom('source', ordered_filter_list_all[0], "ofla first");
- })();
+// })();
 
 // Top-level bbop.golr.conf
 (function(){
