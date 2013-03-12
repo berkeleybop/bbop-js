@@ -6,6 +6,7 @@ lib/bbop/template.js
 lib/bbop/logic.js
 lib/bbop/test.js
 lib/bbop/registry.js
+lib/bbop/handler.js
 lib/bbop/html.js
 lib/bbop/model.js
 lib/bbop/model/tree.js

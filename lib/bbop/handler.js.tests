@@ -1,0 +1,44 @@
+////
+//// Some unit testing for handler.js
+////
+//// Usage:
+////    Command line: "rhino -f handler.js.tests"
+////    Interactive: "rhino -f handler.js.tests -f -"
+////
+
+
+// Load testing.
+load('test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('core.js');
+load('logger.js');
+load('handler.js');
+
+///
+/// Start unit testing.
+///
+
+// Simple handler
+(function(){
+     var h0 = new bbop.handler();
+     mr_t.is_same_atom(bbop.core.what_is(h0), 'bbop.handler', 'id');
+
+     // ...
+     var d0 = {
+	 handler: "bbop.core.dump"  
+     };
+     var r0 = h0.dispatch(d0);
+     mr_t.is_true(r0.success, 'trivial success');
+     mr_t.is_same_atom(r0.results, '{"handler": "bbop.core.dump"}', 
+		       'trivially works');
+     
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
