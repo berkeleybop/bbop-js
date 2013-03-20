@@ -21,6 +21,7 @@ TESTS = $(wildcard lib/*.js.tests) \
 JS = rhino #smjs or rhino, etc.
 ## Some require things like "-opt -1" in some cases (big GO tests)
 JSFLAGS = -opt -1 -w -strict # rhino needs this for the big GO tree
+BBOP_JS_VERSION = 0.9
 #JSENGINES = node smjs rhino
 
 all:
@@ -68,7 +69,7 @@ docs:
 .PHONY: bundle
 
 bundle:
-	./scripts/release-js.pl -v -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r 0.9
+	./scripts/release-js.pl -v -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
 ###
 ### Create exportable JS bundle, but skip minifying.
@@ -77,7 +78,7 @@ bundle:
 .PHONY: bundle-uncompressed
 
 bundle-uncompressed:
-	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r 0.9
+	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
 ###
 ### Release: docs and bundle; then to an upload.
