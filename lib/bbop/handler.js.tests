@@ -36,6 +36,22 @@ load('handler.js');
      
  })();
 
+// Live fire.
+(function(){
+     var h0 = new bbop.handler();
+     mr_t.is_same_atom(bbop.core.what_is(h0), 'bbop.handler', 'id');
+
+     // ...
+     var d0 = {
+	 handler: "bbop.core.dump"  
+     };
+     var r0 = h0.dispatch(d0);
+     mr_t.is_true(r0.success, 'trivial success');
+     mr_t.is_same_atom(r0.results, '{"handler": "bbop.core.dump"}', 
+		       'trivially works');
+     
+ })();
+
 ///
 /// End unit testing.
 ///
