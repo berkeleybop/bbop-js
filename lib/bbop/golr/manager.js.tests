@@ -984,7 +984,7 @@ load('manager.js');
      		       'wt=json',
      		       'rows=10',
      		       'start=0',
-     		       'fl=annotation_class%2Cannotation_class_label%2Cdescription%2Ccomment%2Csynonym%2Calternate_id%2Csource%2Csubset%2Cisa_partof_closure_label%2Cregulates_closure_label%2Cis_obsolete%2Cscore',
+		       'fl=annotation_class%2Cdescription%2Csource%2Csynonym%2Calternate_id%2Cannotation_class_label%2Cscore',
      		       'facet=true',
      		       'facet.mincount=1', 'facet.sort=count',
      		       'json.nl=arrarr',
