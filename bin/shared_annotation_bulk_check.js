@@ -254,3 +254,5 @@ if( check_errors && check_errors.length > 0 ){
 }else{
     print('Done--completed with no broken rules.');
 }
+
+java.lang.System.exit(0);
