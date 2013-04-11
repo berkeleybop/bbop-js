@@ -38,8 +38,12 @@ function _link_to_a2(bookmark){
     var retl =
 	// BUG/TODO:
 	//sdata.app_base() + '/' + 
-	'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
+	//'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
 	linker.url(encodeURIComponent(bookmark), 'search');
+
+    // Seems to be something wonky in the local config we're pulling
+    // from.
+    retl = retl.replace('localhost', 'amigo2.berkeleybop.org');
 
     return retl;
 }
@@ -241,7 +245,7 @@ each(logic_checks,
 
 // Report.
 print('Looked at ' + file_lines.length + ' rules.');
-if( check_errors ){
+if( check_errors && check_errors.length > 0 ){
     each(check_errors,
 	 function(error_str){
 	     print('PROBLEM: ' + error_str);
