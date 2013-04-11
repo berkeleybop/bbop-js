@@ -148,7 +148,7 @@ each(no_overlap_checks,
 	 var bookmark = run_results[1];
 	 print('Checked exclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count != 0 ){
-	     check_errors.push('ERROR: exclusive count of ' +
+	     check_errors.push('! : exclusive count of ' +
 			       count + ' on: ' +
 			       key + "\n\t" +
 			       _link_to_a2(bookmark));
@@ -164,7 +164,7 @@ each(overlap_checks,
 	 var bookmark = run_results[1];
 	 print('Checked inclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count == 0 ){
-	     check_errors.push('ERROR: inclusive count of ' +
+	     check_errors.push('! : inclusive count of ' +
 			       count + ' on: ' +
 			       key + "\n\t" +
 			       _link_to_a2(bookmark));
@@ -234,7 +234,7 @@ each(logic_checks,
 	     print('Checked inclusive: ' + arg1 + ' && ' + arg2  + ' && (' +  
 	     	   or_list.join(' || ') + ') (' + count + ')');
 	     if( count == 0 ){
-	     	 check_errors.push('ERROR: no co-annotations for: ' +
+	     	 check_errors.push('! : no co-annotations for: ' +
 				   key + "\n\t" +
 				   _link_to_a2(bookmark));
 	     	 // }else{
