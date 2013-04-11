@@ -26,7 +26,7 @@ var ensure = bbop.core.ensure;
 
 // Helper.
 function err (str){
-    print('ERROR: ' + str);
+    print('!: ' + str);
     java.lang.System.exit(1);    
 }
 
