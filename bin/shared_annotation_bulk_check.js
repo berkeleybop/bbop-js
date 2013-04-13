@@ -71,7 +71,7 @@ if( ! is_defined(file_str) ||
 var no_overlap_checks = {};
 // Looks like {idA : [arg1A, arg2A, [or1A, or2A, ...]], ...}
 var logic_checks = {};
-var check_errors = [];
+var check_errors = 0;
 
 // Parse the rules file.
 file_str = chomp(file_str);
@@ -140,10 +140,11 @@ each(no_overlap_checks,
 	 var bookmark = run_results[1];
 	 print('Checked exclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count != 0 ){
-	     check_errors.push('ERROR : exclusive count of ' +
-			       count + ' on: ' +
-			       key + "\n\t" +
-			       _link_to_a2(bookmark));
+	     check_errors++;
+	     print('ERROR : exclusive count of ' +
+		   count + ' on: ' +
+		   key + "\n\t" +
+		   _link_to_a2(bookmark));
 	 }
      });
 
@@ -165,7 +166,7 @@ each(logic_checks,
 	 if( check_cnt == 0 ){
 	     
 	     print('Checked exclusion; trivially passed with no base overlap: '
-		   + arg1 + ' && ' + arg2);
+		   + arg1 + ' && ' + arg2 + ' (0)');
 
 	 }else{
 
@@ -194,9 +195,10 @@ each(logic_checks,
 	     print('Checked exclusion: ' + arg1 + ' && ' + arg2  + ' && !(' +  
 	     	   exclusion_list.join(' || ') + ') (' + count + ')');
 	     if( count != 0 ){
-	     	 check_errors.push('ERROR : bad co-annotations for: ' +
-				   key + "\n\t" +
-				   _link_to_a2(bookmark));
+	     	 check_errors++;
+		 print('ERROR : bad co-annotations for: ' +
+		       key + "\n\t" +
+		       _link_to_a2(bookmark));
 	     	 // }else{
 	     	 //     check_errors.push('PASS: co-annotation for: ' + key);
 		 // }
@@ -206,14 +208,14 @@ each(logic_checks,
 
 // Report.
 print('Looked at ' + file_lines.length + ' rules.');
-if( check_errors && check_errors.length > 0 ){
-    each(check_errors,
-	 function(error_str){
-	     print('PROBLEM: ' + error_str);
-	 });
-    err('Completed with ' + check_errors.length + ' broken rules.');
+if( check_errors > 0 ){
+    // each(check_errors,
+    // 	 function(error_str){
+    // 	     print('PROBLEM: ' + error_str);
+    // 	 });
+    err('Completed with ' + check_errors + ' broken rule(s).');
 }else{
     print('Done--completed with no broken rules.');
 }
 
-java.lang.System.exit(0);
+//java.lang.System.exit(0);
