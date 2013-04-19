@@ -49,7 +49,7 @@ load('../../../_data/golr.js');
  })();
 
 // bbop.golr.conf_class
-//(function(){
+(function(){
 
      // Absolute basics.
      var cc = new bbop.golr.conf_class(amigo.data.golr['bbop_ann']);
@@ -81,9 +81,9 @@ load('../../../_data/golr.js');
 		       ordered_filter_list_6[ordered_filter_list_6.length -1],
 		       "ofl5 last");
      var ordered_filter_list_all = cc.field_order_by_weight('filter');
-     mr_t.is_same_atom(9, ordered_filter_list_all.length, "ofla len");
+     mr_t.is_same_atom(10, ordered_filter_list_all.length, "ofla len");
      mr_t.is_same_atom('source', ordered_filter_list_all[0], "ofla first");
-// })();
+ })();
 
 // Top-level bbop.golr.conf
 (function(){
@@ -95,7 +95,8 @@ load('../../../_data/golr.js');
      // Simple getters.
      mr_t.is_same_atom("Ontology", c.get_class('bbop_ont').display_name(),
 		       "display_name");
-     mr_t.is_same_atom(4, c.get_classes().length, "num classes");
+     // ont, assoc, ev_agg, bio, general
+     mr_t.is_same_atom(5, c.get_classes().length, "num classes");
  })();
 
 ///
