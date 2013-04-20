@@ -55,7 +55,7 @@ load('manager.js');
  })();
 
 // bbop.golr.manager - 2 - facets
-//(function(){
+(function(){
 
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
@@ -80,7 +80,7 @@ load('manager.js');
 		      "personality");
      gm.facets([]);
      mr_t.is_same_set(gm.facets(), [], "no facets again");
-// })();
+ })();
 
 // bbop.golr.manager - 3 - simulation
 (function(){
@@ -791,6 +791,113 @@ load('manager.js');
 		       'qf=alternate_id^1'].join('&'),
 		      "load: constructed personality (2)");
  })();
+
+// bbop.golr.manager - 13 - bookmark/loader - 3
+// This time, we'll try some of the harder stuff...
+//(function(){
+
+     // Setup--a likely start.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm.set_personality('bbop_ann');
+     gm.add_query_filter('document_category', 'annotation', ['*']);
+     gm.add_query_filter('assigned_by', 'MGI', ['-']);
+     gm.set_query('foo');
+
+     // Capture URL.
+     var bookmark = gm.get_state_url();
+
+     // Again, notice how the query variants are all removed in the
+     // process.
+     mr_t.is_same_url(bookmark,
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'facet.sort=count',
+		       'json.nl=arrarr',
+		       'facet.limit=25',
+		       'personality=bbop_ann',
+		       'sfq=document_category:"annotation"',
+		       'fq=document_category:"annotation"',
+		       'fq=-assigned_by:"MGI"',
+		       'facet.field=source',
+		       'facet.field=assigned_by',
+		       'facet.field=aspect',
+		       'facet.field=evidence_type_closure',
+		       'facet.field=panther_family_label',
+		       'facet.field=taxon_closure_label',
+		       'facet.field=annotation_class_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=regulates_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=foo',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^1',
+		       'qf=bioentity^2',
+		       'qf=bioentity_label_searchable^1',
+		       'qf=bioentity_name_searchable^1',
+		       'qf=annotation_extension_class^2',
+		       'qf=annotation_extension_class_label_searchable^1',
+		       'qf=reference^1',
+		       'qf=panther_family_searchable^1',
+		       'qf=panther_family_label_searchable^1',
+		       'qf=bioentity_isoform^1'].join('&'),
+		      "generated bookmark url");
+
+     // Okay, now let's generate a manager that recovers the correct
+     // sticky state from this bookmark.
+     var m2 = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     m2.load_url(bookmark);
+     mr_t.is_same_url(m2.get_state_url(),
+		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*%2Cscore',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'facet.sort=count',
+		       'json.nl=arrarr',
+		       'facet.limit=25',
+		       'personality=bbop_ann',
+		       'sfq=document_category:"annotation"',
+		       'fq=document_category:"annotation"',
+		       'fq=-assigned_by:"MGI"',
+		       'facet.field=source',
+		       'facet.field=assigned_by',
+		       'facet.field=aspect',
+		       'facet.field=evidence_type_closure',
+		       'facet.field=panther_family_label',
+		       'facet.field=taxon_closure_label',
+		       'facet.field=annotation_class_label',
+		       'facet.field=isa_partof_closure_label',
+		       'facet.field=regulates_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'q=foo',
+		       'qf=annotation_class^2',
+		       'qf=annotation_class_label_searchable^1',
+		       'qf=bioentity^2',
+		       'qf=bioentity_label_searchable^1',
+		       'qf=bioentity_name_searchable^1',
+		       'qf=annotation_extension_class^2',
+		       'qf=annotation_extension_class_label_searchable^1',
+		       'qf=reference^1',
+		       'qf=panther_family_searchable^1',
+		       'qf=panther_family_label_searchable^1',
+		       'qf=bioentity_isoform^1'].join('&'),
+		      "manager state generated from bookmark url");
+
+     
+
+// })();
 
 // bbop.golr.manager - 14 - unset
 (function(){
