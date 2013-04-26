@@ -95,8 +95,8 @@ load('../../../_data/golr.js');
      // Simple getters.
      mr_t.is_same_atom("Ontology", c.get_class('bbop_ont').display_name(),
 		       "display_name");
-     // ont, assoc, ev_agg, bio, term_ac, general
-     mr_t.is_same_atom(6, c.get_classes().length, "num classes");
+     // ont, assoc, bio, family, general, term_ac, ann_ev_agg
+     mr_t.is_same_atom(7, c.get_classes().length, "num classes");
  })();
 
 ///
