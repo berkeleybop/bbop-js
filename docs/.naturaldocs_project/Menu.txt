@@ -98,6 +98,8 @@ Group: widget  {
       }  # Group: display
 
    File: dialog.js  (widget/dialog.js)
+   File: message.js  (widget/message.js)
+   File: spinner.js  (widget/spinner.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
