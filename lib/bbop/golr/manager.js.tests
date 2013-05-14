@@ -794,7 +794,7 @@ load('manager.js');
 
 // bbop.golr.manager - 13 - bookmark/loader - 3
 // This time, we'll try some of the harder stuff...
-//(function(){
+(function(){
 
      // Setup--a likely start.
      var gconf = new bbop.golr.conf(amigo.data.golr);
@@ -897,7 +897,7 @@ load('manager.js');
 
      
 
-// })();
+ })();
 
 // bbop.golr.manager - 14 - unset
 (function(){
@@ -1405,6 +1405,53 @@ load('manager.js');
      		      "q field add: proper url");
      
  })();
+
+// bbop.golr.manager - 22 - manipulating the results count
+//(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
+
+     // Trivialities--get and reset.
+     mr_t.is_same_atom(gm.get_results_count(), 10, 'count: std count');
+     mr_t.is_same_atom(gm.reset_results_count(), 10, 'count: reset does beans');
+     mr_t.is_same_atom(gm.get_results_count(), 10, 'count: std count again');
+     
+     // Change count, then reset it.
+     mr_t.is_same_atom(gm.set_results_count(25), 25, 'count: global to 25');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=25',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1', 'facet.sort=count',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'q=*:*'].join('&'),
+     		      "count: global to 25 in URL");
+     mr_t.is_same_atom(gm.get_results_count(), 25, 'count: shifted to 25');
+     mr_t.is_same_atom(gm.reset_results_count(), 10, 'count: and back down');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*%2Cscore',
+     		       'facet=true',
+     		       'facet.mincount=1', 'facet.sort=count',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'q=*:*'].join('&'),
+     		      "count: return global to 10 in URL");
+     
+// })();
 
 ///
 /// End unit testing.
