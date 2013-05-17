@@ -100,7 +100,6 @@ Group: widget  {
    File: dialog.js  (widget/dialog.js)
    File: message.js  (widget/message.js)
    File: spinner.js  (widget/spinner.js)
-   File: select_shield.js  (widget/select_shield.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
