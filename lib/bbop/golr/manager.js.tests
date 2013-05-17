@@ -1488,6 +1488,53 @@ load('manager.js');
      
  })();
 
+// bbop.golr.manager - 23 - set_id and set_ids
+(function(){
+     
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     // Just something to clobber for giggles.
+     gm.set_query('foo');
+     
+     // set_id
+     gm.set_id('MGI:MGI:1');
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*,score',
+     		       'facet=true',
+     		       'facet.mincount=1',
+		       'facet.sort=count',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'q=id:%22MGI:MGI:1%22'].join('&'),
+     		      "set_id: just fine");
+     
+     // set_ids
+     gm.set_ids(['MGI:MGI:1', 'MGI:MGI:2']);
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*,score',
+     		       'facet=true',
+     		       'facet.mincount=1',
+		       'facet.sort=count',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'q=id:(%22MGI:MGI:1%22%20OR%20%22MGI:MGI:2%22)'].join('&'),
+     		      "set_ids: just fine");
+
+ })();
+
 ///
 /// End unit testing.
 ///
