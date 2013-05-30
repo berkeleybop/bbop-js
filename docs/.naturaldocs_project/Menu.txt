@@ -106,6 +106,7 @@ Group: widget  {
 File: overlay.js  (contrib/go/overlay.js)
 File: json.js  (json.js)
 File: handler.js  (handler.js)
+File: linker.js  (linker.js)
 
 Group: Index  {
 
