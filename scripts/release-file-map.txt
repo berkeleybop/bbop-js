@@ -7,6 +7,8 @@ lib/bbop/logic.js
 lib/bbop/test.js
 lib/bbop/registry.js
 lib/bbop/html.js
+lib/bbop/linker.js
+lib/bbop/handler.js
 lib/bbop/model.js
 lib/bbop/model/tree.js
 lib/bbop/model/bracket.js
