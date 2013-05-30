@@ -43,7 +43,7 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom(false, cf.searchable(), "searchable");
      mr_t.is_same_atom(false, cf.required(), "required");
      mr_t.is_same_atom(false, cf.is_multi(), "multi?");
-     mr_t.is_same_atom(false, cf.has_handler(), "handler?");
+     //mr_t.is_same_atom(false, cf.has_handler(), "handler?");
      mr_t.is_same_atom(false, cf.is_fixed(), "fixed?");
      mr_t.is_same_atom("getNamespace", cf.property(), "prop");
  })();
