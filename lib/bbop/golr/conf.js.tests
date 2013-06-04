@@ -49,7 +49,7 @@ load('../../../_data/golr.js');
  })();
 
 // bbop.golr.conf_class
-(function(){
+//(function(){
 
      // Absolute basics.
      var cc = new bbop.golr.conf_class(amigo.data.golr['bbop_ann']);
@@ -67,6 +67,9 @@ load('../../../_data/golr.js');
      // More complicated.
      mr_t.is_same_atom(null, cc.get_field('blork'), "s1");
      mr_t.is_same_atom('source', cc.get_field('source').id(), "s2");
+
+     // Make sure we got all the fields.
+     mr_t.is_same_atom(34, cc.get_fields().length, "can get all fields");
      
      // Look at weights individually.
      var boosts = cc.get_weights('boost');
@@ -83,7 +86,7 @@ load('../../../_data/golr.js');
      var ordered_filter_list_all = cc.field_order_by_weight('filter');
      mr_t.is_same_atom(10, ordered_filter_list_all.length, "ofla len");
      mr_t.is_same_atom('source', ordered_filter_list_all[0], "ofla first");
- })();
+// })();
 
 // Top-level bbop.golr.conf
 (function(){
