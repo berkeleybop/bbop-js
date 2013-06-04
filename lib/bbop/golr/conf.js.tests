@@ -97,7 +97,14 @@ load('../../../_data/golr.js');
 		       "display_name");
      // ont, assoc, bio, family, general, term_ac, ann_ev_agg
      mr_t.is_same_atom(7, c.get_classes().length, "num classes");
- })();
+
+     // Make sure that we get them ordered.
+     // Check with: "grep weight: metadata/*.yaml".
+     var ordered_classes = c.get_classes_by_weight();
+     mr_t.is_same_atom('bbop_ont', ordered_classes[0].id(), "first class");
+     mr_t.is_same_atom('bbop_term_ac', ordered_classes[6].id(), "last class");
+
+})();
 
 ///
 /// End unit testing.
