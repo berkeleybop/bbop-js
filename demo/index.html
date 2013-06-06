@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <title>BBOP JS: The Demo</title>
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="http://cdn.berkeleybop.org/jsapi/bbop.js"></script>
     <script type="text/javascript" src="golr.js"></script>
 
@@ -58,7 +58,7 @@
 	</p>
 	<p>
 	  These demos use the public GOlr server
-	  <a href="http://golr.berkeleybop.org/">alpha</a> for data
+	  <a href="http://golr.berkeleybop.org/">beta</a> for data
 	  and a JSON Solr schema <a href="golr.js">blob</a> (from
 	  AmiGO 2).
 	</p>
@@ -70,9 +70,9 @@
 	  single BBOP JS file, and the schema blob (which we happen to
 	  get using a file, but could be done manually).
 
-	  <pre>  &lt;link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" /&gt;
-  &lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"&gt;&lt;/script&gt;
-  &lt;script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"&gt;&lt;/script&gt;
+	  <pre>  &lt;link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" /&gt;
+  &lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"&gt;&lt;/script&gt;
   &lt;script type="text/javascript" src="http://cdn.berkeleybop.org/jsapi/bbop.js"&gt;&lt;/script&gt;
   &lt;script type="text/javascript" src="golr.js"&gt;&lt;/script&gt;</pre>
 	</p>
@@ -89,7 +89,7 @@
       <p>
 	This is a small demonstration on how to use the asynchronous
 	jQuery manager engine (bbop.golr.manager.jquery) to perform a
-	"simple" count of the ontology terms in the data store.
+	"simple" count of the ontology items in the data store.
       </p>
       <p>
 	While this type of calculation is much more straightforward to
@@ -116,23 +116,22 @@
 
               // Create the manager, set it's personality, then
               // restrict it to one "document_category".
-	      var go = new bbop.golr.manager.jquery(gserv, gconf);
-	      go.set_personality('bbop_ont');
-              go.add_query_filter('document_category', 'ontology_class');
+	      var go1 = new bbop.golr.manager.jquery(gserv, gconf);
+	      go1.set_personality('bbop_ont');
+              go1.add_query_filter('document_category', 'ontology_class');
 
               // Create the callback function to change the text
               // in the document, then register it with the
               // manager and start the (reset) callback.
-	      function callback(json_blob){
-	        var resp = new bbop.golr.response(json_blob);
+	      function go1_callback(resp){
 	        jQuery("#o01").empty();
 	        jQuery("#o01").append(resp.total_documents());
 	      }
-	      go.register('reset', 'foo', callback);
-	      go.reset();
+	      go1.register('reset', 'foo', go1_callback);
+	      go1.reset();
 	    });
 	  </script>
-	  There are currently <b><span id="o01">???</span></b> terms.
+	  There are currently <b><span id="o01">???</span></b> items.
 	</div>
 	<div id="demo01-code">
 	  <pre>jQuery(document).ready(function(){
@@ -143,20 +142,19 @@
 
   // Create the manager, set it's personality, then
   // restrict it to one "document_category".
-  var go = new bbop.golr.manager.jquery(gserv, gconf);
-  go.set_personality('bbop_ont');
-  go.add_query_filter('document_category', 'ontology_class');
+  var go1 = new bbop.golr.manager.jquery(gserv, gconf);
+  go1.set_personality('bbop_ont');
+  go1.add_query_filter('document_category', 'ontology_class');
 
   // Create the callback function to change the text
   // in the document, then register it with the
   // manager and start the (reset) callback.
-  function callback(json_blob){
-    var resp = new bbop.golr.response(json_blob);
+  function callback(resp){
     jQuery("#o01").empty();
     jQuery("#o01").append(resp.total_documents());
   }
-  go.register('reset', 'foo', callback);
-  go.reset();
+  go1.register('reset', 'foo', callback);
+  go1.reset();
 });</pre>
 	</div>
       </div>
@@ -214,8 +212,8 @@
 	      var gserv = 'http://golr.berkeleybop.org/';
 	      var gconf = new bbop.golr.conf(amigo.data.golr);
 	      var a03 = {
-		'label_template': '{{annotation_class_label}} ({{id}})',
-		'value_template': '{{annotation_class_label}}',
+		'label_template': '{{annotation_class_label}} ({{annotation_class}})',
+		'value_template': '{{annotation_class}}',
 		'list_select_callback': function(doc){ alert(doc['id']); }
 	      };
 	      var auto = new bbop.widget.search_box(gserv, gconf, 'd03', a03);
@@ -229,8 +227,8 @@
   var gserv = 'http://golr.berkeleybop.org/';
   var gconf = new bbop.golr.conf(amigo.data.golr);
   var a03 = {
-    'label_template': '{{annotation_class_label}} ({{id}})',
-    'value_template': '{{annotation_class_label}}',
+    'label_template': '{{annotation_class_label}} ({{annotation_class}})',
+    'value_template': '{{annotation_class}}',
     'list_select_callback': function(doc){ alert(doc['id']); }
   };
   var auto = new bbop.widget.search_box(gserv, gconf, 'd03', a03);
