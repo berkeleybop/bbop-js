@@ -21,6 +21,7 @@ lib/bbop/golr/manager/rhino.js
 lib/bbop/golr/manager/jquery.js
 lib/bbop/widget/display/clickable_object.js
 lib/bbop/widget/display/text_button_sim.js
+lib/bbop/widget/display/filter_table.js
 lib/bbop/widget/display/results_table_by_class_conf.js
 lib/bbop/widget/display/two_column_layout.js
 lib/bbop/widget/display/filter_shield.js
