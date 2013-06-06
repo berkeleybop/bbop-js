@@ -89,7 +89,7 @@
       <p>
 	This is a small demonstration on how to use the asynchronous
 	jQuery manager engine (bbop.golr.manager.jquery) to perform a
-	"simple" count of the ontology items in the data store.
+	"simple" count of the ontology terms in the data store.
       </p>
       <p>
 	While this type of calculation is much more straightforward to
@@ -116,22 +116,22 @@
 
               // Create the manager, set it's personality, then
               // restrict it to one "document_category".
-	      var go1 = new bbop.golr.manager.jquery(gserv, gconf);
-	      go1.set_personality('bbop_ont');
-              go1.add_query_filter('document_category', 'ontology_class');
+	      var go = new bbop.golr.manager.jquery(gserv, gconf);
+	      go.set_personality('bbop_ont');
+              go.add_query_filter('document_category', 'ontology_class');
 
               // Create the callback function to change the text
               // in the document, then register it with the
-              // manager and start the (reset) callback.
-	      function go1_callback(resp){
+              // manager and start the (search) callback.
+	      function go_callback(resp){
 	        jQuery("#o01").empty();
 	        jQuery("#o01").append(resp.total_documents());
 	      }
-	      go1.register('reset', 'foo', go1_callback);
-	      go1.reset();
+	      go.register('search', 'foo', go_callback);
+	      go.search();
 	    });
 	  </script>
-	  There are currently <b><span id="o01">???</span></b> items.
+	  There are currently <b><span id="o01">???</span></b> terms.
 	</div>
 	<div id="demo01-code">
 	  <pre>jQuery(document).ready(function(){
@@ -142,19 +142,19 @@
 
   // Create the manager, set it's personality, then
   // restrict it to one "document_category".
-  var go1 = new bbop.golr.manager.jquery(gserv, gconf);
-  go1.set_personality('bbop_ont');
-  go1.add_query_filter('document_category', 'ontology_class');
+  var go = new bbop.golr.manager.jquery(gserv, gconf);
+  go.set_personality('bbop_ont');
+  go.add_query_filter('document_category', 'ontology_class');
 
   // Create the callback function to change the text
   // in the document, then register it with the
-  // manager and start the (reset) callback.
-  function callback(resp){
+  // manager and start the (search) callback.
+  function go_callback(resp){
     jQuery("#o01").empty();
     jQuery("#o01").append(resp.total_documents());
   }
-  go1.register('reset', 'foo', callback);
-  go1.reset();
+  go.register('search', 'foo', go_callback);
+  go.search();
 });</pre>
 	</div>
       </div>
