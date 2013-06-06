@@ -94,13 +94,13 @@ Group: widget  {
       File: filter_shield.js  (widget/display/filter_shield.js)
       File: clickable_object.js  (widget/display/clickable_object.js)
       File: text_buttom_sim.js  (widget/display/text_button_sim.js)
-      File: filter_table.js  (widget/display/filter_table.js)
       }  # Group: display
 
    File: dialog.js  (widget/dialog.js)
    File: message.js  (widget/message.js)
    File: spinner.js  (widget/spinner.js)
    File: list_select_shield.js  (widget/list_select_shield.js)
+   File: filter_table.js  (widget/filter_table.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
