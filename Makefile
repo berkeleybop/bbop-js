@@ -21,7 +21,7 @@ TESTS = $(wildcard lib/*.js.tests) \
 JS = rhino #smjs or rhino, etc.
 ## Some require things like "-opt -1" in some cases (big GO tests)
 JSFLAGS = -opt -1 -w -strict # rhino needs this for the big GO tree
-BBOP_JS_VERSION = 0.9
+BBOP_JS_VERSION = 1.0b1
 #JSENGINES = node smjs rhino
 
 all:
