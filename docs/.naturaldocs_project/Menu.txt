@@ -94,6 +94,7 @@ Group: widget  {
       File: filter_shield.js  (widget/display/filter_shield.js)
       File: clickable_object.js  (widget/display/clickable_object.js)
       File: text_buttom_sim.js  (widget/display/text_button_sim.js)
+      File: button_templates.js  (widget/display/button_templates.js)
       }  # Group: display
 
    File: dialog.js  (widget/dialog.js)
