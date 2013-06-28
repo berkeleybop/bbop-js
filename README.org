@@ -36,8 +36,8 @@
 
    Or, for a specific version, try:
 
-   - http://cdn.berkeleybop.org/jsapi/bbop_0.9.js
-   - http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js
+   - http://cdn.berkeleybop.org/jsapi/bbop_VERSION.js
+   - http://cdn.berkeleybop.org/jsapi/bbop_VERSION.min.js
 
 ** Local (building)
 
