@@ -59,6 +59,7 @@ _ll('Run: ' + script_to_run + '; with: ' + script_arg_list.join(', '));
 var http = require('http');
 var sandbox = {
     repl: require('repl'),
+    //server: require('node-router').getServer(),
     http: http,
     console: console,
     process: process.stdout.write,
