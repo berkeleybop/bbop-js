@@ -2,8 +2,8 @@
 //// Some unit testing for html.js
 ////
 //// Usage:
-////    Command line: "js -f html.js.tests"
-////    Interactive: "js -f html.js.tests -f -"
+////    Command line: "rhino -f html.js.tests"
+////    Interactive: "rhino -f html.js.tests -f -"
 ////
 
 
@@ -279,6 +279,23 @@ load('html.js');
      // mr_t.is_same_atom(a3.to_string(),
      //      		  '<img alt="foo" src="bar" />',
      //      		  "image 4");
+     
+ })();
+
+// ensure that the id generation actually works right
+(function(){
+
+     // These better be different!
+     var t_attrs = {'generate_id': true};
+     var t1 = new bbop.html.tag('foo', t_attrs);
+     var t2 = new bbop.html.tag('foo', t_attrs);
+     mr_t.is_different_atom(t1.get_id(), t2.get_id(), 'random tag ids');
+     
+     // These better be different!
+     var l_attrs = {'generate_id': true};
+     var l1 = new bbop.html.list([], l_attrs);
+     var l2 = new bbop.html.list([], l_attrs);
+     mr_t.is_different_atom(l1.get_id(), l2.get_id(), 'random list ids');
      
  })();
 
