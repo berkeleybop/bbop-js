@@ -102,12 +102,23 @@ Group: widget  {
    File: spinner.js  (widget/spinner.js)
    File: list_select_shield.js  (widget/list_select_shield.js)
    File: filter_table.js  (widget/filter_table.js)
+   File: drop_select_shield.js  (widget/drop_select_shield.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
 File: json.js  (json.js)
 File: handler.js  (handler.js)
 File: linker.js  (linker.js)
+
+Group: Rest  {
+
+   File: jquery.js  (rest/manager/jquery.js)
+   File: json.js  (rest/response/json.js)
+   File: manager.js  (rest/manager.js)
+   File: response.js  (rest/response.js)
+   File: rhino.js  (rest/manager/rhino.js)
+   File: ringo.js  (rest/manager/ringo.js)
+   }  # Group: Rest
 
 Group: Index  {
 
