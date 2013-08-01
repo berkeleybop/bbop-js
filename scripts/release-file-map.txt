@@ -19,6 +19,11 @@ lib/bbop/golr/manager/preload.js
 lib/bbop/golr/manager/nodejs.js
 lib/bbop/golr/manager/rhino.js
 lib/bbop/golr/manager/jquery.js
+lib/bbop/rest/response.js
+lib/bbop/rest/response/json.js
+lib/bbop/rest/manager.js
+lib/bbop/rest/manager/rhino.js
+lib/bbop/rest/manager/ringo.js
 lib/bbop/widget/display/clickable_object.js
 lib/bbop/widget/display/text_button_sim.js
 lib/bbop/widget/display/button_templates.js

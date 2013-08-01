@@ -1,0 +1,74 @@
+////
+//// Some unit testing for package manager.js
+////
+//// Usage:
+////    Command line: "rhino -f manager.js.tests"
+////    Interactive: "rhino -f manager.js.tests -f -"
+////
+
+// Load testing.
+load('../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../core.js');
+load('../registry.js');
+load('../logger.js');
+load('../json.js');
+load('response.js');
+load('response/json.js');
+load('manager.js');
+
+///
+/// Start unit testing.
+///
+
+// bbop.rest.manager + bbop.rest.response
+(function(){
+
+     // 
+     var str = '';
+     var m = new bbop.rest.manager(bbop.rest.response);
+     m.register('success', 'id',
+		function(resp, man){
+		    str += resp.raw();  
+		});
+     m.resource('foo');
+     m.get();
+     mr_t.is_same_atom(str, 'foo', 'simple: round trip: foo');
+     m.get();
+     mr_t.is_same_atom(str, 'foofoo', 'simple: another round trip: foofoo');
+     m.get('bar');
+     mr_t.is_same_atom(str, 'foofoobar', 'simple: final trip: foofoobar');
+
+})();
+
+// bbop.rest.manager + bbop.rest.response.json
+(function(){
+
+    var j1 = '{"foo": {"bar": 1}}';
+    var j2 = '{"foo": {"bar": 2}}';
+
+     // 
+     var total = 0;
+     var m = new bbop.rest.manager(bbop.rest.response.json);
+     m.register('success', 'id',
+		function(resp, man){
+		    total += resp.raw()['foo']['bar'];
+		});
+     m.resource(j1);
+     m.get();
+     mr_t.is_same_atom(total, 1, 'json round trip: 1');
+     m.get();
+     mr_t.is_same_atom(total, 2, 'json another trip: 2');
+     m.get(j2);
+     mr_t.is_same_atom(total, 4, 'json another trip: 4');
+
+})();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

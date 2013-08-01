@@ -12,6 +12,9 @@ TESTS = $(wildcard lib/*.js.tests) \
  $(wildcard lib/bbop/contrib/*.js.tests) \
  $(wildcard lib/bbop/golr/*.js.tests) \
  $(wildcard lib/bbop/golr/manager/*.js.tests) \
+ $(wildcard lib/bbop/rest/*.js.tests) \
+ $(wildcard lib/bbop/rest/manager/*.js.tests) \
+ $(wildcard lib/bbop/rest/response/*.js.tests) \
  $(wildcard lib/bbop/parse/*.js.tests) \
  $(wildcard lib/bbop/model/*.js.tests) \
  $(wildcard lib/bbop/widget/*.js.tests) \
@@ -91,6 +94,19 @@ release: bundle docs
 	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
 	s3cmd -P put demo/golr.js s3://bbop/jsapi/bbop-js/demo/
 	s3cmd --recursive -P put docs/ s3://bbop/jsapi/bbop-js/docs/
+
+###
+### Refresh some temporary developer stuff consistently.
+### The main purpose right now is to provide some temporary testing
+### for CommonJS support of BBOP.
+###
+
+.PHONY: commonjs-test
+commonjs-test: bundle
+	cp ./staging/bbop.js ./bin/bbop-commonjs.js
+	echo "\n" >> ./bin/bbop-commonjs.js
+	echo "exports.bbop = bbop;" >> ./bin/bbop-commonjs.js
+	echo "\n" >> ./bin/bbop-commonjs.js
 
 # ###
 # ### Benchmarks.

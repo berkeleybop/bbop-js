@@ -1,0 +1,63 @@
+////
+//// Some unit testing for package rhino.js
+////
+//// Usage:
+////    Command line: "rhino -f rhino.js.tests_manual"
+////    Interactive: "rhino -f rhino.js.tests_manual -f -"
+////
+//// WARNING: These tests require an internet connection.
+//// Because of this, these tests are not automatically run
+//// during normal unit testing.
+////
+
+// Load testing.
+load('../../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../../core.js');
+load('../../registry.js');
+load('../../logger.js');
+load('../../json.js');
+load('../manager.js');
+load('../response.js');
+load('../response/json.js');
+load('rhino.js');
+
+///
+/// Start unit testing.
+///
+
+// bbop.rest.manager.rhino - get
+(function(){
+     var target =
+	 'http://sourceforge.net/rest/p/geneontology/ontology-requests/';
+     
+     var page = null;
+     var m = new bbop.rest.manager.rhino(bbop.rest.response.json);
+     m.register('success', 'id',
+		function(resp, man){
+		    page = resp.raw()['page'];
+		    bbop.core.dump(resp.raw());
+	   });
+     m.get(target);
+     mr_t.is_same_atom(page, '0', 'looks like a "0" (1)');
+
+ })();
+
+// bbop.rest.manager.rhino - fetch
+(function(){
+     var target =
+	 'http://sourceforge.net/rest/p/geneontology/ontology-requests/';     
+     var m = new bbop.rest.manager.rhino(bbop.rest.response.json);
+     var resp = m.fetch(target);
+     var page = resp.raw()['page'];
+     mr_t.is_same_atom(page, '0', 'looks like a "0" (2)');
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

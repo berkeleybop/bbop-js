@@ -1,0 +1,43 @@
+////
+//// Some unit testing for package response.js
+////
+//// Usage:
+////    Command line: "rhino -f response.js.tests"
+////    Interactive: "rhino -f response.js.tests -f -"
+////
+
+// Load testing.
+load('../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../core.js');
+load('response.js');
+
+///
+/// Start unit testing.
+///
+
+// bbop.rest.response
+//(function(){
+
+var robj1 = 'foo';
+var r1 = new bbop.rest.response(robj1);
+
+var robj2 = null;
+var r2 = new bbop.rest.response(robj2);
+
+mr_t.is_true(r1.okay(), 'looks like okay');
+mr_t.is_false(r2.okay(), 'looks like false');
+
+mr_t.is_same_atom(r1.raw(), 'foo', 'looks like a "foo"');
+mr_t.is_same_atom(r2.raw(), null, 'looks like null');
+
+//})();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
