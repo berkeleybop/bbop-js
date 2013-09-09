@@ -31,7 +31,7 @@ load('../../../_data/golr.js');
 (function(){
 
      // Absolute basics.
-     var fconf = amigo.data.golr['bbop_ont']['fields_hash']['source'];
+     var fconf = amigo.data.golr['ontology']['fields_hash']['source'];
      var cf = new bbop.golr.conf_field(fconf);
      mr_t.is_same_atom(cf._is_a, 'bbop.golr.conf_field', "me");
      
@@ -52,7 +52,7 @@ load('../../../_data/golr.js');
 //(function(){
 
      // Absolute basics.
-     var cc = new bbop.golr.conf_class(amigo.data.golr['bbop_ann']);
+     var cc = new bbop.golr.conf_class(amigo.data.golr['annotation']);
      mr_t.is_same_atom(cc._is_a, 'bbop.golr.conf_class', "me");
      
      // Simple getters.
@@ -60,7 +60,7 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom("A description of annotations for GOlr and AmiGO.",
 		       cc.description(), "desc");
      mr_t.is_same_atom(20, cc.weight(), "w");
-     mr_t.is_same_atom("bbop_ann", cc.id(), "id");
+     mr_t.is_same_atom("annotation", cc.id(), "id");
      mr_t.is_same_atom('_searchable', cc.searchable_extension(),
      		       "searchable_extension");
      
@@ -96,16 +96,16 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom(c._is_a, 'bbop.golr.conf', "me");
 
      // Simple getters.
-     mr_t.is_same_atom("Ontology", c.get_class('bbop_ont').display_name(),
+     mr_t.is_same_atom("Ontology", c.get_class('ontology').display_name(),
 		       "display_name");
-     // ont, assoc, bio, family, general, term_ac, ann_ev_agg
-     mr_t.is_same_atom(7, c.get_classes().length, "num classes");
+     // ont, assoc, bio, family, general, term_ac, ann_ev_agg, lego
+     mr_t.is_same_atom(8, c.get_classes().length, "num classes");
 
      // Make sure that we get them ordered.
      // Check with: "grep weight: metadata/*.yaml".
      var ordered_classes = c.get_classes_by_weight();
-     mr_t.is_same_atom('bbop_ont', ordered_classes[0].id(), "first class");
-     mr_t.is_same_atom('bbop_term_ac', ordered_classes[6].id(), "last class");
+     mr_t.is_same_atom('ontology', ordered_classes[0].id(), "first class");
+     mr_t.is_same_atom('bbop_term_ac', ordered_classes[7].id(), "last class");
 
 })();
 

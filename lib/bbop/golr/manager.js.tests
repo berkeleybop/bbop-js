@@ -67,7 +67,7 @@ load('manager.js');
      gm.facets('foo');
      mr_t.is_same_set(gm.facets(), ['foo'], "one facet");
      mr_t.is_same_set(gm.facets('bar'), ['bar', 'foo'], "two facets");
-     gm.set_personality('bbop_ann');
+     gm.set_personality('annotation');
      mr_t.is_same_set(gm.facets(), ['source',
 				    'assigned_by',
 				    'aspect',
@@ -89,7 +89,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     gm_ann.set_personality('bbop_ann'); // profile in gconf
+     gm_ann.set_personality('annotation'); // profile in gconf
      gm_ann.add_query_filter('document_category', 'annotation', ['+', '*']);
      gm_ann.add_query_filter('document_category', 'ontology_class', ['-']);
      gm_ann.add_query_filter('isa_partof_closure', 'GO:0022008', ['+', '*']);
@@ -274,7 +274,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     gm_ann.set_personality('bbop_ann'); // profile in gconf
+     gm_ann.set_personality('annotation'); // profile in gconf
 
      mr_t.is_same_url(gm_ann.get_query_url(),
       		      ['http://golr.berkeleybop.org/select?defType=edismax',
@@ -361,7 +361,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     gm_ann.set_personality('bbop_ann'); // profile in gconf
+     gm_ann.set_personality('annotation'); // profile in gconf
      gm_ann.add_query_filter('document_category', 'annotation', ['-']);
      gm_ann.add_query_filter('document_category', 'ontology_class', ['-']);
      
@@ -412,7 +412,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     gm_ann.set_personality('bbop_ann'); // profile in gconf
+     gm_ann.set_personality('annotation'); // profile in gconf
 
      // Check all default.
      mr_t.is_same_atom(gm_ann.get_query(), "*:*", 'base default query');
@@ -638,9 +638,9 @@ load('manager.js');
 		       'q=foo'].join('&'),
 		      "qf base simple addition: no personality");
      
-     go.set_personality('bbop_ont');
-     mr_t.is_same_atom('bbop_ont', go.get_personality(),
-		       'personality is now bbop_ont');
+     go.set_personality('ontology');
+     mr_t.is_same_atom('ontology', go.get_personality(),
+		       'personality is now ontology');
      mr_t.is_same_url(go.get_query_url(),
 		      ['http://golr.berkeleybop.org/select?defType=edismax',
 		       'qt=standard',
@@ -699,7 +699,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     //gm.set_personality('bbop_ann'); // profile in gconf
+     //gm.set_personality('annotation'); // profile in gconf
      
      gm.set_comfy_query('fo');
      mr_t.is_same_atom(gm.get_query(), "fo", 'comfy: fo');
@@ -760,7 +760,7 @@ load('manager.js');
      gm.set_query('foo');
      
      // Notice how the query variants are all removed in the process.
-     gm.load_url('?personality=bbop_ont');
+     gm.load_url('?personality=ontology');
      mr_t.is_same_url(gm.get_query_url(),
  		      ['http://golr.berkeleybop.org/select?facet.field=source',
  		       'facet.field=subset',
@@ -786,7 +786,7 @@ load('manager.js');
      
      // Again, notice how the query variants are all removed in the
      // process.
-     gm.load_url('?personality=bbop_ont&fq=foo:bar&q=***');
+     gm.load_url('?personality=ontology&fq=foo:bar&q=***');
      mr_t.is_same_url(gm.get_query_url(),
 		      ['http://golr.berkeleybop.org/select?facet.field=source',
 		       'facet.field=subset',
@@ -810,7 +810,7 @@ load('manager.js');
      // Setup--a likely start.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     gm.set_personality('bbop_ann');
+     gm.set_personality('annotation');
      gm.add_query_filter('document_category', 'annotation', ['*']);
      gm.add_query_filter('assigned_by', 'MGI', ['-']);
      gm.set_query('foo');
@@ -833,7 +833,7 @@ load('manager.js');
 		       'facet.sort=count',
 		       'json.nl=arrarr',
 		       'facet.limit=25',
-		       'personality=bbop_ann',
+		       'personality=annotation',
 		       'sfq=document_category:%22annotation%22',
 		       'fq=document_category:%22annotation%22',
 		       'fq=-assigned_by:%22MGI%22',
@@ -878,7 +878,7 @@ load('manager.js');
 		       'facet.sort=count',
 		       'json.nl=arrarr',
 		       'facet.limit=25',
-		       'personality=bbop_ann',
+		       'personality=annotation',
 		       'sfq=document_category:%22annotation%22',
 		       'fq=document_category:%22annotation%22',
 		       'fq=-assigned_by:%22MGI%22',
@@ -1110,7 +1110,7 @@ load('manager.js');
      mr_t.is_false(gm.lite(), 'true/no good personality does nothing 2');
      
      // On.
-     gm.set_personality('bbop_ont');
+     gm.set_personality('ontology');
      mr_t.is_false(gm.lite(), 'defined personality not enough');
      mr_t.is_true(gm.lite(true), 'okay, this is sufficient for lite 1');
      mr_t.is_true(gm.lite(), 'okay, this is sufficient for lite 2');
@@ -1132,7 +1132,7 @@ load('manager.js');
 		       'facet.field=regulates_closure_label',
 		       'facet.field=is_obsolete',
      		       'q=*:*'].join('&'),
-     		      "liteness on for bbop_ont on");    
+     		      "liteness on for ontology on");    
 
      // Toggle.
      mr_t.is_false(gm.lite(false), 'toggle lite off 1');
@@ -1155,7 +1155,7 @@ load('manager.js');
  		       'facet.field=regulates_closure_label',
  		       'facet.field=is_obsolete',
      		       'q=*:*'].join('&'),
-     		      "liteness on for bbop_ont off");
+     		      "liteness on for ontology off");
 
  })();
 
@@ -1290,7 +1290,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
-     gm.set_personality('bbop_ont');
+     gm.set_personality('ontology');
      gm.add_query_filter('abc', 'def');
      gm.set_query("***");
 
@@ -1339,7 +1339,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
-     gm.set_personality('bbop_ont');
+     gm.set_personality('ontology');
      gm.add_query_filter('foo', 'bar', ['-']);
      gm.add_query_filter('123', '456', ['*']);
      gm.add_query_filter('abc', 'def', ['*', '-']);
@@ -1392,7 +1392,7 @@ load('manager.js');
      // Setup.
      var gconf = new bbop.golr.conf(amigo.data.golr);
      var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);     
-     gm.set_personality('bbop_ont');
+     gm.set_personality('ontology');
      gm.set_query('***');
      gm.add_query_field('foo', 5.0);
 
