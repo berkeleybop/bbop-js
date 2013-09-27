@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>matrix test</title>
+    <script type="text/javascript" src="../staging/bbop.js"></script>
+    <script type="text/javascript" src="../lib/bbop/widget/matrix.js"></script>
+    <script type="text/javascript">
+      var mat;
+      var row_count = 20;
+      var col_count = 7;
+      var max_padding = 12;
+      var rowdescs = new Array(row_count);
+      for (var ri = 0; ri < row_count; ri++) {
+        rowdescs[ri] = "R" + ri;
+      }
+      var coldescs = new Array(col_count);
+      for (var ci = 0; ci < col_count; ci++) {
+        coldescs[ci] = "C" + ci;
+      }
+
+      var displayed_rows = rowdescs;
+      var displayed_cols = coldescs;
+
+      window.onload = function() {
+        mat = new bbop.widget.matrix.renderer("test0",
+                                              rowdescs,
+                                              coldescs, 
+                                              cell_renderer,
+                                              {
+                                                //cell_width: 24,
+                                                cell_height: 26,
+                                                show_headers: true});
+
+        
+      };
+      function cell_renderer(cell, row, col) {
+          var varSuffix = Array((Math.random() * max_padding) | 0).join("x");
+          cell.appendChild(document.createTextNode(row + ", " + col + "|" + varSuffix));
+      }
+
+      function shuffleArray(toShuffle) {
+        var result = toShuffle.slice(0);
+        for (var i = result.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = result[i];
+          result[i] = result[j];
+          result[j] = temp;
+        }
+        return result;
+      }
+
+      function reorder_rows() {
+        displayed_rows = shuffleArray(displayed_rows);
+        mat.show_rows(displayed_rows);
+      }
+
+      function reorder_cols() {
+        displayed_cols = shuffleArray(displayed_cols);
+        mat.show_cols(displayed_cols);
+      }
+
+      function reorder_both() {
+        reorder_rows();
+        reorder_cols();
+      }
+
+      function reorder_rows_and_change_subset() {
+        var new_row_list = shuffleArray(rowdescs);
+        var new_row_count = ((rowdescs.length / 2) + (Math.random() * (rowdescs.length / 2))) | 0;
+        displayed_rows = new_row_list.slice(0, new_row_count);
+        mat.show_rows(displayed_rows);
+      }
+
+      function reorder_cols_and_change_subset() {
+        var new_col_list = shuffleArray(coldescs);
+        var new_col_count = ((coldescs.length / 2) + (Math.random() * (coldescs.length / 2))) | 0;
+        displayed_cols = new_col_list.slice(0, new_col_count);
+        mat.show_cols(displayed_cols);
+      }
+
+      function reorder_both_and_change_subsets() {
+         reorder_rows_and_change_subset();
+         reorder_cols_and_change_subset();
+      }
+         
+    </script>
+  </head>
+  <body>
+    <input type="button" onclick="reorder_rows();" value="Reorder rows">
+    <input type="button" onclick="reorder_cols();" value="Reorder cols">
+    <input type="button" onclick="reorder_both();" value="Reorder both">
+    <input type="button" onclick="reorder_rows_and_change_subset();" value="Reorder rows and change subset">
+    <input type="button" onclick="reorder_cols_and_change_subset();" value="Reorder cols and change subset">
+    <input type="button" onclick="reorder_both_and_change_subsets();" value="Reorder both and change both subsets">
+    <div id="test0" style="position:absolute; padding: 0px; border: 5px solid #888;"></div>
+  </body>
+</html>
