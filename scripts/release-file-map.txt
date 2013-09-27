@@ -42,5 +42,8 @@ lib/bbop/widget/drop_select_shield.js
 lib/bbop/widget/search_pane.js
 lib/bbop/widget/repl.js
 lib/bbop/widget/phylo_old.js
+lib/bbop/widget/phylo-tree.js
+lib/bbop/widget/phylo.js
+lib/bbop/widget/matrix.js
 lib/bbop/widget/message.js
 lib/bbop/contrib/go/overlay.js
