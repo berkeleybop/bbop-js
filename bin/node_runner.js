@@ -41,10 +41,10 @@
 
 var console = require('console');
 function _ll(s){
-    //console.log('RUNNER: ' + s);
+//    console.log('RUNNER: ' + s);
 };
 
-// First, firgure out our args.
+// First, figure out our args.
 var script_to_run = process.argv[2];
 var script_arg_list = process.argv.slice(3) || [];
 if( ! script_to_run || ! script_arg_list ){
@@ -59,17 +59,20 @@ _ll('Run: ' + script_to_run + '; with: ' + script_arg_list.join(', '));
 var http = require('http');
 var sandbox = {
     repl: require('repl'),
+    //server: require('node-router').getServer(),
     http: http,
     console: console,
     process: process.stdout.write,
     arglist: script_arg_list
 };
+_ll('Defined context.');
 
 // Read in our various files to, including the script that we'll run.
 var fs = require('fs');
 var bbop_js = fs.readFileSync('../staging/bbop.js').toString();
 var golr_js = fs.readFileSync('../_data/golr.js').toString();
 var run_js = fs.readFileSync(script_to_run).toString();
+_ll('Loaded files.');
 
 var vm = require('vm');
 var context = vm.createContext(sandbox);

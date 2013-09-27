@@ -12,6 +12,9 @@ TESTS = $(wildcard lib/*.js.tests) \
  $(wildcard lib/bbop/contrib/*.js.tests) \
  $(wildcard lib/bbop/golr/*.js.tests) \
  $(wildcard lib/bbop/golr/manager/*.js.tests) \
+ $(wildcard lib/bbop/rest/*.js.tests) \
+ $(wildcard lib/bbop/rest/manager/*.js.tests) \
+ $(wildcard lib/bbop/rest/response/*.js.tests) \
  $(wildcard lib/bbop/parse/*.js.tests) \
  $(wildcard lib/bbop/model/*.js.tests) \
  $(wildcard lib/bbop/widget/*.js.tests) \
@@ -21,6 +24,7 @@ TESTS = $(wildcard lib/*.js.tests) \
 JS = rhino #smjs or rhino, etc.
 ## Some require things like "-opt -1" in some cases (big GO tests)
 JSFLAGS = -opt -1 -w -strict # rhino needs this for the big GO tree
+BBOP_JS_VERSION = 2.0b1
 #JSENGINES = node smjs rhino
 
 all:
@@ -68,7 +72,7 @@ docs:
 .PHONY: bundle
 
 bundle:
-	./scripts/release-js.pl -v -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r 0.9
+	./scripts/release-js.pl -v -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
 ###
 ### Create exportable JS bundle, but skip minifying.
@@ -77,7 +81,7 @@ bundle:
 .PHONY: bundle-uncompressed
 
 bundle-uncompressed:
-	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r 0.9
+	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
 ###
 ### Release: docs and bundle; then to an upload.
@@ -90,6 +94,19 @@ release: bundle docs
 	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
 	s3cmd -P put demo/golr.js s3://bbop/jsapi/bbop-js/demo/
 	s3cmd --recursive -P put docs/ s3://bbop/jsapi/bbop-js/docs/
+
+###
+### Refresh some temporary developer stuff consistently.
+### The main purpose right now is to provide some temporary testing
+### for CommonJS support of BBOP.
+###
+
+.PHONY: commonjs-test
+commonjs-test: bundle
+	cp ./staging/bbop.js ./bin/bbop-commonjs.js
+	echo "\n" >> ./bin/bbop-commonjs.js
+	echo "exports.bbop = bbop;" >> ./bin/bbop-commonjs.js
+	echo "\n" >> ./bin/bbop-commonjs.js
 
 # ###
 # ### Benchmarks.

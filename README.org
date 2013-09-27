@@ -36,8 +36,8 @@
 
    Or, for a specific version, try:
 
-   - http://cdn.berkeleybop.org/jsapi/bbop_0.9.js
-   - http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js
+   - http://cdn.berkeleybop.org/jsapi/bbop_VERSION.js
+   - http://cdn.berkeleybop.org/jsapi/bbop_VERSION.min.js
 
 ** Local (building)
 
@@ -133,8 +133,8 @@
 
    These two exceptions in BBOP JS are currently tested with:
 
-   - jQuery 1.8.0
-   - jQuery UI 1.8.23
+   - jQuery 1.9.1
+   - jQuery UI 1.10.3
 
    Remember: these only become requirements if you are using the
    bbop.golr.manager.jquery engine (jQuery required) or one of the
@@ -148,11 +148,12 @@
 ** Documentation
 *** Wiki Documentation
 
-    The wiki for this code can be found [[https://github.com/kltm/bbop-js/wiki][here]].
+    The wiki for this code can be found [[https://github.com/kltm/bbop-js/wiki][here]]. We've just started
+    filling it in.
 
 *** API Documentation
 
-   The alpha API documentation can be current found [[http://cdn.berkeleybop.org/jsapi/bbop-js/docs/index.html][here]].
+   The beta API documentation can be current found [[http://cdn.berkeleybop.org/jsapi/bbop-js/docs/index.html][here]].
 
 ** Demos
 

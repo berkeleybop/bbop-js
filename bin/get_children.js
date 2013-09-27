@@ -47,7 +47,7 @@ function report(resp){
 
     // Gather out info graph info from the first doc.
     var doc = resp.get_doc(0);
-    var graph_json = doc['topology_graph'];
+    var graph_json = doc['topology_graph_json'];
     var graph = new bbop.model.graph();
     graph.load_json(JSON.parse(graph_json));
     var kids = graph.get_child_nodes(term_acc);

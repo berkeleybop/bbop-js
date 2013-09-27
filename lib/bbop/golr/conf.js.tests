@@ -2,8 +2,8 @@
 //// Some unit testing for package conf.js
 ////
 //// Usage:
-////    Command line: "js -f conf.js.tests"
-////    Interactive: "js -f conf.js.tests -f -"
+////    Command line: "rhino -f conf.js.tests"
+////    Interactive: "rhino -f conf.js.tests -f -"
 ////
 //// To get fresh data from an AmiGO install (must be done periodically):
 ////    make refresh
@@ -31,27 +31,28 @@ load('../../../_data/golr.js');
 (function(){
 
      // Absolute basics.
-     var fconf = amigo.data.golr['bbop_ont']['fields_hash']['source'];
+     var fconf = amigo.data.golr['ontology']['fields_hash']['source'];
      var cf = new bbop.golr.conf_field(fconf);
      mr_t.is_same_atom(cf._is_a, 'bbop.golr.conf_field', "me");
      
      // Simple getters.
-     mr_t.is_same_atom("Source", cf.display_name(), "display_name");
+     mr_t.is_same_atom("Ontology source", cf.display_name(), "display_name");
      mr_t.is_same_atom("Term namespace.",
 		       cf.description(), "desc");
      mr_t.is_same_atom("source", cf.id(), "id");
      mr_t.is_same_atom(false, cf.searchable(), "searchable");
      mr_t.is_same_atom(false, cf.required(), "required");
      mr_t.is_same_atom(false, cf.is_multi(), "multi?");
+     //mr_t.is_same_atom(false, cf.has_handler(), "handler?");
      mr_t.is_same_atom(false, cf.is_fixed(), "fixed?");
      mr_t.is_same_atom("getNamespace", cf.property(), "prop");
  })();
 
 // bbop.golr.conf_class
-(function(){
+//(function(){
 
      // Absolute basics.
-     var cc = new bbop.golr.conf_class(amigo.data.golr['bbop_ann']);
+     var cc = new bbop.golr.conf_class(amigo.data.golr['annotation']);
      mr_t.is_same_atom(cc._is_a, 'bbop.golr.conf_class', "me");
      
      // Simple getters.
@@ -59,13 +60,16 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom("A description of annotations for GOlr and AmiGO.",
 		       cc.description(), "desc");
      mr_t.is_same_atom(20, cc.weight(), "w");
-     mr_t.is_same_atom("bbop_ann", cc.id(), "id");
+     mr_t.is_same_atom("annotation", cc.id(), "id");
      mr_t.is_same_atom('_searchable', cc.searchable_extension(),
      		       "searchable_extension");
      
      // More complicated.
      mr_t.is_same_atom(null, cc.get_field('blork'), "s1");
      mr_t.is_same_atom('source', cc.get_field('source').id(), "s2");
+
+     // Make sure we got all the fields.
+     mr_t.is_same_atom(40, cc.get_fields().length, "can get all fields");
      
      // Look at weights individually.
      var boosts = cc.get_weights('boost');
@@ -73,16 +77,16 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom(null, boosts['ashdlas'], "no boost");
 
      // Look at weights as a group.
-     var ordered_filter_list_5 = cc.field_order_by_weight('filter', 5.0);
-     mr_t.is_same_atom(5, ordered_filter_list_5.length, "ofl5 len");
-     mr_t.is_same_atom('source', ordered_filter_list_5[0], "ofl5 first");
+     var ordered_filter_list_7 = cc.field_order_by_weight('filter', 5.0);
+     mr_t.is_same_atom(7, ordered_filter_list_7.length, "ofl7 len");
+     mr_t.is_same_atom('source', ordered_filter_list_7[0], "ofl7 first");
      mr_t.is_same_atom('taxon_closure_label',
-		       ordered_filter_list_5[ordered_filter_list_5.length -1],
-		       "ofl5 last");
+		       ordered_filter_list_7[ordered_filter_list_7.length -1],
+		       "ofl7 last");
      var ordered_filter_list_all = cc.field_order_by_weight('filter');
-     mr_t.is_same_atom(8, ordered_filter_list_all.length, "ofla len");
+     mr_t.is_same_atom(10, ordered_filter_list_all.length, "ofla len");
      mr_t.is_same_atom('source', ordered_filter_list_all[0], "ofla first");
- })();
+// })();
 
 // Top-level bbop.golr.conf
 (function(){
@@ -92,10 +96,18 @@ load('../../../_data/golr.js');
      mr_t.is_same_atom(c._is_a, 'bbop.golr.conf', "me");
 
      // Simple getters.
-     mr_t.is_same_atom("Ontology", c.get_class('bbop_ont').display_name(),
+     mr_t.is_same_atom("Ontology", c.get_class('ontology').display_name(),
 		       "display_name");
-     mr_t.is_same_atom(4, c.get_classes().length, "num classes");
- })();
+     // ont, assoc, bio, family, general, term_ac, ann_ev_agg, lego
+     mr_t.is_same_atom(8, c.get_classes().length, "num classes");
+
+     // Make sure that we get them ordered.
+     // Check with: "grep weight: metadata/*.yaml".
+     var ordered_classes = c.get_classes_by_weight();
+     mr_t.is_same_atom('ontology', ordered_classes[0].id(), "first class");
+     mr_t.is_same_atom('bbop_term_ac', ordered_classes[7].id(), "last class");
+
+})();
 
 ///
 /// End unit testing.

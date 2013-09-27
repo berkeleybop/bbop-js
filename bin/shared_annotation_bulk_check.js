@@ -25,9 +25,10 @@ var is_defined = bbop.core.is_defined;
 var ensure = bbop.core.ensure;
 
 // Helper.
+// WARNING: Will throw error--only use for real errors, not reporting
 function err (str){
     print('ERROR: ' + str);
-    java.lang.System.exit(1);    
+    java.lang.System.exit(1);
 }
 
 // Helper to bookmark into A2
@@ -38,8 +39,12 @@ function _link_to_a2(bookmark){
     var retl =
 	// BUG/TODO:
 	//sdata.app_base() + '/' + 
-	'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
+	//'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
 	linker.url(encodeURIComponent(bookmark), 'search');
+
+    // Seems to be something wonky in the local config we're pulling
+    // from.
+    retl = retl.replace('localhost', 'amigo2.berkeleybop.org');
 
     return retl;
 }
@@ -65,11 +70,9 @@ if( ! is_defined(file_str) ||
 // Our rule variables.
  // Looks like {idA : [arg1A, arg2A], ...}
 var no_overlap_checks = {};
- // Looks like {idA : [arg1A, arg2A], ...}
-var overlap_checks = {};
 // Looks like {idA : [arg1A, arg2A, [or1A, or2A, ...]], ...}
 var logic_checks = {};
-var check_errors = [];
+var check_errors = 0;
 
 // Parse the rules file.
 file_str = chomp(file_str);
@@ -93,15 +96,9 @@ each(file_lines,
 	 }else{
 	     // Parse logic.
 	     var parsed_logic = splode(logic, ' OR ');
-	     // Decide on simple overlap or group check.
-	     if( parsed_logic.length == 1 ){
-		 var arg3 = parsed_logic[0];
-		 overlap_checks[arg1+';'+arg2+';'+arg3] = [arg1, arg2, arg3];
-	     }else{
-		 var or_log_bun = [arg1, arg2, parsed_logic];
-		 //print('TODO: Logic check: ' + bbop.core.dump(or_log_bun));
-		 logic_checks[arg1 + ';' + arg2 + ';' + logic] = or_log_bun;
-	     }
+	     var or_log_bun = [arg1, arg2, parsed_logic];
+	     //print('TODO: Logic check: ' + bbop.core.dump(or_log_bun));
+	     logic_checks[arg1 + ';' + arg2 + ';' + logic] = or_log_bun;
 	 }
      });
 
@@ -144,109 +141,81 @@ each(no_overlap_checks,
 	 var bookmark = run_results[1];
 	 print('Checked exclusive: '+ arg_list.join(' && ') +' ('+ count +')');
 	 if( count != 0 ){
-	     check_errors.push('ERROR: exclusive count of ' +
-			       count + ' on: ' +
-			       key + "\n\t" +
-			       _link_to_a2(bookmark));
+	     check_errors++;
+	     print('ERROR : exclusive count of ' +
+		   count + ' on: ' +
+		   key + "\n\t" +
+		   _link_to_a2(bookmark));
 	 }
      });
 
-// First, we cycle though all the simple exclusivity tests.
-print('Running simple inclusivity checks...');
-each(overlap_checks,
-     function(key, arg_list){
-	 var run_results = run_n_way_and(arg_list);
-	 var count = run_results[0];
-	 var bookmark = run_results[1];
-	 print('Checked inclusive: '+ arg_list.join(' && ') +' ('+ count +')');
-	 if( count == 0 ){
-	     check_errors.push('ERROR: inclusive count of ' +
-			       count + ' on: ' +
-			       key + "\n\t" +
-			       _link_to_a2(bookmark));
-	 }
-     });
-
-// Now try the OR(?) logic tests.
+// Now try the !AND logic tests.
 print('Running AND series logic checks...');
 each(logic_checks,
      function(key, arg_list){
 	 
 	 var arg1 = arg_list[0];
 	 var arg2 = arg_list[1];
-	 var or_list = arg_list[2];
+	 var exclusion_list = arg_list[2];
 
 	 // print('To check (inclusive): ' + arg1 + ', ' + arg2  + '; ' +  
-	 //       or_list.join(' && '));
+	 //       exclusion_list.join(' && '));
 	 
 	 // First, see if there is any point in proceeding.
 	 var run_results = run_n_way_and([arg1, arg2]);
 	 var check_cnt = run_results[0];
 	 if( check_cnt == 0 ){
 	     
-	     print('Checked logical; trivially passed with no base overlap: ' +
-		   arg1 + ' && ' + arg2);
+	     print('Checked exclusion; trivially passed with no base overlap: '
+		   + arg1 + ' && ' + arg2 + ' (0)');
 
 	 }else{
 
 	     //print('Logic parse...');
 
-	     // Umm...ugh--we're going to try some actual logic. This
-	     // should be more built into the manager at some point.
-	     var ors = new bbop.logic('OR');
-	     each(or_list,
-	     	  function(or_arg){
-	     	      ors.add(ensure(or_arg, '"'));
-	     	  });
-	     //print('Logic parse: OR: ' + ors.to_string());
-	     var ands = new bbop.logic('AND');
-	     ands.add(ensure(arg1, '"'));
-	     ands.add(ensure(arg2, '"'));
-	     ands.add(ors);
-	     var raw_logic = ands.to_string();
-	     //print('Logic parsed to: ' + raw_logic);
+	     // Reset from last iteration.
+	     go.reset_query_filters();
 
-	     // Corrected because rhino sucks.
-	     var final_logic = raw_logic.replace('(', '%28', 'g');
-	     final_logic = final_logic.replace(')', '%29', 'g');
-	     final_logic = final_logic.replace('"', '%22', 'g');
-	     final_logic = final_logic.replace(' ', '%20', 'g');
+	     // Add the first part of the base intersections.
+	     go.add_query_filter('isa_partof_closure', arg1);
+	     go.add_query_filter('isa_partof_closure', arg2);
 
-	     // Set the next query with our logic ball.
-	     //go.add_query_filter('isa_partof_closure', final_logic);
-	     go.set_extra('fq=isa_partof_closure:%28' + final_logic + '%29');
+	     // Add all of the items in the simple 
+	     each(exclusion_list,
+		  function(exarg){
+		      go.add_query_filter('isa_partof_closure', exarg, ['-']);
+		  });
 
 	     // Fetch the data and grab the info we want.
 	     var resp = go.fetch();
 	     var count = resp.total_documents();
 	     var bookmark = go.get_state_url();
 
-	     // Reset from the last iteration.
-	     go.reset_query_filters();
-	     go.remove_extra(); // have to remove this manually each time
-
 	     // Test the count to make sure that there were annotations
 	     // for at least one of the choices.
-	     print('Checked inclusive: ' + arg1 + ' && ' + arg2  + ' && (' +  
-	     	   or_list.join(' || ') + ') (' + count + ')');
-	     if( count == 0 ){
-	     	 check_errors.push('ERROR: no co-annotations for: ' +
-				   key + "\n\t" +
-				   _link_to_a2(bookmark));
+	     print('Checked exclusion: ' + arg1 + ' && ' + arg2  + ' && !(' +  
+	     	   exclusion_list.join(' || ') + ') (' + count + ')');
+	     if( count != 0 ){
+	     	 check_errors++;
+		 print('ERROR : bad co-annotations for: ' +
+		       key + "\n\t" +
+		       _link_to_a2(bookmark));
 	     	 // }else{
 	     	 //     check_errors.push('PASS: co-annotation for: ' + key);
+		 // }
 	     }
 	 }
      });
 
 // Report.
+// I removed the bad exits here because reporting and jenkins-style
+// build success need to be different things.
+// Maybe reconsider once the ontology is fixed.
 print('Looked at ' + file_lines.length + ' rules.');
-if( check_errors ){
-    each(check_errors,
-	 function(error_str){
-	     print('PROBLEM: ' + error_str);
-	 });
-    err('Completed with ' + check_errors.length + ' broken rules.');
+if( check_errors > 0 ){
+    print('Completed with ' + check_errors + ' broken rule(s).');
+    // java.lang.System.exit(1);
 }else{
     print('Done--completed with no broken rules.');
+    // java.lang.System.exit(0);
 }

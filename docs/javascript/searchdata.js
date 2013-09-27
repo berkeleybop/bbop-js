@@ -90,7 +90,7 @@ var indexSectionsWithContent = {
       "Z": false
       },
    "Classes": {
-      "Symbols": false,
+      "Symbols": true,
       "Numbers": false,
       "A": false,
       "B": true,

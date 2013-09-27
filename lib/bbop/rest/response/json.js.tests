@@ -1,0 +1,68 @@
+////
+//// Some unit testing for package json.js
+////
+//// Usage:
+////    Command line: "rhino -f json.js.tests"
+////    Interactive: "rhino -f json.js.tests -f -"
+////
+
+// Load testing.
+load('../../test.js');
+var mr_t = new bbop.test();
+
+// Correct environment.
+load('../../core.js');
+load('../../json.js');
+load('../response.js');
+load('json.js');
+
+///
+/// Start unit testing.
+///
+
+// bbop.rest.response.json
+(function(){
+
+// Bad JSON.
+var robj1 = 'foo';
+var r1 = new bbop.rest.response.json(robj1);
+mr_t.is_false(r1.okay(), 'looks like false (1)');
+mr_t.is_same_atom(r1.string(), 'foo', 'looks like a "foo" (1)');
+mr_t.is_same_atom(r1.raw(), null, 'looks like a null (1)');
+
+// Trivially parsed nothing JSON.
+var robj2 = null;
+var r2 = new bbop.rest.response.json(robj2);
+mr_t.is_true(r2.okay(), 'looks like okay (2)');
+mr_t.is_same_atom(r2.string(), null, 'looks like null (2)');
+mr_t.is_same_atom(r2.raw(), null, 'looks like a null (2)');
+
+// Bad JSON.
+var robj3 = '{"foo":1, "bar"}';
+var r3 = new bbop.rest.response.json(robj3);
+mr_t.is_false(r3.okay(), 'looks like false (3)');
+mr_t.is_same_atom(r3.string(), '{"foo":1, "bar"}',
+		  'looks like: {"foo":1, "bar"} (3)');
+mr_t.is_same_atom(r3.raw(), null, 'looks like a null (3)');
+
+// Good JSON.
+var robj4 = '{"foo":1, "bar": {"bib":"a", "bab":2}}';
+var r4 = new bbop.rest.response.json(robj4);
+mr_t.is_true(r4.okay(), 'looks like okay (4)');
+mr_t.is_same_atom(r4.string(), '{"foo":1, "bar": {"bib":"a", "bab":2}}',
+		  'looks like: {"foo":1, "bar": {"bib":"a", "bab":2}} (4)');
+mr_t.is_same_hash(r4.raw()['bar'],
+		  {"bib":"a", "bab":2},
+		  'looks like the same hash (4)');
+
+//var o4 = r4.raw();
+//bbop.core.dump(o4);
+
+})();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

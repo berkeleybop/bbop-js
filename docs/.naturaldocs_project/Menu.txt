@@ -88,19 +88,37 @@ Group: widget  {
 
    Group: display  {
 
-      File: meta_results.js  (widget/display/meta_results.js)
       File: results_table_by_class_conf.js  (widget/display/results_table_by_class_conf.js)
       File: two_column_layout.js  (widget/display/two_column_layout.js)
       File: live_search.js  (widget/display/live_search.js)
       File: filter_shield.js  (widget/display/filter_shield.js)
       File: clickable_object.js  (widget/display/clickable_object.js)
+      File: text_buttom_sim.js  (widget/display/text_button_sim.js)
+      File: button_templates.js  (widget/display/button_templates.js)
       }  # Group: display
 
    File: dialog.js  (widget/dialog.js)
+   File: message.js  (widget/message.js)
+   File: spinner.js  (widget/spinner.js)
+   File: list_select_shield.js  (widget/list_select_shield.js)
+   File: filter_table.js  (widget/filter_table.js)
+   File: drop_select_shield.js  (widget/drop_select_shield.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
 File: json.js  (json.js)
+File: handler.js  (handler.js)
+File: linker.js  (linker.js)
+
+Group: Rest  {
+
+   File: jquery.js  (rest/manager/jquery.js)
+   File: json.js  (rest/response/json.js)
+   File: manager.js  (rest/manager.js)
+   File: response.js  (rest/response.js)
+   File: rhino.js  (rest/manager/rhino.js)
+   File: ringo.js  (rest/manager/ringo.js)
+   }  # Group: Rest
 
 Group: Index  {
 
