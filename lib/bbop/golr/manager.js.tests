@@ -1567,10 +1567,10 @@ load('manager.js');
       		      "added query filters as strings");
 
      mr_t.is_same_url('/?' + gm_ann.get_filter_query_string(),
-		      ['/?query=*:*',
-		       'pin=document_category:"ontology_class"',
-		       'filter=document_category:"annotation"',
-		       'filter=-isa_partof_closure:"GO:0022008"'].join('&'),
+		      ['/?q=*:*',
+		       'fq=document_category:"ontology_class"',
+		       'sfq=document_category:"annotation"',
+		       'sfq=-isa_partof_closure:"GO:0022008"'].join('&'),
 		      "reads out as RESTy bookmark");
      
  })();
