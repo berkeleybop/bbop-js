@@ -1526,6 +1526,55 @@ load('manager.js');
 
  })();
 
+// bbop.golr.manager - 24 - another type of bookmarking, input/output
+(function(){
+
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm_ann = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     gm_ann.set_personality('annotation'); // profile in gconf
+     gm_ann.add_query_filter_as_string('document_category:annotation', ['*']);
+     gm_ann.add_query_filter_as_string('+document_category:ontology_class', []);
+     gm_ann.add_query_filter_as_string('-isa_partof_closure:GO:0022008', ['*']);
+
+     mr_t.is_same_url(gm_ann.get_query_url(),
+      		      ['http://golr.berkeleybop.org/select?defType=edismax',
+		       'qt=standard',
+		       'indent=on',
+		       'wt=json',
+		       'rows=10',
+		       'start=0',
+		       'fl=*,score',
+		       'facet=true',
+		       'facet.mincount=1',
+		       'facet.sort=count',
+		       'json.nl=arrarr',
+		       'facet.limit=25',
+		       'facet.field=source',
+		       'facet.field=assigned_by',
+		       'facet.field=aspect',
+		       'facet.field=evidence_type_closure',
+		       'facet.field=panther_family_label',
+		       'facet.field=qualifier',
+		       'facet.field=taxon_closure_label',
+		       'facet.field=annotation_class_label',
+		       'facet.field=regulates_closure_label',
+		       'facet.field=annotation_extension_class_closure_label',
+		       'fq=document_category:%22annotation%22',
+		       'fq=document_category:%22ontology_class%22',
+		       'fq=-isa_partof_closure:%22GO:0022008%22',
+		       'q=*:*'].join('&'),
+      		      "added query filters as strings");
+
+     mr_t.is_same_url('/?' + gm_ann.get_filter_query_string(),
+		      ['/?query=*:*',
+		       'pin=document_category:"ontology_class"',
+		       'filter=document_category:"annotation"',
+		       'filter=-isa_partof_closure:"GO:0022008"'].join('&'),
+		      "reads out as RESTy bookmark");
+     
+ })();
+
 ///
 /// End unit testing.
 ///
