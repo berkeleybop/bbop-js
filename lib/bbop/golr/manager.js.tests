@@ -1568,9 +1568,9 @@ load('manager.js');
 
      mr_t.is_same_url('/?' + gm_ann.get_filter_query_string(),
 		      ['/?q=*:*',
-		       'fq=document_category:"ontology_class"',
-		       'sfq=document_category:"annotation"',
-		       'sfq=-isa_partof_closure:"GO:0022008"'].join('&'),
+		       'fq=document_category:%22ontology_class%22',
+		       'sfq=document_category:%22annotation%22',
+		       'sfq=-isa_partof_closure:%22GO:0022008%22'].join('&'),
 		      "reads out as RESTy bookmark");
      
  })();
