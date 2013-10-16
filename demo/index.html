@@ -117,7 +117,7 @@
               // Create the manager, set it's personality, then
               // restrict it to one "document_category".
 	      var go = new bbop.golr.manager.jquery(gserv, gconf);
-	      go.set_personality('bbop_ont');
+	      go.set_personality('ontology');
               go.add_query_filter('document_category', 'ontology_class');
 
               // Create the callback function to change the text
@@ -143,7 +143,7 @@
   // Create the manager, set it's personality, then
   // restrict it to one "document_category".
   var go = new bbop.golr.manager.jquery(gserv, gconf);
-  go.set_personality('bbop_ont');
+  go.set_personality('ontology');
   go.add_query_filter('document_category', 'ontology_class');
 
   // Create the callback function to change the text
@@ -178,7 +178,7 @@
 	      var gserv = 'http://golr.berkeleybop.org/';
 	      var gconf = new bbop.golr.conf(amigo.data.golr);
 	      var auto = new bbop.widget.search_box(gserv, gconf, 'd02');
-	      auto.set_personality('bbop_ont');
+	      auto.set_personality('ontology');
 	    });
 	  </script>
 	  <input type="text" size="25" value="" id="d02" />
@@ -188,7 +188,7 @@
   var gserv = 'http://golr.berkeleybop.org/';
   var gconf = new bbop.golr.conf(amigo.data.golr);
   var auto = new bbop.widget.search_box(gserv, gconf, 'd02');
-  auto.set_personality('bbop_ont');
+  auto.set_personality('ontology');
 });</pre>
 	</div>
       </div>
@@ -217,7 +217,7 @@
 		'list_select_callback': function(doc){ alert(doc['id']); }
 	      };
 	      var auto = new bbop.widget.search_box(gserv, gconf, 'd03', a03);
-	      auto.set_personality('bbop_ont');
+	      auto.set_personality('ontology');
 	    });
 	  </script>
 	  <input type="text" size="25" value="" id="d03" />
@@ -232,7 +232,7 @@
     'list_select_callback': function(doc){ alert(doc['id']); }
   };
   var auto = new bbop.widget.search_box(gserv, gconf, 'd03', a03);
-  auto.set_personality('bbop_ont');
+  auto.set_personality('ontology');
 });</pre>
 	</div>
       </div>
