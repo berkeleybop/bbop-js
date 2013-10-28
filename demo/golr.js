@@ -1159,7 +1159,11 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "topology_graph_json",
             "property" : [
-               "getSegmentShuntGraphJSON"
+               "getSegmentShuntGraphJSON",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
             ]
          },
          {
@@ -1173,7 +1177,11 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "regulates_transitivity_graph_json",
             "property" : [
-               "getLineageShuntGraphJSON"
+               "getLineageShuntGraphJSON",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
             ]
          },
          {
@@ -1290,7 +1298,11 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "regulates_transitivity_graph_json",
             "property" : [
-               "getLineageShuntGraphJSON"
+               "getLineageShuntGraphJSON",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
             ]
          },
          "database_xref" : {
@@ -1363,7 +1375,11 @@ amigo.data.golr = {
             "type" : "string",
             "id" : "topology_graph_json",
             "property" : [
-               "getSegmentShuntGraphJSON"
+               "getSegmentShuntGraphJSON",
+               "BFO:0000050",
+               "RO:0002211",
+               "RO:0002212",
+               "RO:0002213"
             ]
          },
          "subset" : {
