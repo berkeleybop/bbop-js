@@ -1078,7 +1078,7 @@ amigo.data.golr = {
          },
          {
             "transform" : [],
-            "description" : "Closure of ids/accs over regulates.",
+            "description" : "Closure of ids/accs over regulates and occurs in.",
             "display_name" : "Ancestor",
             "indexed" : "true",
             "searchable" : "false",
@@ -1089,6 +1089,7 @@ amigo.data.golr = {
             "property" : [
                "getRelationIDClosure",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1096,7 +1097,7 @@ amigo.data.golr = {
          },
          {
             "transform" : [],
-            "description" : "Closure of labels over regulates.",
+            "description" : "Closure of labels over regulates and occurs in.",
             "display_name" : "Ancestor",
             "indexed" : "true",
             "searchable" : "true",
@@ -1107,6 +1108,7 @@ amigo.data.golr = {
             "property" : [
                "getRelationLabelClosure",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1114,7 +1116,7 @@ amigo.data.golr = {
          },
          {
             "transform" : [],
-            "description" : "Closure of ids/accs over regulates.",
+            "description" : "Closure of ids/accs over regulates and occurs in.",
             "display_name" : "Ancestor",
             "indexed" : "true",
             "searchable" : "false",
@@ -1125,6 +1127,7 @@ amigo.data.golr = {
             "property" : [
                "getRelationIDClosure",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1132,7 +1135,7 @@ amigo.data.golr = {
          },
          {
             "transform" : [],
-            "description" : "Closure of labels over regulates.",
+            "description" : "Closure of labels over regulates and occurs in.",
             "display_name" : "Ancestor",
             "indexed" : "true",
             "searchable" : "true",
@@ -1143,6 +1146,7 @@ amigo.data.golr = {
             "property" : [
                "getRelationLabelClosure",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1161,6 +1165,7 @@ amigo.data.golr = {
             "property" : [
                "getSegmentShuntGraphJSON",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1179,6 +1184,7 @@ amigo.data.golr = {
             "property" : [
                "getLineageShuntGraphJSON",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1300,6 +1306,7 @@ amigo.data.golr = {
             "property" : [
                "getLineageShuntGraphJSON",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1377,6 +1384,7 @@ amigo.data.golr = {
             "property" : [
                "getSegmentShuntGraphJSON",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1498,7 +1506,7 @@ amigo.data.golr = {
          },
          "regulates_closure_label" : {
             "transform" : [],
-            "description" : "Closure of labels over regulates.",
+            "description" : "Closure of labels over regulates and occurs in.",
             "display_name" : "Ancestor",
             "indexed" : "true",
             "searchable" : "true",
@@ -1509,6 +1517,7 @@ amigo.data.golr = {
             "property" : [
                "getRelationLabelClosure",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
@@ -1530,7 +1539,7 @@ amigo.data.golr = {
          },
          "regulates_closure" : {
             "transform" : [],
-            "description" : "Closure of ids/accs over regulates.",
+            "description" : "Closure of ids/accs over regulates and occurs in.",
             "display_name" : "Ancestor",
             "indexed" : "true",
             "searchable" : "false",
@@ -1541,6 +1550,7 @@ amigo.data.golr = {
             "property" : [
                "getRelationIDClosure",
                "BFO:0000050",
+               "BFO:0000066",
                "RO:0002211",
                "RO:0002212",
                "RO:0002213"
