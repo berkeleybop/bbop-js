@@ -1,0 +1,5 @@
+In this directory, we're experimenting with a way of handling modules
+and namespaces such that we can support 1) browsers, 2) rhino, 3)
+nodejs. So far, so good.
+
+To assemble the superlib, use "make bbop.js".
