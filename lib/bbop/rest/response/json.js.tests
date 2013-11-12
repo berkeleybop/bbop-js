@@ -1,20 +1,10 @@
 ////
 //// Some unit testing for package json.js
 ////
-//// Usage:
-////    Command line: "rhino -f json.js.tests"
-////    Interactive: "rhino -f json.js.tests -f -"
-////
 
-// Load testing.
-load('../../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../../core.js');
-load('../../json.js');
-load('../response.js');
-load('json.js');
 
 ///
 /// Start unit testing.

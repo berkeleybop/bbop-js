@@ -2,27 +2,16 @@
 //// Some unit testing for package rhino.js
 ////
 //// Usage:
-////    Command line: "rhino -f rhino.js.tests_manual"
-////    Interactive: "rhino -f rhino.js.tests_manual -f -"
+////   rhino -modules staging/bbop.js -opt -1 -f lib/bbop/rest/manager/rhino.js.tests_manual
 ////
 //// WARNING: These tests require an internet connection.
 //// Because of this, these tests are not automatically run
 //// during normal unit testing.
 ////
 
-// Load testing.
-load('../../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../../core.js');
-load('../../registry.js');
-load('../../logger.js');
-load('../../json.js');
-load('../manager.js');
-load('../response.js');
-load('../response/json.js');
-load('rhino.js');
 
 ///
 /// Start unit testing.

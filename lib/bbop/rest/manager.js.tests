@@ -1,23 +1,10 @@
 ////
 //// Some unit testing for package manager.js
 ////
-//// Usage:
-////    Command line: "rhino -f manager.js.tests"
-////    Interactive: "rhino -f manager.js.tests -f -"
-////
 
-// Load testing.
-load('../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../core.js');
-load('../registry.js');
-load('../logger.js');
-load('../json.js');
-load('response.js');
-load('response/json.js');
-load('manager.js');
 
 ///
 /// Start unit testing.

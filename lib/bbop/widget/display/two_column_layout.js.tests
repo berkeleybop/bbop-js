@@ -1,20 +1,10 @@
 ////
 //// Some testing for the search templates.
 ////
-//// Usage:
-////    Command line: "js -f two_column_layout.js.tests"
-////    Interactive: "js -f two_column_layout.js.tests -f -"
-////
 
-
-// Load testing.
-load('../../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../../core.js');
-load('../../html.js');
-load('two_column_layout.js');
 
 ///
 /// Start testing.

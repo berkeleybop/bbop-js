@@ -1,20 +1,10 @@
 ////
 //// Some testing for the clickable thingy.
 ////
-//// Usage:
-////    Command line: "js -f clickable_object.js.tests"
-////    Interactive: "js -f clickable_object.js.tests -f -"
-////
 
-
-// Load testing.
-load('../../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../../core.js');
-load('../../html.js');
-load('clickable_object.js');
 
 ///
 /// Start testing.

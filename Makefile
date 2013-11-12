@@ -12,13 +12,14 @@ TESTS = \
  $(wildcard lib/bbop/model/*.js.tests) \
  $(wildcard lib/bbop/golr/*.js.tests) \
  $(wildcard lib/bbop/golr/manager/*.js.tests) \
- # $(wildcard lib/bbop/rest/*.js.tests) \
- # $(wildcard lib/bbop/rest/manager/*.js.tests) \
- # $(wildcard lib/bbop/rest/response/*.js.tests) \
- # $(wildcard lib/bbop/parse/*.js.tests) \
- # $(wildcard lib/bbop/widget/*.js.tests) \
- # $(wildcard lib/bbop/widget/display/*.js.tests) \
- # $(wildcard lib/bbop/contrib/go/*.js.tests)
+ $(wildcard lib/bbop/rest/*.js.tests) \
+ $(wildcard lib/bbop/rest/response/*.js.tests) \
+ $(wildcard lib/bbop/rest/manager/*.js.tests) \
+ $(wildcard lib/bbop/widget/display/*.js.tests) \
+ $(wildcard lib/bbop/widget/*.js.tests) \
+ ##
+ ## $(wildcard lib/bbop/contrib/go/*.js.tests)
+ ## $(wildcard lib/bbop/parse/*.js.tests) \
 #BENCHMARKS = $(wildcard _benchmark/*.js)
 
 ## Test JS environment.
@@ -27,7 +28,8 @@ TEST_JS = rhino
 ## rhino needs this for the big GO tree in model.tests.go.js.
 ## Java BUG, so interpretation is forced.
 ## See: http://coachwei.sys-con.com/node/676073/mobile
-TEST_JS_FLAGS = -modules staging/bbop.js -opt -1 -w -strict
+#TEST_JS_FLAGS = -modules staging/bbop.js -opt -1 -w -strict
+TEST_JS_FLAGS = -modules staging/bbop.js -opt -1
 
 ## Other JS environments.
 #NODE_JS ?= /usr/bin/node
