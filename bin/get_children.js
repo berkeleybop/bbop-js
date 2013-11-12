@@ -63,8 +63,8 @@ function report(resp){
 
 // Define the server, define the query, bind the callback, and
 // trigger.
-gconf = new bbop.golr.conf(amigo.data.golr);
-go = new bbop.golr.manager.nodejs('http://golr.berkeleybop.org/', gconf);
+var gconf = new bbop.golr.conf(amigo.data.golr);
+var go = new bbop.golr.manager.nodejs('http://golr.berkeleybop.org/', gconf);
 go.set_id(term_acc);
 go.register('search', 'do', report);
 //_ll('get_query_url(): ' + go.get_query_url());
