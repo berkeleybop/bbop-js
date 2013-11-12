@@ -1,20 +1,10 @@
 ////
 //// Some unit testing for html.js
 ////
-//// Usage:
-////    Command line: "rhino -f html.js.tests"
-////    Interactive: "rhino -f html.js.tests -f -"
-////
 
-
-// Load testing.
-load('test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('core.js');
-load('logger.js');
-load('html.js');
 
 ///
 /// "Type checker" to enforce "interfaces" during testing.

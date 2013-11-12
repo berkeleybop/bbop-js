@@ -1,33 +1,27 @@
 ////
 //// Some unit testing for core.js
 ////
-//// Usage:
-////    Command line: "rhino -f core.js.tests"
-////    Interactive: "rhino -f core.js.tests -f -"
-////
 
-
-// Load testing.
-load('test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('core.js');
 
 ///
 /// Start unit testing.
 ///
 
 // Cloning.
-var o1 = {'foo': 1, 'bar': 2};
-var o2 = bbop.core.clone(o1);
-mr_t.is_same_hash(o1, o2);
+(function(){
+    var o1 = {'foo': 1, 'bar': 2};
+    var o2 = bbop.core.clone(o1);
+    mr_t.is_same_hash(o1, o2);
+})();
 
-// Namespace generation.
-bbop.core.namespace("happy", "bar");
-mr_t.is_defined(happy.bar, "made namespace");
-happy.bar.prop = true;
-mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
+// // Namespace generation.
+// bbop.core.namespace("happy", "bar");
+// mr_t.is_defined(happy.bar, "made namespace");
+// happy.bar.prop = true;
+// mr_t.is_same_atom(true, happy.bar.prop, "added prop to new NS");
 
 // each: array iterator.
 (function(){

@@ -1,49 +1,50 @@
 lib/bbop/core.js
+lib/bbop/test.js
 lib/bbop/version.js
-lib/bbop/json.js
 lib/bbop/logger.js
+lib/bbop/json.js
 lib/bbop/template.js
 lib/bbop/logic.js
-lib/bbop/test.js
 lib/bbop/registry.js
 lib/bbop/html.js
-lib/bbop/linker.js
 lib/bbop/handler.js
+lib/bbop/linker.js
 lib/bbop/model.js
-lib/bbop/model/tree.js
-lib/bbop/model/bracket.js
-lib/bbop/golr/conf.js
-lib/bbop/golr/response.js
-lib/bbop/golr/manager.js
-lib/bbop/golr/manager/preload.js
-lib/bbop/golr/manager/nodejs.js
-lib/bbop/golr/manager/rhino.js
-lib/bbop/golr/manager/jquery.js
-lib/bbop/rest/response.js
-lib/bbop/rest/response/json.js
-lib/bbop/rest/manager.js
-lib/bbop/rest/manager/rhino.js
-lib/bbop/rest/manager/ringo.js
-lib/bbop/widget/display/clickable_object.js
-lib/bbop/widget/display/text_button_sim.js
-lib/bbop/widget/display/button_templates.js
-lib/bbop/widget/display/results_table_by_class_conf.js
-lib/bbop/widget/display/two_column_layout.js
-lib/bbop/widget/display/filter_shield.js
-lib/bbop/widget/display/live_search.js
-lib/bbop/widget/spinner.js
-lib/bbop/widget/filter_table.js
-lib/bbop/widget/browse.js
-lib/bbop/widget/search_box.js
-lib/bbop/widget/dialog.js
-lib/bbop/widget/term_shield.js
-lib/bbop/widget/list_select_shield.js
-lib/bbop/widget/drop_select_shield.js
-lib/bbop/widget/search_pane.js
-lib/bbop/widget/repl.js
-lib/bbop/widget/phylo_old.js
-lib/bbop/widget/phylo-tree.js
-lib/bbop/widget/phylo.js
-lib/bbop/widget/matrix.js
-lib/bbop/widget/message.js
-lib/bbop/contrib/go/overlay.js
+// lib/bbop/model/tree.js
+// lib/bbop/model/bracket.js
+// lib/bbop/golr/conf.js
+// lib/bbop/golr/response.js
+// lib/bbop/golr/manager.js
+// lib/bbop/golr/manager/preload.js
+// lib/bbop/golr/manager/nodejs.js
+// lib/bbop/golr/manager/rhino.js
+// lib/bbop/golr/manager/jquery.js
+// lib/bbop/rest/response.js
+// lib/bbop/rest/response/json.js
+// lib/bbop/rest/manager.js
+// lib/bbop/rest/manager/rhino.js
+// lib/bbop/rest/manager/ringo.js
+// lib/bbop/widget/display/clickable_object.js
+// lib/bbop/widget/display/text_button_sim.js
+// lib/bbop/widget/display/button_templates.js
+// lib/bbop/widget/display/results_table_by_class_conf.js
+// lib/bbop/widget/display/two_column_layout.js
+// lib/bbop/widget/display/filter_shield.js
+// lib/bbop/widget/display/live_search.js
+// lib/bbop/widget/spinner.js
+// lib/bbop/widget/filter_table.js
+// lib/bbop/widget/browse.js
+// lib/bbop/widget/search_box.js
+// lib/bbop/widget/dialog.js
+// lib/bbop/widget/term_shield.js
+// lib/bbop/widget/list_select_shield.js
+// lib/bbop/widget/drop_select_shield.js
+// lib/bbop/widget/search_pane.js
+// lib/bbop/widget/repl.js
+// lib/bbop/widget/phylo_old.js
+// lib/bbop/widget/phylo-tree.js
+// lib/bbop/widget/phylo.js
+// lib/bbop/widget/matrix.js
+// lib/bbop/widget/message.js
+// lib/bbop/contrib/go/overlay.js
+lib/bbop/commonjs-modules_1_0-shim.js

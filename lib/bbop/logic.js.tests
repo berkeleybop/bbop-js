@@ -1,20 +1,10 @@
 ////
 //// Some unit testing for logic.js
 ////
-//// Usage:
-////    Command line: "js -f logic.js.tests"
-////    Interactive: "js -f logic.js.tests -f -"
-////
 
-
-// Load testing.
-load('test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('core.js');
-load('logger.js');
-load('logic.js');
 
 ///
 /// Start unit testing.

@@ -7,28 +7,38 @@
 ####  make test | grep -c -i fail; test $? -ne 0
 ####
 
-TESTS = $(wildcard lib/*.js.tests) \
+TESTS = \
  $(wildcard lib/bbop/*.js.tests) \
- $(wildcard lib/bbop/contrib/*.js.tests) \
- $(wildcard lib/bbop/golr/*.js.tests) \
- $(wildcard lib/bbop/golr/manager/*.js.tests) \
- $(wildcard lib/bbop/rest/*.js.tests) \
- $(wildcard lib/bbop/rest/manager/*.js.tests) \
- $(wildcard lib/bbop/rest/response/*.js.tests) \
- $(wildcard lib/bbop/parse/*.js.tests) \
- $(wildcard lib/bbop/model/*.js.tests) \
- $(wildcard lib/bbop/widget/*.js.tests) \
- $(wildcard lib/bbop/widget/display/*.js.tests) \
- $(wildcard lib/bbop/contrib/go/*.js.tests)
+ # $(wildcard lib/bbop/golr/*.js.tests) \
+ # $(wildcard lib/bbop/golr/manager/*.js.tests) \
+ # $(wildcard lib/bbop/rest/*.js.tests) \
+ # $(wildcard lib/bbop/rest/manager/*.js.tests) \
+ # $(wildcard lib/bbop/rest/response/*.js.tests) \
+ # $(wildcard lib/bbop/parse/*.js.tests) \
+ # $(wildcard lib/bbop/model/*.js.tests) \
+ # $(wildcard lib/bbop/widget/*.js.tests) \
+ # $(wildcard lib/bbop/widget/display/*.js.tests) \
+ # $(wildcard lib/bbop/contrib/go/*.js.tests)
 #BENCHMARKS = $(wildcard _benchmark/*.js)
-JS = rhino #smjs or rhino, etc.
-## Some require things like "-opt -1" in some cases (big GO tests)
-JSFLAGS = -opt -1 -w -strict # rhino needs this for the big GO tree
+
+## Test JS environment.
+TEST_JS = rhino
+## Some tests require things like "-opt -1" in some cases (big GO tests).
+## rhino needs this for the big GO tree in model.tests.go.js.
+## Java BUG, so interpretation is forced.
+## See: http://coachwei.sys-con.com/node/676073/mobile
+TEST_JS_FLAGS = -modules staging/bbop.js -opt -1 -w -strict
+
+## Other JS environments.
+#NODE_JS ?= /usr/bin/node
+NODE_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
+RHINO_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
+RINGO_JS ?= /usr/bin/ringo
+##
 BBOP_JS_VERSION = 2.0b1
-#JSENGINES = node smjs rhino
 
 all:
-	@echo "Using JS engine: $(JS)"
+	@echo "Using JS engine: $(TEST_JS)"
 #	@echo "All JS engines: $(JSENGINES)"
 	@echo "Tests defined: $(TESTS)"
 	@echo "See README.org in the directory for more details."
@@ -39,19 +49,17 @@ all:
 ###
 
 .PHONY: test $(TESTS)
-
 test: $(TESTS)
-
 $(TESTS): bundle
 	echo "trying: $@"
-	cd $(@D) && $(JS) $(JSFLAGS) -f $(@F)
+	$(TEST_JS) $(TEST_JS_FLAGS) -f $(@D)/$(@F)
+#	cd $(@D) && $(TEST_JS) $(TEST_JS_FLAGS) -f $(@F)
 
 ###
 ### Just the exit code results of the tests.
 ###
 
 .PHONY: pass
-
 pass:
 	make test | grep -i fail; test $$? -ne 0
 
@@ -70,7 +78,6 @@ docs:
 ###
 
 .PHONY: bundle
-
 bundle:
 	./scripts/release-js.pl -v -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
@@ -79,7 +86,6 @@ bundle:
 ###
 
 .PHONY: bundle-uncompressed
-
 bundle-uncompressed:
 	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
@@ -88,25 +94,24 @@ bundle-uncompressed:
 ###
 
 .PHONY: release
-
 release: bundle docs
 	s3cmd -P put staging/bbop*.js s3://bbop/jsapi/
 	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
 	s3cmd -P put demo/golr.js s3://bbop/jsapi/bbop-js/demo/
 	s3cmd --recursive -P put docs/ s3://bbop/jsapi/bbop-js/docs/
 
-###
-### Refresh some temporary developer stuff consistently.
-### The main purpose right now is to provide some temporary testing
-### for CommonJS support of BBOP.
-###
+# ###
+# ### Refresh some temporary developer stuff consistently.
+# ### The main purpose right now is to provide some temporary testing
+# ### for CommonJS support of BBOP.
+# ###
 
-.PHONY: commonjs-test
-commonjs-test: bundle
-	cp ./staging/bbop.js ./bin/bbop-commonjs.js
-	echo "\n" >> ./bin/bbop-commonjs.js
-	echo "exports.bbop = bbop;" >> ./bin/bbop-commonjs.js
-	echo "\n" >> ./bin/bbop-commonjs.js
+# .PHONY: commonjs-test
+# commonjs-test: bundle
+# 	cp ./staging/bbop.js ./bin/bbop-commonjs.js
+# 	echo "\n" >> ./bin/bbop-commonjs.js
+# 	echo "exports.bbop = bbop;" >> ./bin/bbop-commonjs.js
+# 	echo "\n" >> ./bin/bbop-commonjs.js
 
 # ###
 # ### Benchmarks.
@@ -121,3 +126,22 @@ commonjs-test: bundle
 #            echo "Trying engine: $$e"; \
 #            $$e -f $@; \
 #         done
+
+###
+### Start various environments the right way for experimentation.
+### Should all be able to use CommonJS require in the expected way:
+###   var bbop = require('bbop').bbop;
+###   bbop.version.revision;
+###
+
+.PHONY: start-node
+start-node:
+	NODE_PATH="staging" $(NODE_JS) -i
+
+.PHONY: start-rhino
+start-rhino:
+	$(RHINO_JS) -modules staging/bbop.js -f -
+
+.PHONY: start-ringo
+start-ringo:
+	RINGO_MODULE_PATH="staging" $(RINGO_JS) -i

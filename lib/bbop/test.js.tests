@@ -1,16 +1,13 @@
 ////
 //// Some unit testing for test.js
 ////
-//// Usage:
-////    Command line: "js -f test.js.tests"
-////    Interactive: "js -f test.js.tests -f -"
+
 ////
 //// Notes: cannot depend on core.js
 ////
 
-
-// Load testing.
-load('test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
 
 ///

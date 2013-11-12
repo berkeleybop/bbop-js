@@ -1,19 +1,10 @@
 ////
 //// Some unit testing for template.js
 ////
-//// Usage:
-////    Command line: "js -f template.js.tests"
-////    Interactive: "js -f template.js.tests -f -"
-////
 
-
-// Load testing.
-load('test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('core.js');
-load('template.js');
 
 ///
 /// Start unit testing.

@@ -1,25 +1,14 @@
 ////
 //// The GO makes a nice test case.
 ////
-//// BUG: works interactive, but not from CLI--huh!?
-//// Otherwise, seems to be alright so far...
-//// See: http://coachwei.sys-con.com/node/676073/mobile
-////
-//// Usage (Java BUG: Force interpretation):
-////    Command line: "js -opt -1 -f model.tests.go.js"
-////    Interactive: "js -opt -1 -f model.tests.go.js -f -"
-////
 
-
-// Load testing.
-load('test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
 
-// Correct environment.
-load('core.js');
-load('logger.js');
-load('model.js');
-load('../../_data/go.js');
+// Remember, we are running from the project root, so relative to
+// there (?).
+load('./_data/go.js');
 
 ///
 /// Start unit testing.
