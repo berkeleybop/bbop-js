@@ -8,11 +8,10 @@
 ####
 
 TESTS = \
+ $(wildcard lib/bbop/*.js.tests) \
+ $(wildcard lib/bbop/model/*.js.tests) \
+ $(wildcard lib/bbop/golr/*.js.tests) \
  $(wildcard lib/bbop/golr/manager/*.js.tests) \
- #$(wildcard lib/bbop/*.js.tests) \
- #$(wildcard lib/bbop/model/*.js.tests) \
- #$(wildcard lib/bbop/golr/*.js.tests) \
- # $(wildcard lib/bbop/golr/manager/*.js.tests) \
  # $(wildcard lib/bbop/rest/*.js.tests) \
  # $(wildcard lib/bbop/rest/manager/*.js.tests) \
  # $(wildcard lib/bbop/rest/response/*.js.tests) \
@@ -33,7 +32,7 @@ TEST_JS_FLAGS = -modules staging/bbop.js -opt -1 -w -strict
 ## Other JS environments.
 #NODE_JS ?= /usr/bin/node
 NODE_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
-RHINO_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
+RHINO_JS ?= /usr/bin/rhino
 RINGO_JS ?= /usr/bin/ringo
 ##
 BBOP_JS_VERSION = 2.0b1
