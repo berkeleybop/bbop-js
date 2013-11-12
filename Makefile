@@ -8,14 +8,15 @@
 ####
 
 TESTS = \
- $(wildcard lib/bbop/*.js.tests) \
- # $(wildcard lib/bbop/golr/*.js.tests) \
+ $(wildcard lib/bbop/golr/manager/*.js.tests) \
+ #$(wildcard lib/bbop/*.js.tests) \
+ #$(wildcard lib/bbop/model/*.js.tests) \
+ #$(wildcard lib/bbop/golr/*.js.tests) \
  # $(wildcard lib/bbop/golr/manager/*.js.tests) \
  # $(wildcard lib/bbop/rest/*.js.tests) \
  # $(wildcard lib/bbop/rest/manager/*.js.tests) \
  # $(wildcard lib/bbop/rest/response/*.js.tests) \
  # $(wildcard lib/bbop/parse/*.js.tests) \
- # $(wildcard lib/bbop/model/*.js.tests) \
  # $(wildcard lib/bbop/widget/*.js.tests) \
  # $(wildcard lib/bbop/widget/display/*.js.tests) \
  # $(wildcard lib/bbop/contrib/go/*.js.tests)

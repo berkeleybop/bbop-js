@@ -1,7 +1,6 @@
 ////
 //// Some unit testing for logger.js
 ////
-////
 
 // Correct environment, ready testing.
 var bbop = require('bbop').bbop;

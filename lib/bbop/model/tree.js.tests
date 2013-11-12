@@ -2,22 +2,10 @@
 //// Some unit testing for tree.js; it should easily pass most of the
 //// model.js tests while we're at it...
 ////
-//// Usage:
-////    Command line: "rhino -f tree.js.tests"
-////    Interactive: "rhino -f tree.js.tests -f -"
-////
 
-
-// Load testing.
-load('../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../core.js');
-load('../logger.js');
-load('../model.js');
-load('tree.js');
-
 
 //(function(){
      // Create distance tree as described:

@@ -1,27 +1,17 @@
 ////
 //// Some unit testing for package conf.js
 ////
-//// Usage:
-////    Command line: "rhino -f conf.js.tests"
-////    Interactive: "rhino -f conf.js.tests -f -"
-////
 //// To get fresh data from an AmiGO install (must be done periodically):
 ////    make refresh
 ////
 
-// Load testing.
-load('../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../core.js');
-load('../logger.js');
-load('../registry.js');
-load('conf.js');
 
 // Get some test data as well.
 // This defines "bbop.golr.golr_meta".
-load('../../../_data/golr.js');
+load('./_data/golr.js');
 
 ///
 /// Start unit testing.

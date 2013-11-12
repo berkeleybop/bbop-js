@@ -10,15 +10,15 @@ lib/bbop/html.js
 lib/bbop/handler.js
 lib/bbop/linker.js
 lib/bbop/model.js
-// lib/bbop/model/tree.js
-// lib/bbop/model/bracket.js
-// lib/bbop/golr/conf.js
-// lib/bbop/golr/response.js
-// lib/bbop/golr/manager.js
-// lib/bbop/golr/manager/preload.js
-// lib/bbop/golr/manager/nodejs.js
-// lib/bbop/golr/manager/rhino.js
-// lib/bbop/golr/manager/jquery.js
+lib/bbop/model/tree.js
+lib/bbop/model/bracket.js
+lib/bbop/golr/conf.js
+lib/bbop/golr/response.js
+lib/bbop/golr/manager.js
+lib/bbop/golr/manager/preload.js
+lib/bbop/golr/manager/nodejs.js
+lib/bbop/golr/manager/rhino.js
+lib/bbop/golr/manager/jquery.js
 // lib/bbop/rest/response.js
 // lib/bbop/rest/response/json.js
 // lib/bbop/rest/manager.js

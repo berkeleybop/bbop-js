@@ -1,22 +1,13 @@
 ////
 //// Some unit testing for package response.js
 ////
-//// Usage:
-////    Command line: "rhino -f response.js.tests"
-////    Interactive: "rhino -f response.js.tests -f -"
-////
 //// To get fresh data from an AmiGO install (must be done periodically):
 ////    cp /srv/www/htdocs/amigo2/javascript/bbop/golr_meta.js /home/sjcarbon/local/src/svn/geneontology/javascript/trunk/_data/
 ////
 
-// Load testing.
-load('../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../core.js');
-load('../json.js');
-load('response.js');
 
 ///
 /// Start unit testing.

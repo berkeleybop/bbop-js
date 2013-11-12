@@ -1,21 +1,10 @@
 ////
 //// Some unit testing for bracket.js.
 ////
-//// Usage:
-////    Command line: "js -f bracket.tests.js"
-////    Interactive: "js -f bracket.tests.js -f -"
-////
 
-
-// Load testing.
-load('../test.js');
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
-
-// Correct environment.
-load('../core.js');
-load('../logger.js');
-load('../model.js');
-load('bracket.js');
 
 // test that this subclass actually behaves like one
 (function(){
