@@ -2,38 +2,33 @@
  *  
  * Package: get_children.js
  * 
- * This is a node_runner.js script.
+ * This is a nodejs script.
  * 
  * Get the ids and labels of the children of the specified term.
  * 
  * Usage like:
- *  : node_runner.js get_children.js GO:0022008
+ *  : NODE_PATH="staging:../amigo/javascript/staging" node bin/get_children.js GO:0022008
  * 
  * This is also a bit of a unit test for the NodeJS update function.
  * 
- * TODO: Maybe NodeJS isn't such a hot idea for scripting; how about
- * Rhino?
- * 
  * See also:
- * <node_runner.js>
+ * <get_parents.js>
  */
 
-function _ll(s){
-   console.log(s);
-};
-// // Temp logger.
-// var logger = new bbop.logger();
-// logger.DEBUG = true;
-// function _ll(str){ logger.kvetch('TT: ' + str); }
+var bbop = require('bbop').bbop;
+var amigo = require('amigo').amigo;
 
+// function _ll(s){
+//    console.log(s);
+// };
+// Logger.
+var logger = new bbop.logger();
+logger.DEBUG = true;
+function _ll(str){ logger.kvetch('TT: ' + str); }
 
 // Check our args from the outside world.
-//_ll('In.');
-//_ll('arglist: ' + arglist);
-var term_acc = null;
-if( arglist && arglist.length > 0 ){
-    term_acc = arglist[0];
-}
+//var term_acc = 'GO:0022008';
+var term_acc = process.argv[2] || null;
 if( ! term_acc ){
     _ll('no proper argument');
     process.kill();
@@ -63,7 +58,8 @@ function report(resp){
 
 // Define the server, define the query, bind the callback, and
 // trigger.
-var gconf = new bbop.golr.conf(amigo.data.golr);
+//var gconf = new bbop.golr.conf({});
+var gconf = new bbop.golr.conf(amigo.data.golr); // hard to get
 var go = new bbop.golr.manager.nodejs('http://golr.berkeleybop.org/', gconf);
 go.set_id(term_acc);
 go.register('search', 'do', report);
