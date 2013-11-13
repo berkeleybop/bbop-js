@@ -23,7 +23,6 @@
 if ( typeof amigo == "undefined" ){ var amigo = {}; }
 if ( typeof amigo.data == "undefined" ){ amigo.data = {}; }
 
-
 /*
  * Variable: golr
  * 
