@@ -1,0 +1,53 @@
+////
+//// Some unit testing for package ringo.js
+////
+//// Usage:
+////   RINGO_MODULE_PATH="staging:../amigo/javascript/staging" ringo lib/bbop/golr/manager/ringo.js.tests_manual
+////
+//// WARNING: These tests require an internet connection.
+//// Because of this, these tests are not automatically run
+//// during normal unit testing.
+////
+//// WARNING: Note that since these are async calls, we can't do
+//// testing as usual--just look at the output.
+////
+
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
+var amigo = require('amigo').amigo;
+var mr_t = new bbop.test();
+
+///
+/// Start unit testing.
+///
+
+// bbop.golr.manager.ringo - simple set_id
+//(function(){
+
+// Define what we do when our async success comes back.
+// function test01(resp){ var doc = resp.get_doc(0); var label = doc['annotation_class_label']; console.log('label: ' + label); }
+function test01(resp){
+
+    // Gather out info from the first doc.
+    var doc = resp.get_doc(0);
+    var label = doc['annotation_class_label'];
+
+    // Wee test.
+    mr_t.is_same_atom(label, 'neurogenesis', 'looks like "neurogenesis"');
+}
+
+var gconf = new bbop.golr.conf(amigo.data.golr);
+var go = new bbop.golr.manager.ringo('http://golr.berkeleybop.org/', gconf);
+go.set_id('GO:0022008');
+go.register('search', 'test01', test01);
+//_ll('get_query_url(): ' + go.get_query_url());
+go.update('search');
+
+// })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
