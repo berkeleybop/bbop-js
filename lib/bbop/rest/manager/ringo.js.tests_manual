@@ -1,4 +1,45 @@
+////
+//// Some unit testing for package ringo.js
+////
+//// Usage:
+////   RINGO_MODULE_PATH="staging" ringo lib/bbop/rest/manager/ringo.js.tests_manual
+////
+//// WARNING: These tests require an internet connection.
+//// Because of this, these tests are not automatically run
+//// during normal unit testing.
+////
+//// WARNING: Note that since these are async calls, we can't do
+//// testing as usual--just look at the output.
+////
+
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
+var mr_t = new bbop.test();
+
 ///
-/// TODO: None yet. Will look exactly almost like the rhino.js ones,
-/// but I'll have to make a different runner.
+/// Start unit testing.
 ///
+
+/// ...
+// bbop.rest.manager.rhino - get
+//(function(){
+     var target = 'http://amigo2.berkeleybop.org/cgi-bin/amigo2/amigo/term/GO:0022008/json';
+     
+     var type = null;
+     var m = new bbop.rest.manager.ringo(bbop.rest.response.json);
+     m.register('success', 'id',
+		function(resp, man){
+		    type = resp.raw()['type'];
+		    bbop.core.dump(resp.raw());
+	   });
+     m.get(target);
+     mr_t.is_same_atom(type, 'term', 'looks like a "term" (1)');
+
+// })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();
