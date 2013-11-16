@@ -32,20 +32,6 @@ amigo.data.server = function(){
     // All of the server/instance-specific meta-data.
     var meta_data = {"html_base":"http://localhost/amigo2","galaxy_base":"http://galaxy.berkeleybop.org/","app_base":"http://localhost/cgi-bin/amigo2","term_regexp":"^all$|^GO:[0-9]{7}$","species":[],"ontologies":[],"gp_types":[],"sources":[],"species_map":{},"bbop_img_star":"http://localhost/amigo2/images/star.png","image_base":"http://localhost/amigo2/images","evidence_codes":{},"golr_base":"http://localhost:8080/solr/"};
 
-    // How the pages connect on the server. Essentially a copy of the
-    // data contained in get_interlink in AmiGO.pm.
-    var interlink_map = {
-     'landing': 'amigo/landing',
-     'tools': 'amigo/software_list',
-     'schema_details': 'amigo/schema_details',
-     'load_details': 'amigo/load_details',
-     'browse': 'amigo/browse',
-     'goose': 'goose',
-     'grebe': 'grebe',
-     'gannet': 'gannet',
-     'repl': 'repl'
-    };
-
     ///
     /// Break out the data and various functions to access them...
     ///
