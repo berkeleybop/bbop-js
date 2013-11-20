@@ -32,8 +32,8 @@ TEST_JS = rhino
 TEST_JS_FLAGS = -modules staging/bbop.js -opt -1
 
 ## Other JS environments.
-#NODE_JS ?= /usr/bin/node
-NODE_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
+NODE_JS ?= /usr/bin/node
+#NODE_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
 RHINO_JS ?= /usr/bin/rhino
 RINGO_JS ?= /usr/bin/ringo
 ##
