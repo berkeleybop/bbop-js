@@ -1,0 +1,23 @@
+{
+    "name": "bbop",
+    "version": "2.0.0-rc1",
+    "license": "BSD",
+    "description": "BBOP JS namespace bundle.",
+    "author": {
+	"name": "Seth Carbon",
+	"email": "http://github.com/kltm/bbop-js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "http://github.com/kltm/bbop-js"
+    },
+    "keywords": [
+	"amigo",
+	"bbop",
+	"solr",
+	"gene ontology",
+	"cross-platform"
+    ],
+    "engines": {"node" : ">=0.10.0"},
+    "main": "./bbop.js"
+}
