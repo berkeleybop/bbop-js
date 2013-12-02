@@ -66,6 +66,7 @@ Group: golr  {
       File: nodejs.js  (golr/manager/nodejs.js)
       File: preload.js  (golr/manager/preload.js)
       File: rhino.js  (golr/manager/rhino.js)
+      File: ringo.js  (golr/manager/ringo.js)
       }  # Group: manager
 
    }  # Group: golr
