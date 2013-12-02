@@ -16,7 +16,7 @@
  */
 
 var bbop = require('bbop').bbop;
-var amigo = require('amigo').amigo;
+var amigo = require('amigo2').amigo;
 
 // function _ll(s){
 //    console.log(s);
