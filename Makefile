@@ -98,6 +98,7 @@ bundle-uncompressed:
 .PHONY: npm
 npm: bundle
 	./scripts/release-npm.pl -v -i staging/bbop.js -o npm/bbop -r $(BBOP_JS_VERSION)
+	cp ./README.org npm/bbop/
 	npm unpublish bbop@$(BBOP_JS_VERSION)
 	npm publish npm/bbop
 
