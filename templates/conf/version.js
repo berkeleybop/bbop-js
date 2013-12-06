@@ -1,15 +1,15 @@
 /* 
  * Package: version.js
  * 
- * Namespace: bbop.version
+ * Namespace: [% namespace %].version
  * 
  * This package was automatically generated during the build process
  * and contains its version information--this is the release of the
  * API that you have.
  */
 
-if ( typeof bbop == "undefined" ){ var bbop = {}; }
-if ( typeof bbop.version == "undefined" ){ bbop.version = {}; }
+if ( typeof [% namespace %] == "undefined" ){ var [% namespace %] = {}; }
+if ( typeof [% namespace %].version == "undefined" ){ [% namespace %].version = {}; }
 
 /*
  * Variable: revision
@@ -17,11 +17,11 @@ if ( typeof bbop.version == "undefined" ){ bbop.version = {}; }
  * Partial version for this library; revision (major/minor version numbers)
  * information.
  */
-bbop.version.revision = "2.0.0-rc1";
+[% namespace %].version.revision = "[% revision %]";
 
 /*
  * Variable: release
  *
  * Partial version for this library: release (date-like) information.
  */
-bbop.version.release = "20131204";
+[% namespace %].version.release = "[% release %]";

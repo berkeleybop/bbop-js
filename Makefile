@@ -37,7 +37,7 @@ NODE_JS ?= /usr/bin/node
 RHINO_JS ?= /usr/bin/rhino
 RINGO_JS ?= /usr/bin/ringo
 ##
-BBOP_JS_VERSION = 2.0b1
+BBOP_JS_VERSION ?= 2.0.0-rc1
 
 all:
 	@echo "Using JS engine: $(TEST_JS)"
@@ -92,11 +92,21 @@ bundle-uncompressed:
 	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
 ###
+### Create exportable JS NPM directory.
+###
+
+.PHONY: npm
+npm: bundle
+	./scripts/release-npm.pl -v -i staging/bbop.js -o npm/bbop -r $(BBOP_JS_VERSION)
+	npm unpublish bbop@$(BBOP_JS_VERSION)
+	npm publish npm/bbop
+
+###
 ### Release: docs and bundle; then to an upload.
 ###
 
 .PHONY: release
-release: bundle docs
+release: bundle npm docs
 	s3cmd -P put staging/bbop*.js s3://bbop/jsapi/
 	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
 	s3cmd -P put demo/golr.js s3://bbop/jsapi/bbop-js/demo/
