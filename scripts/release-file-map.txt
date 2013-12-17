@@ -13,6 +13,7 @@ lib/bbop/linker.js
 lib/bbop/model.js
 lib/bbop/model/tree.js
 lib/bbop/model/bracket.js
+lib/bbop/layout/sugiyama.js
 lib/bbop/rest/response.js
 lib/bbop/rest/response/json.js
 lib/bbop/rest/manager.js
