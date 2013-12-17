@@ -121,6 +121,8 @@ Group: Rest  {
    File: ringo.js  (rest/manager/ringo.js)
    }  # Group: Rest
 
+File: sugiyama.js  (layout/sugiyama.js)
+
 Group: Index  {
 
    Index: Everything
