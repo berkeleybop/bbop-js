@@ -103,6 +103,11 @@ mr_t.is_same_atom(4, p.number_of_vertex_partitions(), 'node parts');
 mr_t.is_same_atom(3, p.number_of_edge_partitions(), 'edge parts');
 mr_t.is_same_atom(8, p.max_partition_width(), 'max part');
 
+// TODO: once we decide what a layout format looks like.
+var r = new bbop.layout.sugiyama.render();
+var layout = r.layout(g);
+bbop.core.dump(layout);
+
 // })();
 
 ///
