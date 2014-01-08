@@ -9,7 +9,8 @@
   (NodeJS, Rhino, etc.) JavaScript library. Spun-off from its roots in
   the [[http://geneontology.org/][Gene Ontology Consortium]]'s AmiGO 2 software, BBOP JS covers:
 
-  - A rich interface to Solr servers
+  - A rich interface to structured Solr servers
+  - Managers and responders for dealing with may kinds of REST environments.
   - Rich (mathematical/set) graph and tree facilities
   - Scripting functionality and multiple REPLs
   - A set of useful utility functions
