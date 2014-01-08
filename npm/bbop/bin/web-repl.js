@@ -9,7 +9,7 @@
 ////
 //// Example session:
 ////   var t = 'http://amigo2.berkeleybop.org/cgi-bin/amigo2/amigo/term/GO:0022008/json';
-////   get(t);
+////   get(t, {'foo':[1, 2]})
 ////   [wait until response]
 ////   res
 ////   dat
@@ -26,10 +26,10 @@ global.jr = jr;
 global.res = res;
 global.dat = {};
 global.get = function(url, data){
-    jr.action(url, data);
+    return jr.action(url, data);
 };
 global.post = function(url, data){
-    jr.action(url, data, 'post');
+    return jr.action(url, data, 'post');
 };
 
 function on_success(resp, man){
