@@ -537,8 +537,8 @@ bbop.core.clone = function(thing){
  *
  * Essentially add standard 'to string' interface to the string class
  * and as a stringifier interface to other classes. More meant for
- * output. Only atoms, arrays, and objects with a to_string function
- * are handled.
+ * output--think REPL. Only atoms, arrays, and objects with a
+ * to_string function are handled.
  *
  * Parameters: 
  *  in_thing - something
@@ -549,17 +549,27 @@ bbop.core.clone = function(thing){
  */
 bbop.core.to_string = function(in_thing){
 
-    var what = bbop.core.what_is(in_thing);
-    if( what == 'number' ){
-	return in_thing.toString();
-    }else if( what == 'string' ){
-	return in_thing;
-    }else if( what == 'array' ){
-	return bbop.core.dump(in_thing);
-    }else if( in_thing.to_string && typeof(in_thing.to_string) == 'function' ){
+    // First try interface, then the rest.
+    if( in_thing &&
+	typeof(in_thing.to_string) !== 'undefined' &&
+	typeof(in_thing.to_string) == 'function' ){
 	return in_thing.to_string();
     }else{
-	throw new Error('to_string interface not defined for this object');
+		
+	var what = bbop.core.what_is(in_thing);
+	if( what == 'number' ){
+	    return in_thing.toString();
+	}else if( what == 'string' ){
+	    return in_thing;
+	}else if( what == 'array' ){
+	    return bbop.core.dump(in_thing);
+	// }else if( what == 'object' ){
+	//     return bbop.core.dump(in_thing);
+	// }else{
+	//     return '[unsupported]';
+	}else{
+	    return in_thing;
+	}
     }
 };
 
@@ -567,7 +577,8 @@ bbop.core.to_string = function(in_thing){
  * Function: dump
  *
  * Dump an object to a string form as best as possible. More meant for
- * debugging. For a slightly different take, see to_string.
+ * debugging. This is meant to be an Object walker. For a slightly
+ * different take (Object identification), see <to_string>.
  *
  * Parameters: 
  *  in_thing - something
@@ -7001,6 +7012,11 @@ bbop.rest.response.prototype.message_type = function(message_type){
  * 
  * Generic BBOP handler for dealing with the gross parsing of
  * responses from a REST JSON server.
+ * 
+ * It will detect if the incoming response is a string, and if so, try
+ * to parse it to JSON. Otherwise, if the raw return is already an
+ * Object, we assume that somebody got to it before us (e.g. jQuery's
+ * handling).
  */
 
 if ( typeof bbop == "undefined" ){ var bbop = {}; }
@@ -7015,7 +7031,7 @@ if ( typeof bbop.rest.response == "undefined" ){ bbop.rest.response = {}; }
  * The constructor argument is an object, not a string.
  * 
  * Arguments:
- *  json_data - the JSON data (as object) returned from a request
+ *  json_data - the JSON object as a string (as returned from a request)
  * 
  * Returns:
  *  rest response object
@@ -7025,75 +7041,53 @@ bbop.rest.response.json = function(json_data){
     this._is_a = 'bbop.rest.response.json';
 
     // The raw incoming document.
-    this._raw_string = json_data;
+    //this._raw_string = json_data_str;
+    this._raw_string = null;
     this._okay = null;
 
-    try {
-	this._raw = bbop.json.parse(json_data);
-	this._okay = true;
-    }catch(e){
-	// Didn't make it.
-	this._raw = null;
-	this._okay = false;
-    }
+    if( json_data ){
 
+	if( bbop.core.what_is(json_data) == 'string' ){
+
+	    // Try and parse out strings.
+	    try {
+		this._raw = bbop.json.parse(json_data);
+		this._okay = true;
+	    }catch(e){
+		// Didn't make it, but still a string.
+		this._raw = json_data;
+		this._okay = false;
+	    }
+
+	}else if( bbop.core.what_is(json_data) == 'object' ){
+
+	    // Looks like somebody else got here first.
+	    this._raw = json_data;
+	    this._okay = true;
+	    
+	}else{
+
+	    // No idea what this thing is...
+	    this._raw = null;
+	    this._okay = null;
+	}
+    }
 };
 bbop.core.extend(bbop.rest.response.json, bbop.rest.response);
 
 // /*
-//  * Function: raw
+//  * Function: string
 //  * 
-//  * returns a pointer to the parsed response object
-//  * 
-//  * Arguments:
-//  *  n/a
-//  * 
-//  * Returns:
-//  *  raw response
-//  */
-// bbop.rest.response.json.prototype.raw = function(){
-//     return this._raw;
-// };
-
-/*
- * Function: string
- * 
- * returns a string of the incoming response
- * 
- * Arguments:
- *  n/a
- * 
- * Returns:
- *  raw response string
- */
-bbop.rest.response.json.prototype.string = function(){
-    return this._raw_string;
-};
-
-// /*
-//  * Function: okay
-//  * 
-//  * Simple return verification of sane response from server.
-//  * 
-//  * Okay caches its return value.
+//  * returns a string of the incoming response
 //  * 
 //  * Arguments:
 //  *  n/a
 //  * 
 //  * Returns:
-//  *  boolean
+//  *  raw response string
 //  */
-// bbop.rest.response.json.prototype.okay = function(){
-
-//     if( this._okay == null ){ // only go if answer not cached
-// 	if( ! this._raw || this._raw == '' ){
-// 	    this._okay = false;
-// 	}else{
-// 	    this._okay = true;
-// 	}
-//     }
-
-//     return this._okay;
+// bbop.rest.response.json.prototype.string = function(){
+//     return this._raw_string;
 // };
 /* 
  * Package: manager.js
@@ -7283,6 +7277,22 @@ bbop.rest.manager = function(response_handler){
     };
 };
 bbop.core.extend(bbop.rest.manager, bbop.registry);
+
+/*
+ * Function: to_string
+ *
+ * Output writer for this object/class.
+ * See the documentation in <core.js> on <dump> and <to_string>.
+ * 
+ * Parameters: 
+ *  n/a
+ *
+ * Returns:
+ *  string
+ */
+bbop.rest.manager.prototype.to_string = function (){
+    return '[' + this._is_a + ']';
+};
 
 /*
  * Function: update
@@ -7761,11 +7771,11 @@ bbop.rest.manager.jquery = function(response_handler){
     	}else{
     	    got = 'jQuery';
     	}
-    	ll('Using ' + got + ' for Ajax calls.');
+    	ll('Using ' + got + ' for ajax calls.');
     }
 };
 bbop.core.extend(bbop.rest.manager.jquery, bbop.rest.manager);
-    
+
 /*
  * Function: update
  *
@@ -7796,8 +7806,8 @@ bbop.rest.manager.jquery.prototype.update = function(callback_type){
     // The base jQuery Ajax args we need with the setup we have.
     var jq_vars = {
     	url: final_url,
-    	dataType: 'jsonp',
-    	//jsonp: 'json.wrf'
+    	//dataType: 'jsonp',
+    	dataType: 'json',
     	type: "GET"
     };
 
@@ -7826,52 +7836,22 @@ bbop.rest.manager.jquery.prototype.update = function(callback_type){
 		response.message_type(status);
 		response.message('bad response');
 	    }
-	    anchor.apply_callbacks('error', [response, anchor]);
+	    //anchor.apply_callbacks('error', [response, anchor]);
+	    anchor.apply_callbacks('error', [raw_data, anchor]);
 	}
     }
 
     // Setup JSONP for Solr and jQuery ajax-specific parameters.
-    anchor.jq_vars['success'] = on_error;
-    anchor.jq_vars['error'] = on_success;
+    jq_vars['success'] = on_success;
+    jq_vars['error'] = on_error;
     //done: _callback_type_decider, // decide & run search or reset
     //fail: _run_error_callbacks, // run error callbacks
     //always: function(){} // do I need this?
     anchor.JQ.ajax(jq_vars);
+    //anchor.JQ.ajax(final_url, jq_vars);
     
     return final_url;
 };
-
-// /*
-//  * Function: fetch
-//  *
-//  * A cousin of <update>, but is made to avoid all of the usual
-//  * callback functions (except error) and just run the single function
-//  * from the argument.
-//  * 
-//  * Why would you want this? Sometimes you need just a little data
-//  * without updating the whole interface or whatever.
-//  *
-//  * Parameters: 
-//  *  url - the target url to use/update
-//  *  run_func - the function to run on completion
-//  *
-//  * Returns:
-//  *  n/a
-//  */
-// bbop.rest.manager.jquery.prototype.fetch = function(run_func){
-
-//     // ...
-//     var anchor = this;
-//     var qurl = anchor.get_query_url();
-//     anchor._run_func = run_func;
-//     anchor.jq_vars['success'] =
-// 	function(json_data){
-// 	    var response = new bbop.rest.response(json_data);
-// 	    anchor._run_func(response);   
-// 	};
-//     anchor.jq_vars['error'] = anchor._run_error_callbacks;
-//     anchor.JQ.ajax(qurl, anchor.jq_vars);
-// };
 
 /*
  * Namespace: bbop.rest.manager.jquery_faux_ajax
@@ -7900,20 +7880,6 @@ bbop.rest.manager.jquery_faux_ajax = function (){
      */
     this.ajax = function(args){
 	return null;
-    };
-    /*
-     * Function: parseJSON
-     *
-     * Fake call to jQuery's parseJSON.
-     *
-     * Parameters: 
-     *  args - whatever--they are ignored
-     *
-     * Returns:
-     *  ""
-     */
-    this.parseJSON = function(args){
-	return "";
     };
 };
 /* 
@@ -11702,6 +11668,22 @@ bbop.golr.manager = function (golr_loc, golr_conf_obj){
     };
 };
 bbop.core.extend(bbop.golr.manager, bbop.registry);
+
+/*
+ * Function: to_string
+ *
+ * Output writer for this object/class.
+ * See the documentation in <core.js> on <dump> and <to_string>.
+ * 
+ * Parameters: 
+ *  n/a
+ *
+ * Returns:
+ *  string
+ */
+bbop.golr.manager.prototype.to_string = function (){
+    return '<' + this._is_a + '>';
+};
 
 /*
  * Function: update
