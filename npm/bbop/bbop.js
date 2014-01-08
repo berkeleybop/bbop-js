@@ -1869,7 +1869,7 @@ bbop.version.revision = "2.0.0-rc1";
  *
  * Partial version for this library: release (date-like) information.
  */
-bbop.version.release = "20140106";
+bbop.version.release = "20140107";
 /*
  * Package: logger.js
  * 
@@ -6863,6 +6863,19 @@ bbop.layout.sugiyama.render = function(){
  * Generic BBOP handler for dealing with the gross parsing of
  * responses from a REST server. This is just an example pass-thru
  * handler that needs to be overridden (see subclasses).
+ * 
+ * You may note that things like status and status codes are not part
+ * of the base response. The reason is is that not all methods of REST
+ * in the environments that we use support them. For example: readURL
+ * in rhino. For this reason, the "health" of the response is left to
+ * the simple okay() function--just enought to be able to choose
+ * between "success" and "failure" in the managers. To give a bit more
+ * information in case of early error, there is message and
+ * message_type.
+ * 
+ * Similarly, there are no toeholds in the returned data except
+ * raw(). All data views and operations are implemented in the
+ * subclasses.
  */
 
 if ( typeof bbop == "undefined" ){ var bbop = {}; }
@@ -6876,7 +6889,7 @@ if ( typeof bbop.rest == "undefined" ){ bbop.rest = {}; }
  * The constructor argument is an object, not a string.
  * 
  * Arguments:
- *  in_data - the JSON data (as object) returned from a request
+ *  in_data - the string returned from a request
  * 
  * Returns:
  *  rest response object
@@ -6889,12 +6902,14 @@ bbop.rest.response = function(in_data){
 
     // Cache for repeated calls to okay().
     this._okay = null;
+    this._message = null;
+    this._message_type = null;
 };
 
 /*
  * Function: raw
  * 
- * returns a pointer to the initial response object
+ * Returns the initial response object, whatever it was.
  * 
  * Arguments:
  *  n/a
@@ -6911,29 +6926,73 @@ bbop.rest.response.prototype.raw = function(){
  * 
  * Simple return verification of sane response from server.
  * 
- * Okay caches its return value.
+ * This okay() caches its return value, so harder probes don't need to
+ * be performed more than once.
  * 
  * Arguments:
- *  n/a
+ *  okay_p - *[optional]* setter for okay
  * 
  * Returns:
  *  boolean
  */
-bbop.rest.response.prototype.okay = function(){
+bbop.rest.response.prototype.okay = function(okay_p){
 
-    print('a: ' + this._okay);
+    // Optionally set from the outside.
+    if( bbop.core.is_defined(okay_p) ){
+	this._okay = okay_p;
+    }
+
+    //print('a: ' + this._okay);
     if( this._okay == null ){ // only go if answer not cached
-	print('b: ' + this._raw);
+	//print('b: ' + this._raw);
 	if( ! this._raw || this._raw == '' ){
-	    print('c: if');
+	    //print('c: if');
 	    this._okay = false;
 	}else{
-	    print('c: else');
+	    //print('c: else');
 	    this._okay = true;
 	}
     }
     
     return this._okay;
+};
+
+/*
+ * Function: message
+ * 
+ * A message that the response wants to let you know about its
+ * creation.
+ * 
+ * Arguments:
+ *  message - *[optional]* setter for message
+ * 
+ * Returns:
+ *  message string
+ */
+bbop.rest.response.prototype.message = function(message){
+    if( bbop.core.is_defined(message) ){
+	this._message = message;
+    }
+    return this._message;
+};
+
+/*
+ * Function: message_type
+ * 
+ * A message about the message (a string classifier) that the response
+ * wants to let you know about its message.
+ * 
+ * Arguments:
+ *  message_type - *[optional]* setter for message_type
+ * 
+ * Returns:
+ *  message type string
+ */
+bbop.rest.response.prototype.message_type = function(message_type){
+    if( bbop.core.is_defined(message_type) ){
+	this._message_type = message_type;
+    }
+    return this._message_type;
 };
 /* 
  * Package: json.js
@@ -7086,6 +7145,12 @@ bbop.rest.manager = function(response_handler){
     // The URL to query.
     this._qurl = null;
 
+    // The argument payload to deliver to the URL.
+    this._qpayload = {};
+
+    // The way to do the above.
+    this._qmethod = null;
+
     // Whether or not to prevent ajax events from going.
     // This may not be usable, or applicable, to all backends.
     this._safety = false;
@@ -7129,58 +7194,93 @@ bbop.rest.manager = function(response_handler){
     /*
      * Function: resource
      *
-     * TODO
+     * The base target URL for our operations.
      * 
      * Parameters:
      *  url - *[optional]* update resource target with string
      *
      * Returns:
-     *  the url
+     *  the url as string (or null)
      */
     this.resource = function(url){
-	if( bbop.core.is_defined(url) ){
+	if( bbop.core.is_defined(url) && 
+	    bbop.core.what_is(url) == 'string' ){
 	    anchor._qurl = url;
 	}
 	return anchor._qurl;
     };
 
     /*
-     * Function: get
+     * Function: payload
      *
-     * TODO
+     * The information to deliver to the resource.
+     * 
+     * Parameters:
+     *  payload - *[optional]* update payload information
+     *
+     * Returns:
+     *  a copy of the current payload
+     */
+    this.payload = function(payload){
+	if( bbop.core.is_defined(payload) && 
+	    bbop.core.what_is(payload) == 'object' ){
+	    anchor._qpayload = payload;
+	}
+	return bbop.core.clone(anchor._qpayload);
+    };
+
+    /*
+     * Function: method
+     *
+     * The method to use to get the resource, as a string.
+     * 
+     * Parameters:
+     *  method - *[optional]* update aquisition method with string
+     *
+     * Returns:
+     *  the string or null
+     */
+    this.method = function(method){
+	if( bbop.core.is_defined(method) && 
+	    bbop.core.what_is(method) == 'string' ){
+	    anchor._qmethod = method;
+	}
+	return anchor._qmethod;
+    };
+
+    /*
+     * Function: action
+     *
+     * This method is the most fundamental operation. It should
+     * combine the URL, payload, and method in the ways appropriate to
+     * the subclass engine. This one merely combines the string.
+     * 
+     * The method argument is naturally ignored in this dummy class.
      * 
      * Parameters:
      *  url - *[optional]* update resource target with string
+     *  payload - *[serially optional]* object to represent arguments
+     *  method - *[serially optional]* (GET, POST, etc.)
      *
      * Returns:
-     *  the url
+     *  the combined URL argument as string
      * 
      * See also:
      *  <update>
      */
-    this.get = function(url){
-	if( bbop.core.is_defined(url) ){
-	    anchor.resource(url);	    
-	}
-	return anchor.update('success');
-    };
+    this.action = function(url, payload, method){
+	if( bbop.core.is_defined(url) ){ anchor.resource(url); }
+	if( bbop.core.is_defined(payload) ){ anchor.payload(payload); }
+	if( bbop.core.is_defined(method) ){ anchor.method(method); }
 
-    //  * Function: error
-    //  *
-    //  * TODO
-    //  * 
-    //  * Parameters:
-    //  *  n/a
-    //  *
-    //  * Returns:
-    //  *  the query url (with the jQuery callback specific parameters)
-    //  * 
-    //  * See also:
-    //  *  <update>
-    //  */
-    // this.error = function(){
-    // 	return anchor.update('error');
-    // };
+	// Since there is no AJAX/REST in our case, we just loop back
+	// with the argument string.
+	if( bbop.core.is_defined(anchor.resource()) ){
+	    return anchor.update('success');
+	}else{
+	    return anchor.update('error');
+	}
+    };
 };
 bbop.core.extend(bbop.rest.manager, bbop.registry);
 
@@ -7203,6 +7303,12 @@ bbop.rest.manager.prototype.update = function(callback_type){
 
     // Conditional merging of the remaining variant parts.
     var qurl = this.resource();
+    if( ! bbop.core.is_empty(this.payload()) ){
+	var asm = bbop.core.get_assemble(this.payload());
+	qurl = qurl + '?' + asm;
+    }
+
+    // Callbacks accordingly.
     if( callback_type == 'success' ){
 	this._run_success_callbacks(qurl);
     }else if( callback_type == 'error' ){
@@ -7222,7 +7328,11 @@ bbop.rest.manager.prototype.update = function(callback_type){
  * Rhino BBOP manager for dealing with remote calls. Remember,
  * this is actually a "subclass" of <bbop.rest.manager>.
  * 
- * This may be madness.
+ * This is a very simple subclass that does not get into the messiness
+ * of errors and codes since we're using the trivial readURL method.
+ * 
+ * TODO/BUG: Does not handle "error" besides giving an "empty"
+ * response.
  */
 
 if ( typeof bbop == "undefined" ){ var bbop = {}; }
@@ -7264,7 +7374,7 @@ bbop.core.extend(bbop.rest.manager.rhino, bbop.rest.manager);
  *  the query url (with any Rhino specific paramteters)
  * 
  * Also see:
- *  <get_query_url>
+ *  <fetch>
  */
 bbop.rest.manager.rhino.prototype.update = function(callback_type){
 
@@ -7277,8 +7387,9 @@ bbop.rest.manager.rhino.prototype.update = function(callback_type){
 	var response = new this._response_handler(raw_str);
 	this.apply_callbacks(callback_type, [response, this]);
     }else{
-	//this.apply_callbacks('error', ['no data', this]);
-	throw new Error('explody');
+	var response = new anchor._response_handler(null);
+	this.apply_callbacks('error', [response, this]);
+	//throw new Error('explody');
     }
 
     return qurl;
@@ -7294,7 +7405,7 @@ bbop.rest.manager.rhino.prototype.update = function(callback_type){
  *  n/a 
  *
  * Returns:
- *  a <bbop.rest.response> or null
+ *  a <bbop.rest.response> (or subclass) or null
  * 
  * Also see:
  *  <update>
@@ -7312,8 +7423,9 @@ bbop.rest.manager.rhino.prototype.fetch = function(url){
     if( raw_str && raw_str != '' ){
 	retval = new this._response_handler(raw_str);
     }else{
+	retval = new anchor._response_handler(null);
 	//this.apply_callbacks('error', ['no data', this]);
-	throw new Error('explody');
+	//throw new Error('explody');
     }
 
     return retval;
@@ -7327,7 +7439,8 @@ bbop.rest.manager.rhino.prototype.fetch = function(url){
  * RingoJS BBOP manager for dealing with remote calls. Remember,
  * this is actually a "subclass" of <bbop.rest.manager>.
  * 
- * This may be madness.
+ * TODO/BUG: Does not handle "error" besides giving an "empty"
+ * response.
  */
 
 if ( typeof bbop == "undefined" ){ var bbop = {}; }
@@ -7371,7 +7484,7 @@ bbop.core.extend(bbop.rest.manager.ringo, bbop.rest.manager);
  *  callback_type - callback type string
  *
  * Returns:
- *  the query url (with any RingoJS specific paramteters)
+ *  the query url (with any RingoJS specific parameters)
  * 
  * Also see:
  *  <get_query_url>
@@ -7399,8 +7512,9 @@ bbop.rest.manager.ringo.prototype.update = function(callback_type){
 	    // console.log('response okay?: ' + response.okay());
 	    anchor.apply_callbacks(callback_type, [response, this]);
 	}else{
-	    //this.apply_callbacks('error', ['no data', this]);
-	    throw new Error('explody');
+	    var response = new anchor._response_handler(null);
+	    this.apply_callbacks('error', [response, this]);
+	    //throw new Error('explody');
 	}
     };
     // In RingoJS.
@@ -7410,44 +7524,457 @@ bbop.rest.manager.ringo.prototype.update = function(callback_type){
     return qurl;
 };
 
+// /*
+//  * Function: fetch
+//  *
+//  * This is the synchronous data getter for RingoJS--probably your best
+//  * bet right now for scripting.
+//  * 
+//  * NOTE:
+//  * 
+//  * Parameters:
+//  *  url - url to get the data from
+//  *
+//  * Returns:
+//  *  a <bbop.rest.response> or null
+//  * 
+//  * Also see:
+//  *  <update>
+//  */
+// bbop.rest.manager.ringo.prototype.fetch = function(url){
+    
+//     var retval = null;
+
+//     var qurl = this.resource(url);
+
+//     // Grab the data from the server and pick the right callback group
+//     // accordingly.
+//     var exchange = this._http_client.get(qurl); // in RingoJS
+//     // BUG/TODO: until I figure out sync.
+//     var raw_str = exchange.content;
+//     if( raw_str && raw_str != '' ){
+// 	retval = new this._response_handler(raw_str);
+//     }else{
+// 	var response = new anchor._response_handler(null);
+// 	this.apply_callbacks('error', [response, this]);
+// 	//throw new Error('explody');
+//     }
+
+//     return retval;
+// };
+
+/* 
+ * Package: node.js
+ * 
+ * Namespace: bbop.rest.manager.node
+ * 
+ * NodeJS BBOP manager for dealing with remote calls. Remember,
+ * this is actually a "subclass" of <bbop.rest.manager>.
+ * 
+ * TODO/BUG: Does not handle "error" besides giving an "empty"
+ * response.
+ */
+
+if ( typeof bbop == "undefined" ){ var bbop = {}; }
+if ( typeof bbop.rest == "undefined" ){ bbop.rest = {}; }
+if ( typeof bbop.rest.manager == "undefined" ){ bbop.rest.manager = {}; }
+
 /*
- * Function: fetch
+ * Constructor: node
+ * 
+ * Contructor for the REST query manager; NodeJS-style.
+ * 
+ * This assumes we're in a node environment so that the require
+ * for commonjs is around.
+ * 
+ * Arguments:
+ *  response_handler
+ * 
+ * Returns:
+ *  REST manager object
+ * 
+ * See also:
+ *  <bbop.rest.manager>
+ */
+bbop.rest.manager.node = function(response_handler){
+    bbop.rest.manager.call(this, response_handler);
+    this._is_a = 'bbop.rest.manager.node';
+
+    // Grab an http client.
+    this._http_client = require('http');
+    this._url_parser = require('url');
+};
+bbop.core.extend(bbop.rest.manager.node, bbop.rest.manager);
+
+/*
+ * Function: update
  *
- * This is the synchronous data getter for RingoJS--probably your best
- * bet right now for scripting.
- * 
- * NOTE:
- * 
- * Parameters:
- *  url - url to get the data from
+ *  See the documentation in <bbop.rest.manager.js> on update to get more
+ *  of the story. This override function adds functionality to NodeJS.
+ *
+ * Parameters: 
+ *  n/a
  *
  * Returns:
- *  a <bbop.rest.response> or null
- * 
- * Also see:
- *  <update>
+ *  the query url (with any NodeJS specific parameters)
  */
-bbop.rest.manager.ringo.prototype.fetch = function(url){
-    
-    var retval = null;
+bbop.rest.manager.node.prototype.update = function(){
 
-    var qurl = this.resource(url);
+    var anchor = this;
 
-    // Grab the data from the server and pick the right callback group
-    // accordingly.
-    var exchange = this._http_client.get(qurl); // in RingoJS
-    // BUG/TODO: until I figure out sync.
-    var raw_str = exchange.content;
-    if( raw_str && raw_str != '' ){
-	retval = new this._response_handler(raw_str);
-    }else{
-	//this.apply_callbacks('error', ['no data', this]);
-	throw new Error('explody');
+    // What to do if an error is triggered.
+    function on_error(e) {
+	console.log('problem with request: ' + e.message);
+	var response = new anchor._response_handler(null);
+	response.okay(false);
+	response.message(e.message);
+	response.message_type('error');
+	anchor.apply_callbacks('error', [response, anchor]);
     }
 
-    return retval;
-};
+    // Two things to do here: 1) collect data and 2) what to do with
+    // it when we're done (create response).
+    function on_connect(res){
+	//console.log('STATUS: ' + res.statusCode);
+	//console.log('HEADERS: ' + JSON.stringify(res.headers));
+	res.setEncoding('utf8');
+	var raw_data = '';
+	res.on('data', function (chunk) {
+		   //console.log('BODY: ' + chunk);
+		   raw_data = raw_data + chunk;
+	       });
+	// Throw to .
+	res.on('end', function () {
+		   var response = new anchor._response_handler(raw_data);
+		   if( response && response.okay() ){
+		       anchor.apply_callbacks('success', [response, anchor]);
+		   }else{
+		       // Make sure that there is something there to
+		       // hold on to.
+		       if( ! response ){
+			   response = new anchor._response_handler(null);
+			   response.okay(false);
+			   response.message_type('error');
+			   response.message('null response');
+		       }else{
+			   response.message_type('error');
+			   response.message('bad response');
+		       }
+		       anchor.apply_callbacks('error', [response, anchor]);
+		   }
+	       });
+    }
 
+    // Conditional merging of the remaining variant parts.
+    var qurl = this.resource();
+    var args = '';
+    if( ! bbop.core.is_empty(this.payload()) ){
+	var asm = bbop.core.get_assemble(this.payload());
+	args = '?' + asm;
+    }
+
+    //qurl = 'http://amigo2.berkeleybop.org/cgi-bin/amigo2/amigo/term/GO:0022008/json';
+    var final_url = qurl + args;
+
+    // http://nodejs.org/api/url.html
+    var purl = anchor._url_parser.parse(final_url);
+    var req_opts = {
+    	//'hostname': 'localhost',
+    	//'path': '/cgi-bin/amigo2/amigo/term/GO:0022008/json',
+	'port': 80,
+	'method': 'GET'
+    };
+    // Tranfer the intersting bit over.
+    bbop.core.each(['protocol', 'hostname', 'port', 'path'],
+		   function(purl_prop){
+		       if( purl[purl_prop] ){
+			   req_opts[purl_prop] = purl[purl_prop];
+		       }
+		   });
+    // And the method.
+    var mth = anchor.method();
+    if( mth && mth != 'get' ){
+    	req_opts['method'] = mth;
+    }
+    var req = anchor._http_client.request(req_opts, on_connect);
+    // var req = anchor._http_client.request(final_url, on_connect);
+
+    req.on('error', on_error);
+    
+    // write data to request body
+    //req.write('data\n');
+    //req.write('data\n');
+    req.end();
+    
+    return qurl;
+};
+/* 
+ * Package: jquery.js
+ * 
+ * Namespace: bbop.rest.manager.jquery
+ * 
+ * TODO!
+ * 
+ * jQuery BBOP manager for dealing with actual ajax calls. Remember,
+ * this is actually a "subclass" of <bbop.rest.manager>.
+ * 
+ * This should still be able to limp along (no ajax and no error
+ * parsing) even outside of a jQuery environment.
+ */
+
+if ( typeof bbop == "undefined" ){ var bbop = {}; }
+if ( typeof bbop.rest == "undefined" ){ bbop.rest = {}; }
+if ( typeof bbop.rest.manager == "undefined" ){ bbop.rest.manager = {}; }
+
+/*
+ * Constructor: jquery
+ * 
+ * Contructor for the jQuery REST manager
+ * 
+ * Arguments:
+ *  response_handler
+ * 
+ * Returns:
+ *  REST manager object
+ * 
+ * See also:
+ *  <bbop.rest.manager>
+ */
+bbop.rest.manager.jquery = function(response_handler){
+    bbop.rest.manager.call(this, response_handler);
+    this._is_a = 'bbop.rest.manager.jquery';
+
+    // // Before anything else, if we cannot find a viable jQuery library
+    // // for use, we're going to create a fake one so we can still test
+    // // and work in a non-browser/networked environment.
+    // var anchor = this;
+    // anchor.JQ = new bbop.golr.faux_ajax();
+    // try{ // some interpreters might not like this kind of probing
+    // 	if( typeof(jQuery) !== 'undefined' ){
+    // 	    //JQ = jQuery;
+    // 	    anchor.JQ = jQuery.noConflict();
+    // 	}
+    // }catch (x){
+    // }finally{
+    // 	var got = bbop.core.what_is(anchor.JQ);
+    // 	if( got && got == 'bbop.golr.faux_ajax'){
+    // 	}else{
+    // 	    got = 'jQuery';
+    // 	}
+    // 	ll('Using ' + got + ' for Ajax calls.');
+    // }
+
+    // // The base jQuery Ajax args we need with the setup we have.
+    // anchor.jq_vars = {
+    // 	//url: qurl,
+    // 	type: "GET",
+    // 	dataType: 'jsonp',
+    // 	jsonp: 'json.wrf'
+    // };
+
+
+};
+bbop.core.extend(bbop.rest.manager.jquery, bbop.rest.manager);
+    
+
+//     // We'll override the original with something that actually speaks
+//     // jQuery. This is the function that runs where there is an AJAX
+//     // error during an update. First it has to run some template code,
+//     // then it does all of the callbacks.
+//     this._run_error_callbacks = function(result, status, error) {
+
+//     	ll('Failed server request: '+ result +', '+ status +', '+ error);
+//     	//ll('Failed (a): '+ bbop.core.what_is(status));
+//     	//ll('Failed (b): '+ bbop.core.dump(status));
+		
+//     	var clean_error = "unknown error";
+
+//     	// Get the error out (clean it) if possible.
+//     	var jreq = result.responseText;
+//     	var req = anchor.JQ.parseJSON(jreq); // TODO/BUG: this must be removed
+//     	if( req && req['errors'] && req['errors'].length > 0 ){
+//     	    var in_error = req['errors'][0];
+//     	    ll('ERROR:' + in_error);
+//     	    // Split on newline if possible to get
+//     	    // at the nice part before the perl
+//     	    // error.
+//     	    var reg = new RegExp("\n+", "g");
+//     	    var clean_error_split =
+//     		in_error.split(reg);
+//     	    clean_error = clean_error_split[0];
+//     	}else if( bbop.core.what_is(error) == 'string' &&
+//     		  error.length > 0){
+//     	    clean_error = error;
+//     	}else if( bbop.core.what_is(status) == 'string' &&
+//     		  status.length > 0){
+//     	    clean_error = status;
+//     	}
+	
+//     	// Run all against registered functions.
+//     	ll('run error callbacks...');
+//     	anchor.apply_callbacks('error', [clean_error, anchor]);
+//     };
+
+//     // Try and decide between a reset callback and a search callback.
+//     // This is useful since jQuery doesn't have a natural way to do
+//     // that within the callbacks.
+//     this._callback_type_decider = function(json_data){
+//     	ll('in callback type decider...');
+
+// 	var response = new bbop.golr.response(json_data);
+
+//     	// 
+//     	if( ! response.success() ){
+//     	    throw new Error("Unsuccessful response from golr server!");
+//     	}else{
+//     	    var cb_type = response.callback_type();
+//     	    ll('okay response from server, will probe type...: ' + cb_type);
+//     	    if( cb_type == 'reset' ){
+//     		anchor._run_reset_callbacks(json_data);
+//     	    }else if( cb_type == 'search' ){
+//     		anchor._run_search_callbacks(json_data);
+//     	    }else{
+//     		throw new Error("Unknown callback type!");
+//     	    }
+//     	}
+//     };
+
+//     /*
+//      * Function: safety
+//      *
+//      * Getter/setter for the trigger safety.
+//      * 
+//      * If the safety is on, ajax events controlled by the manager will
+//      * not occur. The default is off (false).
+//      * 
+//      * Parameters: 
+//      *  safety_on_p - boolean
+//      *
+//      * Returns:
+//      *  boolean
+//      */
+//     this.safety = function(safety_on_p){
+// 	if( bbop.core.is_defined(safety_on_p) ){
+// 	    anchor._safety = safety_on_p;
+// 	}
+// 	return anchor._safety;
+//     };
+// };
+// bbop.core.extend(bbop.golr.manager.jquery, bbop.golr.manager);
+
+// /*
+//  * Function: update
+//  *
+//  *  See the documentation in <golr_manager.js> on update to get more
+//  *  of the story. This override function adds functionality for
+//  *  jQuery.
+//  * 
+//  * You can prevent the triggering of ajax with the <safety>
+//  * method.
+//  *
+//  * Parameters: 
+//  *  callback_type - callback type string
+//  *  rows - *[serially optional]* integer; the number of rows to return
+//  *  start - *[serially optional]* integer; the offset of the returned rows
+//  *
+//  * Returns:
+//  *  the query url (with the jQuery callback specific parameters)
+//  * 
+//  * Also see:
+//  *  <get_query_url>
+//  */
+// bbop.golr.manager.jquery.prototype.update = function(callback_type){
+    
+//     // Only actually trigger if the safety is off (default).
+//     if( ! this.safety() ){
+	
+// 	// Setup JSONP for Solr and jQuery ajax-specific parameters.
+// 	this.jq_vars['success'] = this._run_success_callbacks;
+// 	this.jq_vars['error'] = this._run_error_callbacks;
+// 	//done: _callback_type_decider, // decide & run search or reset
+// 	//fail: _run_error_callbacks, // run error callbacks
+// 	//always: function(){} // do I need this?
+// 	this.JQ.ajax(qurl, this.jq_vars);
+//     }
+    
+//     return qurl;
+// };
+
+// /*
+//  * Function: fetch
+//  *
+//  * A cousin of <update>, but is made to avoid all of the usual
+//  * callback functions (except error) and just run the single function
+//  * from the argument.
+//  * 
+//  * Why would you want this? Sometimes you need just a little data
+//  * without updating the whole interface or whatever.
+//  *
+//  * Parameters: 
+//  *  url - the target url to use/update
+//  *  run_func - the function to run on completion
+//  *
+//  * Returns:
+//  *  n/a
+//  */
+// bbop.golr.manager.jquery.prototype.fetch = function(run_func){
+
+//     // ...
+//     var anchor = this;
+//     var qurl = anchor.get_query_url();
+//     anchor._run_func = run_func;
+//     anchor.jq_vars['success'] =
+// 	function(json_data){
+// 	    var response = new bbop.golr.response(json_data);
+// 	    anchor._run_func(response);   
+// 	};
+//     anchor.jq_vars['error'] = anchor._run_error_callbacks;
+//     anchor.JQ.ajax(qurl, anchor.jq_vars);
+// };
+
+// /*
+//  * Namespace: bbop.rest.faux_ajax
+//  *
+//  * Constructor: faux_ajax
+//  * 
+//  * Contructor for a fake and inactive Ajax. Used by bbop.golr.manager.jquery
+//  * in (testing) environments where jQuery is not available.
+//  * 
+//  * Returns:
+//  *  faux_ajax object
+//  */
+// bbop.rest.faux_ajax = function (){
+//     this._is_a = 'bbop.rest.faux_ajax';
+
+//     /*
+//      * Function: ajax
+//      *
+//      * Fake call to jQuery's ajax.
+//      *
+//      * Parameters: 
+//      *  args - whatever
+//      *
+//      * Returns:
+//      *  null
+//      */
+//     this.ajax = function(args){
+// 	return null;
+//     };
+//     /*
+//      * Function: parseJSON
+//      *
+//      * Fake call to jQuery's parseJSON.
+//      *
+//      * Parameters: 
+//      *  args - whatever--they are ignored
+//      *
+//      * Returns:
+//      *  ""
+//      */
+//     this.parseJSON = function(args){
+// 	return "";
+//     };
+// };
 /* 
  * Package: conf.js
  * 

@@ -32,7 +32,7 @@ var mr_t = new bbop.test();
 		    type = resp.raw()['type'];
 		    bbop.core.dump(resp.raw());
 	   });
-     m.get(target);
+     m.action(target);
      mr_t.is_same_atom(type, 'term', 'looks like a "term" (1)');
 
 // })();

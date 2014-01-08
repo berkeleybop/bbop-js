@@ -19,6 +19,8 @@ lib/bbop/rest/response/json.js
 lib/bbop/rest/manager.js
 lib/bbop/rest/manager/rhino.js
 lib/bbop/rest/manager/ringo.js
+lib/bbop/rest/manager/node.js
+lib/bbop/rest/manager/jquery.js
 lib/bbop/golr/conf.js
 lib/bbop/golr/response.js
 lib/bbop/golr/manager.js
