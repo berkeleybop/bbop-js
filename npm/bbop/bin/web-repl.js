@@ -19,17 +19,17 @@ var bbop = require('bbop').bbop;
 var repl = require('repl');
 
 var res = new bbop.rest.response.json(null);
-var jreq = new bbop.rest.manager.node(bbop.rest.response.json);
+var jr = new bbop.rest.manager.node(bbop.rest.response.json);
 
 global.bbop = bbop;
-global.jreq = jreq;
+global.jr = jr;
 global.res = res;
 global.dat = {};
 global.get = function(url, data){
-    jreq.action(url, data);
+    jr.action(url, data);
 };
 global.post = function(url, data){
-    jreq.action(url, data, 'post');
+    jr.action(url, data, 'post');
 };
 
 function on_success(resp, man){
@@ -39,11 +39,12 @@ function on_success(resp, man){
 }
 function on_error(resp, man){
     console.log("\nRequest failed.");
-    res = null;
+    global.res = resp;
+    global.dat = resp.raw();
 }
 
-jreq.register('success', 'foo', on_success);
-jreq.register('error', 'bar', on_error);
+jr.register('success', 'foo', on_success);
+jr.register('error', 'bar', on_error);
 
 var wepl_args = {
     'useGlobal': true,
