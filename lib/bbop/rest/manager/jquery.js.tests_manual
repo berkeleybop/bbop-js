@@ -1,0 +1,18 @@
+////
+//// This actually works in the AmiGO 2 REPL.
+////
+var m = new bbop.rest.manager.jquery(bbop.rest.response.json);
+var t = 'http://localhost/cgi-bin/amigo2/amigo/term/GO:0022008/json'; 
+var r = null;
+function on_success(resp, man){
+    r = resp;
+    //ll('success (' + resp.message_type() + '): ' + resp.message());
+    ll('success');
+}
+function on_fail(resp, man){
+    r = resp;
+    ll('failure (' + resp.message_type() + '): ' + resp.message());
+}
+m.register('success', 'foo', on_success);
+m.register('error', 'foo', on_fail);
+m.action(t);
