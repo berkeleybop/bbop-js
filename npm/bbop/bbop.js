@@ -1869,7 +1869,7 @@ bbop.version.revision = "2.0.0-rc1";
  *
  * Partial version for this library: release (date-like) information.
  */
-bbop.version.release = "20140107";
+bbop.version.release = "20140108";
 /*
  * Package: logger.js
  * 
@@ -7773,9 +7773,6 @@ bbop.core.extend(bbop.rest.manager.jquery, bbop.rest.manager);
  *  of the story. This override function adds functionality for
  *  jQuery.
  * 
- * You can prevent the triggering of ajax with the <safety>
- * method.
- *
  * Parameters: 
  *  callback_type - callback type string (so far unused)
  *
@@ -7798,7 +7795,7 @@ bbop.rest.manager.jquery.prototype.update = function(callback_type){
 
     // The base jQuery Ajax args we need with the setup we have.
     var jq_vars = {
-    	//url: final_url,
+    	url: final_url,
     	dataType: 'jsonp',
     	//jsonp: 'json.wrf'
     	type: "GET"
@@ -7834,12 +7831,12 @@ bbop.rest.manager.jquery.prototype.update = function(callback_type){
     }
 
     // Setup JSONP for Solr and jQuery ajax-specific parameters.
-    this.jq_vars['success'] = on_error;
-    this.jq_vars['error'] = on_success;
+    anchor.jq_vars['success'] = on_error;
+    anchor.jq_vars['error'] = on_success;
     //done: _callback_type_decider, // decide & run search or reset
     //fail: _run_error_callbacks, // run error callbacks
     //always: function(){} // do I need this?
-    this.JQ.ajax(final_url, jq_vars);
+    anchor.JQ.ajax(jq_vars);
     
     return final_url;
 };
