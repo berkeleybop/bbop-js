@@ -1,6 +1,8 @@
 ////
 //// This actually works in the AmiGO 2 REPL.
 ////
+
+// Standard JSON.
 var m = new bbop.rest.manager.jquery(bbop.rest.response.json);
 var t = 'http://localhost/cgi-bin/amigo2/amigo/term/GO:0022008/json'; 
 var r = null;
@@ -16,3 +18,8 @@ function on_fail(resp, man){
 m.register('success', 'foo', on_success);
 m.register('error', 'foo', on_fail);
 m.action(t);
+
+// Now try JSONP.
+var s = "http://toaster.lbl.gov:9000/solr/select?defType=edismax&qt=standard&indent=on&wt=json&rows=10&start=0&fl=bioentity%2Cbioentity_name%2Cannotation_class%2Cannotation_extension_class_handler%2Csource%2Ctaxon%2Cevidence_type%2Cevidence_with%2Cpanther_family%2Cbioentity_isoform%2Creference%2Cbioentity_label%2Cannotation_class_label%2Ctaxon_label%2Cpanther_family_label%2Cscore%2Cid&facet=true&facet.mincount=1&facet.sort=count&json.nl=arrarr&facet.limit=25&hl=true&hl.simple.pre=%3Cem%20class=%22hilite%22%3E&fq=document_category:%22annotation%22&facet.field=source&facet.field=assigned_by&facet.field=aspect&facet.field=evidence_type_closure&facet.field=panther_family_label&facet.field=taxon_closure_label&facet.field=annotation_class_label&facet.field=isa_partof_closure_label&facet.field=regulates_closure_label&facet.field=annotation_extension_class_closure_label&q=apoptotic%20pro*&qf=annotation_class^2&qf=annotation_class_label_searchable^1&qf=bioentity^2&qf=bioentity_label_searchable^1&qf=bioentity_name_searchable^1&qf=annotation_extension_class^2&qf=annotation_extension_class_label_searchable^1&qf=reference^1&qf=panther_family_searchable^1&qf=panther_family_label_searchable^1&qf=bioentity_isoform^1&packet=27&callback_type=search";
+m.use_jsonp(true);
+m.action(s);
