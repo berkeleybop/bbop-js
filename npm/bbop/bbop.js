@@ -1880,7 +1880,7 @@ bbop.version.revision = "2.0.0-rc1";
  *
  * Partial version for this library: release (date-like) information.
  */
-bbop.version.release = "20140108";
+bbop.version.release = "20140109";
 /*
  * Package: logger.js
  * 
@@ -7295,6 +7295,34 @@ bbop.rest.manager.prototype.to_string = function (){
 };
 
 /*
+ * Function: assemble
+ *
+ * Assemble the resource and arguments into a URL string.
+ * 
+ * May not be appropriate for all subclasses. Often used as a helper,
+ * etc.
+ * 
+ * Parameters:
+ *  n/a
+ *
+ * Returns:
+ *  url string
+ * 
+ * Also see:
+ *  <get_query_url>
+ */
+bbop.rest.manager.prototype.assemble = function(){
+
+    // Conditional merging of the remaining variant parts.
+    var qurl = this.resource();
+    if( ! bbop.core.is_empty(this.payload()) ){
+	var asm = bbop.core.get_assemble(this.payload());
+	qurl = qurl + '?' + asm;
+    }
+    return qurl;
+};
+
+/*
  * Function: update
  *
  * The user code to select the type of update (and thus the type
@@ -7388,7 +7416,8 @@ bbop.core.extend(bbop.rest.manager.rhino, bbop.rest.manager);
  */
 bbop.rest.manager.rhino.prototype.update = function(callback_type){
 
-    var qurl = this.resource();
+    // 
+    var qurl = this.assemble();
 
     // Grab the data from the server and pick the right callback group
     // accordingly.
@@ -7420,12 +7449,15 @@ bbop.rest.manager.rhino.prototype.update = function(callback_type){
  * Also see:
  *  <update>
  */
-bbop.rest.manager.rhino.prototype.fetch = function(url){
+bbop.rest.manager.rhino.prototype.fetch = function(url, payload){
     
     var retval = null;
 
-    // Update the url if necessary.
-    var qurl = this.resource(url);
+    // Update if necessary.
+    if( url ){ this.resource(url); }
+    if( payload ){ this.payload(payload); }
+
+    var qurl = this.assemble();
     
     // Grab the data from the server and pick the right callback group
     // accordingly.
