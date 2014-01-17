@@ -8005,7 +8005,7 @@ bbop.rest.manager.jquery.prototype.use_jsonp = function(use_p){
  * Returns:
  *  ???
  */
-bbop.rest.manager.jquery.prototype.accept = function(accept){
+bbop.rest.manager.jquery.prototype.accepts = function(accept){
     var anchor = this;
     if( bbop.core.is_defined(accept) ){
 	anchor._accept = accept;
