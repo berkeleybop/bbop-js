@@ -150,6 +150,42 @@ var mr_t = new bbop.test();
 
  })();
 
+// And for a final magic trick, a rootless loop graph.
+(function(){
+     // Create graph as described:
+     var n_a = new bbop.model.node('a');
+     var n_b = new bbop.model.node('b');
+     var e_ab = new bbop.model.edge(n_b, n_a);
+     var e_ba = new bbop.model.edge(n_a, n_b);
+
+     var g = new bbop.model.graph();
+
+     //
+     var nodes = [n_a, n_b];
+     var edges = [e_ab, e_ba];
+     bbop.core.each(nodes,
+		    function(node){
+			g.add_node(node);
+		    });
+     
+     bbop.core.each(edges,
+		    function(edge){
+			g.add_edge(edge);
+		    });
+     
+     // Correct partitioning?
+     var p = new bbop.layout.sugiyama.partitioner(g);
+     mr_t.is_same_atom(2, p.number_of_vertex_partitions(), 'node parts (m)');
+     mr_t.is_same_atom(1, p.number_of_edge_partitions(), 'edge parts (m)');
+     mr_t.is_same_atom(1, p.max_partition_width(), 'max part (m)');
+
+     // // TODO: once we decide what a layout format looks like.
+     // var r = new bbop.layout.sugiyama.render();
+     // var layout = r.layout(g);
+     // bbop.core.dump(layout);
+
+ })();
+
 ///
 /// End unit testing.
 ///
