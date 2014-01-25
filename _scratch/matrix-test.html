@@ -6,20 +6,26 @@
     <script type="text/javascript" src="../lib/bbop/widget/matrix.js"></script>
     <script type="text/javascript">
       var mat;
-      var row_count = 20;
-      var col_count = 7;
-      var max_padding = 12;
+      var row_count = 100;
+      var col_count = 50;
+      var cell_prob = 0.2;
+      var max_padding = 14;
       var rowdescs = new Array(row_count);
+      var displayed_rows = {};
       for (var ri = 0; ri < row_count; ri++) {
         rowdescs[ri] = "R" + ri;
-      }
-      var coldescs = new Array(col_count);
-      for (var ci = 0; ci < col_count; ci++) {
-        coldescs[ci] = "C" + ci;
+        displayed_rows[rowdescs[ri]] = true;
       }
 
-      var displayed_rows = rowdescs;
-      var displayed_cols = coldescs;
+      var coldescs = new Array(col_count);
+      var displayed_cols = {};
+      for (var ci = 0; ci < col_count; ci++) {
+        coldescs[ci] = "C" + ci;
+        displayed_cols[coldescs[ci]] = true;
+      }
+
+      var row_order = rowdescs.slice(0);
+      var col_order = coldescs.slice(0);
 
       window.onload = function() {
         mat = new bbop.widget.matrix.renderer("test0",
@@ -27,15 +33,23 @@
                                               coldescs, 
                                               cell_renderer,
                                               {
-                                                //cell_width: 24,
-                                                cell_height: 26,
-                                                show_headers: true});
+                                                cell_width: 24,
+                                                cell_border: 1,
+                                                cell_height: 22,
+                                                header_height: 20,
+                                                cell_padding: 4,
+                                                show_headers: true,
+                                                transition_time: "0.8s"});
 
         
       };
       function cell_renderer(cell, row, col) {
-          var varSuffix = Array((Math.random() * max_padding) | 0).join("x");
-          cell.appendChild(document.createTextNode(row + ", " + col + "|" + varSuffix));
+          if (Math.random() >= cell_prob) return null;
+
+          var cell = document.createElement("div");
+          //var varSuffix = Array((Math.random() * max_padding) | 0).join("x");
+          cell.style.backgroundColor = "#aaa";
+          return cell;
       }
 
       function shuffleArray(toShuffle) {
@@ -49,14 +63,34 @@
         return result;
       }
 
+      function show_rows() {
+        var to_show = [];
+        for (var i = 0; i < row_order.length; i++) {
+          if (displayed_rows[row_order[i]]) {
+            to_show.push(row_order[i]);
+          }
+        }
+        mat.show_rows(to_show);
+      }
+
+      function show_cols() {
+        var to_show = [];
+        for (var i = 0; i < col_order.length; i++) {
+          if (displayed_cols[col_order[i]]) {
+            to_show.push(col_order[i]);
+          }
+        }
+        mat.show_cols(to_show);
+      }
+
       function reorder_rows() {
-        displayed_rows = shuffleArray(displayed_rows);
-        mat.show_rows(displayed_rows);
+        row_order = shuffleArray(row_order);
+        show_rows();
       }
 
       function reorder_cols() {
-        displayed_cols = shuffleArray(displayed_cols);
-        mat.show_cols(displayed_cols);
+        col_order = shuffleArray(col_order);
+        show_cols();
       }
 
       function reorder_both() {
@@ -64,34 +98,41 @@
         reorder_cols();
       }
 
-      function reorder_rows_and_change_subset() {
-        var new_row_list = shuffleArray(rowdescs);
-        var new_row_count = ((rowdescs.length / 2) + (Math.random() * (rowdescs.length / 2))) | 0;
-        displayed_rows = new_row_list.slice(0, new_row_count);
-        mat.show_rows(displayed_rows);
+      function change_row_subset() {
+        for (var i = 0; i < rowdescs.length; i++) {
+          displayed_rows[rowdescs[i]] = (Math.random() > 0.15);
+        }
+        show_rows();
       }
 
-      function reorder_cols_and_change_subset() {
-        var new_col_list = shuffleArray(coldescs);
-        var new_col_count = ((coldescs.length / 2) + (Math.random() * (coldescs.length / 2))) | 0;
-        displayed_cols = new_col_list.slice(0, new_col_count);
-        mat.show_cols(displayed_cols);
+      function change_col_subset() {
+        for (var i = 0; i < coldescs.length; i++) {
+          displayed_cols[coldescs[i]] = (Math.random() > 0.15);
+        }
+        show_cols();
       }
 
-      function reorder_both_and_change_subsets() {
-         reorder_rows_and_change_subset();
-         reorder_cols_and_change_subset();
+      function change_both_subsets() {
+         change_row_subset();
+         change_col_subset();
       }
-         
+
+      function reorder_and_change_both() {
+         reorder_rows();
+         reorder_cols();
+         change_row_subset();
+         change_col_subset();
+      }
     </script>
   </head>
   <body>
     <input type="button" onclick="reorder_rows();" value="Reorder rows">
     <input type="button" onclick="reorder_cols();" value="Reorder cols">
     <input type="button" onclick="reorder_both();" value="Reorder both">
-    <input type="button" onclick="reorder_rows_and_change_subset();" value="Reorder rows and change subset">
-    <input type="button" onclick="reorder_cols_and_change_subset();" value="Reorder cols and change subset">
-    <input type="button" onclick="reorder_both_and_change_subsets();" value="Reorder both and change both subsets">
+    <input type="button" onclick="change_row_subset();" value="Change row subset">
+    <input type="button" onclick="change_col_subset();" value="Change col subset">
+    <input type="button" onclick="change_both_subsets();" value="Change both subsets">
+    <input type="button" onclick="change_both_subsets();" value="Reorder and change both">
     <div id="test0" style="position:absolute; padding: 0px; border: 5px solid #888;"></div>
   </body>
 </html>
