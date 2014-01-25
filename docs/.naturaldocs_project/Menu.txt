@@ -113,13 +113,22 @@ File: linker.js  (linker.js)
 
 Group: Rest  {
 
-   File: jquery.js  (rest/manager/jquery.js)
    File: json.js  (rest/response/json.js)
+
+   Group: Manager  {
+
+      File: jquery.js  (rest/manager/jquery.js)
+      File: node.js  (rest/manager/node.js)
+      File: rhino.js  (rest/manager/rhino.js)
+      File: ringo.js  (rest/manager/ringo.js)
+      }  # Group: Manager
+
    File: manager.js  (rest/manager.js)
+   File: mmm.js  (rest/response/mmm.js)
    File: response.js  (rest/response.js)
-   File: rhino.js  (rest/manager/rhino.js)
-   File: ringo.js  (rest/manager/ringo.js)
    }  # Group: Rest
+
+File: sugiyama.js  (layout/sugiyama.js)
 
 Group: Index  {
 

@@ -1,0 +1,194 @@
+////
+//// Some unit testing for sugiyama.js; it should easily pass most of the
+//// model.js tests while we're at it...
+////
+//// rhino -modules staging/bbop.js -opt -1 -f lib/bbop/layout/sugiyama.js.tests -f -
+////
+
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
+var mr_t = new bbop.test();
+
+(function(){
+     // Create graph as described:
+     //
+     //	    	 a-\
+     //	       	/ \ \
+     //	       /| |\ \
+     //       b c d e \
+     //      /| |\| |\ \
+     //     / | ||| | \ \
+     //    f  g h|i j  k |
+     //         \|     |/
+     //          l     m
+     //
+     var n_a = new bbop.model.node('a');
+     var n_b = new bbop.model.node('b');
+     var n_c = new bbop.model.node('c');
+     var n_d = new bbop.model.node('d');
+     var n_e = new bbop.model.node('e');
+     var n_f = new bbop.model.node('f');
+     var n_g = new bbop.model.node('g');
+     var n_h = new bbop.model.node('h');
+     var n_i = new bbop.model.node('i');
+     var n_j = new bbop.model.node('j');
+     var n_k = new bbop.model.node('k');
+     var n_l = new bbop.model.node('l');
+     var n_m = new bbop.model.node('m');
+     var e1 = new bbop.model.edge(n_b, n_a);
+     var e2 = new bbop.model.edge(n_c, n_a);
+     var e3 = new bbop.model.edge(n_d, n_a);
+     var e4 = new bbop.model.edge(n_e, n_a);
+     var e5 = new bbop.model.edge(n_f, n_b);
+     var e6 = new bbop.model.edge(n_g, n_b);
+     var e7 = new bbop.model.edge(n_h, n_c);
+     var e8 = new bbop.model.edge(n_i, n_d);
+     var e9 = new bbop.model.edge(n_j, n_e);
+     var e10 = new bbop.model.edge(n_k, n_e);
+     var e11 = new bbop.model.edge(n_l, n_h);
+     var e12 = new bbop.model.edge(n_l, n_c);
+     var e13 = new bbop.model.edge(n_m, n_k);
+     var e14 = new bbop.model.edge(n_m, n_a);
+
+     var g = new bbop.model.graph();
+
+     // "Randomize" order and add to the graph.
+     var nodes =
+	 [n_h, n_b, n_e, n_k, n_f, n_l, n_g, n_c, n_d, n_i, n_j, n_m, n_a];
+     var edges = [e10, e4, e14, e9, e11, e6, e2, e3, e5, e7, e13, e12, e8, e1];
+     bbop.core.each(nodes,
+		    function(node){
+			g.add_node(node);
+		    });
+
+     bbop.core.each(edges,
+		    function(edge){
+			g.add_edge(edge);
+		    });
+
+     // g.add_node(n_a);
+     // g.add_node(n_b);
+     // g.add_node(n_c);
+     // g.add_node(n_d);
+     // g.add_node(n_e);
+     // g.add_node(n_f);
+     // g.add_node(n_g);
+     // g.add_node(n_h);
+     // g.add_node(n_i);
+     // g.add_node(n_j);
+     // g.add_node(n_k);
+     // g.add_edge(e1);
+     // g.add_edge(e2);
+     // g.add_edge(e3);
+     // g.add_edge(e4);
+     // g.add_edge(e5);
+     // g.add_edge(e6);
+     // g.add_edge(e7);
+     // g.add_edge(e8);
+     // g.add_edge(e9);
+     // g.add_edge(e10);
+
+     // Graph props.
+     mr_t.is_same_atom(6, g.get_leaf_nodes().length, 'graph leaves');
+     mr_t.is_same_atom(1, g.get_root_nodes().length, 'root node');
+     mr_t.is_same_atom('a', g.get_root_nodes()[0].id(), 'tree root');
+     mr_t.is_same_atom(1, g.get_parent_nodes('b').length, '1 b parent');
+     mr_t.is_same_atom('a', g.get_parent_nodes('b')[0].id(),'b under a');
+     mr_t.is_same_atom(5, g.get_child_nodes('a').length, 'a has 4');
+     mr_t.is_same_atom(2, g.get_child_nodes('b').length, 'b has 2');
+     mr_t.is_same_atom(0, g.get_child_nodes('f').length, 'f has 0');
+
+     // Correct partitioning?
+     var p = new bbop.layout.sugiyama.partitioner(g);
+     mr_t.is_same_atom(4, p.number_of_vertex_partitions(), 'node parts');
+     mr_t.is_same_atom(3, p.number_of_edge_partitions(), 'edge parts');
+     mr_t.is_same_atom(8, p.max_partition_width(), 'max part');
+
+     // // TODO: once we decide what a layout format looks like.
+     // var r = new bbop.layout.sugiyama.render();
+     // var layout = r.layout(g);
+     // bbop.core.dump(layout);
+
+ })();
+
+// Loops should not destroy layout system.
+(function(){
+     // Create graph as described:
+     var n_a = new bbop.model.node('a');
+     var n_b = new bbop.model.node('b');
+     var n_c = new bbop.model.node('c');
+     var e_ab = new bbop.model.edge(n_b, n_a);
+     var e_ac = new bbop.model.edge(n_c, n_a);
+     var e_cb = new bbop.model.edge(n_b, n_c);
+     var e_bc = new bbop.model.edge(n_c, n_b);
+
+     var g = new bbop.model.graph();
+
+     //
+     var nodes = [n_a, n_b, n_c];
+     var edges = [e_ab, e_ac, e_bc, e_cb];
+     bbop.core.each(nodes,
+		    function(node){
+			g.add_node(node);
+		    });
+     
+     bbop.core.each(edges,
+		    function(edge){
+			g.add_edge(edge);
+		    });
+     
+     // Correct partitioning?
+     var p = new bbop.layout.sugiyama.partitioner(g);
+     mr_t.is_same_atom(3, p.number_of_vertex_partitions(), 'node parts (s)');
+     mr_t.is_same_atom(2, p.number_of_edge_partitions(), 'edge parts (s)');
+     mr_t.is_same_atom(2, p.max_partition_width(), 'max part (s)');
+
+     // // TODO: once we decide what a layout format looks like.
+     // var r = new bbop.layout.sugiyama.render();
+     // var layout = r.layout(g);
+     // bbop.core.dump(layout);
+
+ })();
+
+// And for a final magic trick, a rootless loop graph.
+(function(){
+     // Create graph as described:
+     var n_a = new bbop.model.node('a');
+     var n_b = new bbop.model.node('b');
+     var e_ab = new bbop.model.edge(n_b, n_a);
+     var e_ba = new bbop.model.edge(n_a, n_b);
+
+     var g = new bbop.model.graph();
+
+     //
+     var nodes = [n_a, n_b];
+     var edges = [e_ab, e_ba];
+     bbop.core.each(nodes,
+		    function(node){
+			g.add_node(node);
+		    });
+     
+     bbop.core.each(edges,
+		    function(edge){
+			g.add_edge(edge);
+		    });
+     
+     // Correct partitioning?
+     var p = new bbop.layout.sugiyama.partitioner(g);
+     mr_t.is_same_atom(2, p.number_of_vertex_partitions(), 'node parts (m)');
+     mr_t.is_same_atom(1, p.number_of_edge_partitions(), 'edge parts (m)');
+     mr_t.is_same_atom(1, p.max_partition_width(), 'max part (m)');
+
+     // // TODO: once we decide what a layout format looks like.
+     // var r = new bbop.layout.sugiyama.render();
+     // var layout = r.layout(g);
+     // bbop.core.dump(layout);
+
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

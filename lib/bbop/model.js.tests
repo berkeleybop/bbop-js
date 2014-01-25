@@ -292,6 +292,17 @@ var tax =
 })();
 
 
+// Here is a failing case from the taxslim
+// TODO: Cannot test until I get a better object testing function.
+(function(){
+     var simp = {"nodes":[{"id":"a","lbl":"A"},{"id":"b","lbl":"B"}],"edges":[{"sub":"a","obj":"b","pred":"is_a"}]};
+     var g = new bbop.model.graph();
+     var l = g.load_json(simp);
+     var r = g.to_json();
+     //mr_t.is_same_hash(simp, r, 'round trip');
+     //var dump = bbop.core.dump;
+});
+
 ///
 /// End unit testing.
 ///

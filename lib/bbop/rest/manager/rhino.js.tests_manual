@@ -29,7 +29,7 @@ var mr_t = new bbop.test();
 		    page = resp.raw()['page'];
 		    bbop.core.dump(resp.raw());
 	   });
-     m.get(target);
+     m.action(target);
      mr_t.is_same_atom(page, '0', 'looks like a "0" (1)');
 
  })();

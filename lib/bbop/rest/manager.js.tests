@@ -11,24 +11,29 @@ var mr_t = new bbop.test();
 ///
 
 // bbop.rest.manager + bbop.rest.response
-(function(){
+//(function(){
 
      // 
      var str = '';
      var m = new bbop.rest.manager(bbop.rest.response);
      m.register('success', 'id',
 		function(resp, man){
-		    str += resp.raw();  
+		    str += resp.raw();
 		});
      m.resource('foo');
-     m.get();
+     m.action();
      mr_t.is_same_atom(str, 'foo', 'simple: round trip: foo');
-     m.get();
+     m.action();
      mr_t.is_same_atom(str, 'foofoo', 'simple: another round trip: foofoo');
-     m.get('bar');
+     m.action('bar');
      mr_t.is_same_atom(str, 'foofoobar', 'simple: final trip: foofoobar');
 
-})();
+     //
+     m.payload({'a': 'b', 'c': 'd'});
+     m.action('bar');
+     mr_t.is_same_atom(str, 'foofoobarbar?a=b&c=d', 'plus payload');
+
+//})();
 
 // bbop.rest.manager + bbop.rest.response.json
 (function(){
@@ -44,11 +49,11 @@ var mr_t = new bbop.test();
 		    total += resp.raw()['foo']['bar'];
 		});
      m.resource(j1);
-     m.get();
+     m.action();
      mr_t.is_same_atom(total, 1, 'json round trip: 1');
-     m.get();
+     m.action();
      mr_t.is_same_atom(total, 2, 'json another trip: 2');
-     m.get(j2);
+     m.action(j2);
      mr_t.is_same_atom(total, 4, 'json another trip: 4');
 
 })();

@@ -1,0 +1,27 @@
+////
+//// Some unit testing for package node.js
+////
+//// Usage (from root, requires a link):
+////
+////    NODE_PATH='./npm/' node -i lib/bbop/rest/manager/node.js.tests_manual
+////   
+//// WARNING: These tests require an internet connection and a
+//// specialized node environment. Because of this, these tests are
+//// not automatically run during normal unit testing.
+////
+
+var bbop = require('bbop').bbop;
+
+var target =
+    'http://amigo2.berkeleybop.org/cgi-bin/amigo2/amigo/term/GO:0022008/json';
+     
+var m = new bbop.rest.manager.node(bbop.rest.response.json);
+m.register('success', 'foo',
+	   function(resp, man){
+	       console.log(bbop.core.dump(resp.raw()));	       
+	       console.log('qurl: ' + qurl);
+
+	       var type = resp.raw()['type'];
+	       console.log('response type: ' + type);
+	   });
+var qurl = m.action(target);
