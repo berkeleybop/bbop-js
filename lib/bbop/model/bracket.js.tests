@@ -1,6 +1,8 @@
 ////
 //// Some unit testing for bracket.js.
 ////
+//// rhino -modules staging/bbop.js -opt -1 -f lib/bbop/model/bracket.js.tests
+////
 
 // Correct environment, ready testing.
 var bbop = require('bbop').bbop;
