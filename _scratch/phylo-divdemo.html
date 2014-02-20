@@ -19,7 +19,7 @@
     <!--<script type="text/javascript" src="http://amigo2.berkeleybop.org/amigo2/javascript/bbop.js"></script>-->
     <script type="text/javascript" src="../staging/bbop.js"></script>
 
-    <script type="text/javascript" src="http://amigo2.berkeleybop.org/amigo2/javascript/amigo.js"></script>
+    <script type="text/javascript" src="http://amigo2.berkeleybop.org/amigo2/javascript/amigo2.js"></script>
 
     <script type="text/javascript" src="../lib/bbop/widget/phylo-tree.js"></script>
     <script type="text/javascript" src="../lib/bbop/widget/phylo.js"></script>
@@ -27,7 +27,8 @@
 
     <script type="text/javascript">
       var server_meta = new amigo.data.server();
-      var gloc = server_meta.golr_base();
+      //var gloc = server_meta.golr_base();
+      var gloc = "http://golr.berkeleybop.org/";
       var gconf = new bbop.golr.conf(amigo.data.golr);
 
       var r = new bbop.widget.phylo.renderer('test0', gloc, gconf);
