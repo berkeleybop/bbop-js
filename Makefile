@@ -37,7 +37,7 @@ NODE_JS ?= /usr/bin/node
 RHINO_JS ?= /usr/bin/rhino
 RINGO_JS ?= /usr/bin/ringo
 ##
-BBOP_JS_VERSION ?= 2.0.0-rc1.2
+BBOP_JS_VERSION ?= 2.0.0
 
 all:
 	@echo "Using JS engine: $(TEST_JS)"
