@@ -36,8 +36,13 @@ NODE_JS ?= /usr/bin/node
 #NODE_JS ?= /home/sjcarbon/local/src/tarballs/node-v0.8.18-linux-x64/bin/node
 RHINO_JS ?= /usr/bin/rhino
 RINGO_JS ?= /usr/bin/ringo
-##
-BBOP_JS_VERSION ?= 2.0.0
+
+## Handle versioning. The patch level is automatically incremented on
+## after every release.
+BBOP_JS_BASE_VERSION = 2.0
+BBOP_JS_PATCH_LEVEL = `cat version-patch.lvl`
+BBOP_JS_VERSION_TAG = "" # e.g. -alpha
+BBOP_JS_VERSION ?= $(BBOP_JS_BASE_VERSION).$(BBOP_JS_PATCH_LEVEL)$(BBOP_JS_VERSION_TAG)
 
 all:
 	@echo "Using JS engine: $(TEST_JS)"
@@ -92,14 +97,33 @@ bundle-uncompressed:
 	./scripts/release-js.pl -v -u -i scripts/release-file-map.txt -o staging/bbop.js -n bbop -d lib/bbop -r $(BBOP_JS_VERSION)
 
 ###
+### Build version control.
+###
+
+.PHONY: version
+version:
+	@echo Current version: $(BBOP_JS_VERSION)
+
+.PHONY: patch-reset
+patch-reset:
+	echo 0 > version-patch.lvl
+
+.PHONY: patch-incr
+patch-incr:
+	echo $$(( $(BBOP_JS_PATCH_LEVEL) + 1 )) > version-patch.lvl
+
+###
 ### Create exportable JS NPM directory.
 ###
 
+## Steps forward the patch level after every release--this is required
+## to really use npm.
 .PHONY: npm
 npm: bundle
 	./scripts/release-npm.pl -v -i staging/bbop.js -o npm/bbop -r $(BBOP_JS_VERSION)
 	npm unpublish bbop@$(BBOP_JS_VERSION)
 	npm publish npm/bbop
+	make patch-incr
 
 ###
 ### Release: docs and bundle; then to an upload.
