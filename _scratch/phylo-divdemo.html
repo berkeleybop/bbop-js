@@ -27,8 +27,7 @@
 
     <script type="text/javascript">
       var server_meta = new amigo.data.server();
-      //var gloc = server_meta.golr_base();
-      var gloc = "http://golr.berkeleybop.org/";
+      var gloc = server_meta.golr_base();
       var gconf = new bbop.golr.conf(amigo.data.golr);
 
       var r = new bbop.widget.phylo.renderer('test0', gloc, gconf);
