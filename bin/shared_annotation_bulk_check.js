@@ -15,7 +15,7 @@ print('Downloading libraries...');
 // // BUG: bbop.core.chomp does not exist in min? Still percolating through CDN?
 eval(readUrl('https://s3.amazonaws.com/bbop/jsapi/bbop.min.js'));
 //eval(readUrl('http://cdn.berkeleybop.org/jsapi/bbop_0.9.min.js'));
-eval(readUrl('http://cdn.berkeleybop.org/jsapi/amigo_0.9.min.js'));
+eval(readUrl('http://s3.amazonaws.com/bbop/jsapi/amigo2.min.js'));
 
 // Aliases.
 var each = bbop.core.each;
@@ -124,7 +124,8 @@ function run_n_way_and(arg_list){
     // Fetch the data and grab the number we want.
     var resp = go.fetch();
     var count = resp.total_documents();
-    var bookmark = go.get_state_url();
+    //var bookmark = go.get_state_url(); BUG!
+    var bookmark = '???';
 
     // Reset from the last iteration.
     go.reset_query_filters();
@@ -189,7 +190,8 @@ each(logic_checks,
 	     // Fetch the data and grab the info we want.
 	     var resp = go.fetch();
 	     var count = resp.total_documents();
-	     var bookmark = go.get_state_url();
+	     //var bookmark = go.get_state_url(); BUG!
+	     var bookmark = '???';
 
 	     // Test the count to make sure that there were annotations
 	     // for at least one of the choices.
