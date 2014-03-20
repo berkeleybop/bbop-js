@@ -38,7 +38,8 @@ function _link_to_a2(bookmark){
 	// BUG/TODO:
 	//sdata.app_base() + '/' + 
 	//'http://amigo2.berkeleybop.org/cgi-bin/amigo2' + '/' + 
-	linker.url(encodeURIComponent(bookmark), 'search');
+	//linker.url(encodeURIComponent(bookmark), 'search');
+	linker.url(bookmark, 'search', go.get_personality());
 
     // Seems to be something wonky in the local config we're pulling
     // from.
@@ -106,7 +107,7 @@ var gconf = new bbop.golr.conf(amigo.data.golr);
 var go = new bbop.golr.manager.rhino('http://golr.berkeleybop.org/', gconf);
 go.add_query_filter('document_category', 'annotation', ['*']);
 //go.add_query_filter('taxon', 'NCBITaxon:4896', ['*']);
-go.set_personality('bbop_ann');
+go.set_personality('annotation');
 go.debug(false); // I think the default is still on?
 
 // Runs an n-way AND in the closure and returns the count and a
