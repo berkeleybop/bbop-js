@@ -105,9 +105,11 @@ each(file_lines,
 print('Setting up manager.');
 var gconf = new bbop.golr.conf(amigo.data.golr);
 var go = new bbop.golr.manager.rhino('http://golr.berkeleybop.org/', gconf);
-go.add_query_filter('document_category', 'annotation', ['*']);
+//go.add_query_filter('document_category', 'annotation', ['*']);
+go.add_query_filter('document_category', 'bioentity', ['*']);
 //go.add_query_filter('taxon', 'NCBITaxon:4896', ['*']);
-go.set_personality('annotation');
+//go.set_personality('annotation');
+go.set_personality('bioentity');
 go.debug(false); // I think the default is still on?
 
 // Runs an n-way AND in the closure and returns the count and a
