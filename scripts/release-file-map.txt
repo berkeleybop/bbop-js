@@ -47,6 +47,7 @@ lib/bbop/widget/term_shield.js
 lib/bbop/widget/list_select_shield.js
 lib/bbop/widget/drop_select_shield.js
 lib/bbop/widget/search_pane.js
+lib/bbop/widget/live_filters.js
 lib/bbop/widget/repl.js
 lib/bbop/widget/phylo_old.js
 lib/bbop/widget/phylo-tree.js
