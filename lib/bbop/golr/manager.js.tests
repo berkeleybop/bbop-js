@@ -465,7 +465,10 @@ load('./_data/golr.js');
 		       'qf=reference%5E1',
 		       'qf=panther_family_searchable%5E1',
 		       'qf=panther_family_label_searchable%5E1',
-		       'qf=bioentity_isoform%5E1'].join('&'),
+		       'qf=bioentity_isoform%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1'
+		      ].join('&'),
 		      "foo query");
      mr_t.is_same_atom(gm_ann.get_query(), "foo", 'got query out');
 
@@ -482,18 +485,18 @@ load('./_data/golr.js');
      		       'fl=*,score',
      		       'facet=true',
      		       'facet.mincount=1',
-		       'facet.sort=count',
+ 		       'facet.sort=count',
      		       'json.nl=arrarr',
      		       'facet.limit=25',
-		       'facet.field=source',
-		       'facet.field=assigned_by',
-		       'facet.field=aspect',
-		       'facet.field=evidence_type_closure',
-		       'facet.field=panther_family_label',
-		       'facet.field=qualifier',
-		       'facet.field=taxon_closure_label',
-		       'facet.field=annotation_class_label',
-		       'facet.field=regulates_closure_label',
+ 		       'facet.field=source',
+ 		       'facet.field=assigned_by',
+ 		       'facet.field=aspect',
+ 		       'facet.field=evidence_type_closure',
+ 		       'facet.field=panther_family_label',
+ 		       'facet.field=qualifier',
+ 		       'facet.field=taxon_closure_label',
+ 		       'facet.field=annotation_class_label',
+ 		       'facet.field=regulates_closure_label',
      		       'facet.field=annotation_extension_class_closure_label',
      		       'q=*:*'].join('&'),
      		      "base again");
@@ -512,18 +515,18 @@ load('./_data/golr.js');
      		       'fl=*,score',
      		       'facet=true',
      		       'facet.mincount=1',
-		       'facet.sort=count',
+ 		       'facet.sort=count',
      		       'json.nl=arrarr',
      		       'facet.limit=25',
-		       'facet.field=source',
-		       'facet.field=assigned_by',
-		       'facet.field=aspect',
-		       'facet.field=evidence_type_closure',
-		       'facet.field=panther_family_label',
-		       'facet.field=qualifier',
-		       'facet.field=taxon_closure_label',
-		       'facet.field=annotation_class_label',
-		       'facet.field=regulates_closure_label',
+ 		       'facet.field=source',
+ 		       'facet.field=assigned_by',
+ 		       'facet.field=aspect',
+ 		       'facet.field=evidence_type_closure',
+ 		       'facet.field=panther_family_label',
+ 		       'facet.field=qualifier',
+ 		       'facet.field=taxon_closure_label',
+ 		       'facet.field=annotation_class_label',
+ 		       'facet.field=regulates_closure_label',
      		       'facet.field=annotation_extension_class_closure_label',
      		       'q=foo:bar',
      		       'qf=annotation_class%5E2',
@@ -533,10 +536,13 @@ load('./_data/golr.js');
      		       'qf=bioentity_name_searchable%5E1',
      		       'qf=annotation_extension_class%5E2',
      		       'qf=annotation_extension_class_label_searchable%5E1',
-		       'qf=reference%5E1',
+ 		       'qf=reference%5E1',
      		       'qf=panther_family_searchable%5E1',
-		       'qf=panther_family_label_searchable%5E1',
-		       'qf=bioentity_isoform%5E1'].join('&'),
+ 		       'qf=panther_family_label_searchable%5E1',
+ 		       'qf=bioentity_isoform%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1'
+		      ].join('&'),
      		      "q=foo:bar");
 
      // Try rolling it back.
@@ -553,18 +559,18 @@ load('./_data/golr.js');
  		       'fl=*,score',
  		       'facet=true',
  		       'facet.mincount=1',
-		       'facet.sort=count',
+ 		       'facet.sort=count',
  		       'json.nl=arrarr',
  		       'facet.limit=25',
-		       'facet.field=source',
-		       'facet.field=assigned_by',
-		       'facet.field=aspect',
-		       'facet.field=evidence_type_closure',
-		       'facet.field=panther_family_label',
-		       'facet.field=qualifier',
-		       'facet.field=taxon_closure_label',
-		       'facet.field=annotation_class_label',
-		       'facet.field=regulates_closure_label',
+ 		       'facet.field=source',
+ 		       'facet.field=assigned_by',
+ 		       'facet.field=aspect',
+ 		       'facet.field=evidence_type_closure',
+ 		       'facet.field=panther_family_label',
+ 		       'facet.field=qualifier',
+ 		       'facet.field=taxon_closure_label',
+ 		       'facet.field=annotation_class_label',
+ 		       'facet.field=regulates_closure_label',
  		       'facet.field=annotation_extension_class_closure_label',
  		       'q=*:*'].join('&'),
  		      "base again again");
@@ -651,6 +657,8 @@ load('./_data/golr.js');
 		       'qf=description_searchable%5E1',
 		       'qf=comment_searchable%5E0.5',
 		       'qf=synonym_searchable%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1',
 		       'qf=alternate_id%5E1'].join('&'),
 		      "qf: automatic personality");
      
@@ -759,6 +767,8 @@ load('./_data/golr.js');
  		       'qf=description_searchable%5E1',
  		       'qf=comment_searchable%5E0.5',
  		       'qf=synonym_searchable%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1',
  		       'qf=alternate_id%5E1'].join('&'),
  		      "load: constructed personality (1)");
  })();
@@ -786,6 +796,8 @@ load('./_data/golr.js');
 		       'qf=description_searchable%5E1',
 		       'qf=comment_searchable%5E0.5',
 		       'qf=synonym_searchable%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1',
 		       'qf=alternate_id%5E1'].join('&'),
 		      "load: constructed personality (2)");
  })();
@@ -845,7 +857,10 @@ load('./_data/golr.js');
 		       'qf=reference%5E1',
 		       'qf=panther_family_searchable%5E1',
 		       'qf=panther_family_label_searchable%5E1',
-		       'qf=bioentity_isoform%5E1'].join('&'),
+		       'qf=bioentity_isoform%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1'
+		      ].join('&'),
 		      "generated bookmark url");
 
      // Okay, now let's generate a manager that recovers the correct
@@ -890,11 +905,11 @@ load('./_data/golr.js');
 		       'qf=reference%5E1',
 		       'qf=panther_family_searchable%5E1',
 		       'qf=panther_family_label_searchable%5E1',
-		       'qf=bioentity_isoform%5E1'].join('&'),
-		      "manager state generated from bookmark url");
-
-     
-
+		       'qf=bioentity_isoform%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1'
+		      ].join('&'),
+		      "manager state generated from bookmark url");     
  })();
 
 // bbop.golr.manager - 14 - unset
@@ -1315,6 +1330,8 @@ load('./_data/golr.js');
      		       'qf=description_searchable%5E1',
      		       'qf=comment_searchable%5E0.5',
      		       'qf=synonym_searchable%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1',
      		       'qf=alternate_id%5E1'].join('&'),
      		      "dl 2: proper url");
      
@@ -1411,6 +1428,8 @@ load('./_data/golr.js');
 		       'qf=description_searchable%5E1',
 		       'qf=comment_searchable%5E0.5',
 		       'qf=synonym_searchable%5E1',
+		       'qf=regulates_closure%5E1',
+		       'qf=regulates_closure_label_searchable%5E1',
 		       'qf=foo%5E5',
 		       'qf=alternate_id%5E1'].join('&'),
      		      "q field add: proper url");

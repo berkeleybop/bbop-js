@@ -28,7 +28,7 @@ load('./_data/golr.js');
      // Simple getters.
      mr_t.is_same_atom("Ontology source", cf.display_name(), "display_name");
      mr_t.is_same_atom("Term namespace.",
-		       cf.description(), "desc");
+		       cf.description(), "field desc");
      mr_t.is_same_atom("source", cf.id(), "id");
      mr_t.is_same_atom(false, cf.searchable(), "searchable");
      mr_t.is_same_atom(false, cf.required(), "required");
@@ -47,8 +47,8 @@ load('./_data/golr.js');
      
      // Simple getters.
      mr_t.is_same_atom("Annotations", cc.display_name(), "display_name");
-     mr_t.is_same_atom("A description of annotations for GOlr and AmiGO.",
-		       cc.description(), "desc");
+     mr_t.is_same_atom("Associations between GO terms and genes or gene products.",
+		       cc.description(), "ann class desc");
      mr_t.is_same_atom(20, cc.weight(), "w");
      mr_t.is_same_atom("annotation", cc.id(), "id");
      mr_t.is_same_atom('_searchable', cc.searchable_extension(),
