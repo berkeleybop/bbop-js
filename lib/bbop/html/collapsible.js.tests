@@ -1,0 +1,38 @@
+////
+//// Some unit testing for collapsible.js
+////
+
+// Correct environment, ready testing.
+var bbop = require('bbop').bbop;
+var mr_t = new bbop.test();
+
+///
+/// "Type checker" to enforce "interfaces" during testing.
+///
+
+(function(){
+     mr_t.is_true(bbop.core.has_interface(bbop.html.collapsible,
+					  ['to_string',
+					   'add_to',
+					   'empty',
+					   'get_id']),
+		  'collapsible supplies interfaces');
+ })();
+
+///
+/// Start unit testing.
+///
+
+(function(){
+     var c = new bbop.html.collapsible();
+     c.add_to('foo', 'bar');
+     mr_t.is_same_atom(c.to_string().length, 407,
+		       'seems to have the right number of chars');
+ })();
+
+///
+/// End unit testing.
+///
+
+// Final report.
+mr_t.report();

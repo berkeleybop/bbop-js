@@ -9,6 +9,7 @@
 
 TESTS = \
  $(wildcard lib/bbop/*.js.tests) \
+ $(wildcard lib/bbop/html/*.js.tests) \
  $(wildcard lib/bbop/model/*.js.tests) \
  $(wildcard lib/bbop/golr/*.js.tests) \
  $(wildcard lib/bbop/golr/manager/*.js.tests) \
