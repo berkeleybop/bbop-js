@@ -26,8 +26,10 @@ var mr_t = new bbop.test();
 (function(){
      var c = new bbop.html.collapsible();
      c.add_to('foo', 'bar');
-     mr_t.is_same_atom(c.to_string().length, 407,
-		       'seems to have the right number of chars');
+     mr_t.is_same_atom(c.to_string().length, 472,
+		       'widget seems to have the right number of chars');
+     mr_t.is_same_atom(c.get_section_id('foo').length, 32,
+		       'get seems to have the right number of chars');
  })();
 
 ///
