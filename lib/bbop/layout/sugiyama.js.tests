@@ -188,7 +188,7 @@ var mr_t = new bbop.test();
 
 // This is checking the layout bug that seems to come up periodically.
 // https://github.com/kltm/bbop-js/issues/23
-//(function(){
+(function(){
 
      //  a  b
      //  |  |
@@ -231,7 +231,7 @@ var mr_t = new bbop.test();
      // var r = new bbop.layout.sugiyama.render();
      // var layout = r.layout(g);
      // bbop.core.dump(layout);
-// })();
+})();
 
 ///
 /// End unit testing.
