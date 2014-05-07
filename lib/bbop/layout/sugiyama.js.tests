@@ -186,6 +186,53 @@ var mr_t = new bbop.test();
 
  })();
 
+// This is checking the layout bug that seems to come up periodically.
+// https://github.com/kltm/bbop-js/issues/23
+//(function(){
+
+     //  a  b
+     //  |  |
+     //  c  |
+     //   \ /
+     //    d
+     var bad = {
+	 "nodes":
+	 [
+	     {"id": "d"},
+	     {"id": "b"},
+	     {"id": "a"},
+	     {"id": "c"}
+	 ],
+	 "edges":
+	 [
+	     {"sub": "d",
+	      "obj": "c"},
+	     {"sub": "c",
+	      "obj": "a"},
+	     {"sub": "d",
+	      "obj": "b"}
+	 ]
+     };
+
+     var g = new bbop.model.graph();
+     //g.load_json(JSON.parse(bad));
+     g.load_json(bad);
+
+     // Correct partitioning?
+     var p = new bbop.layout.sugiyama.partitioner(g);
+     mr_t.is_same_atom(3, p.number_of_vertex_partitions(),
+		       'node parts are should be three! (bad)');
+     mr_t.is_same_atom(2, p.number_of_edge_partitions(),
+      		       'edge parts should be two! (bad)');
+     mr_t.is_same_atom(2, p.max_partition_width(),
+		       'max part (bad)');
+
+     // // TODO: once we decide what a layout format looks like.
+     // var r = new bbop.layout.sugiyama.render();
+     // var layout = r.layout(g);
+     // bbop.core.dump(layout);
+// })();
+
 ///
 /// End unit testing.
 ///
