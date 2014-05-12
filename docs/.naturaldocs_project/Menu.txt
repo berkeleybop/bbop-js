@@ -104,6 +104,7 @@ Group: widget  {
    File: list_select_shield.js  (widget/list_select_shield.js)
    File: filter_table.js  (widget/filter_table.js)
    File: drop_select_shield.js  (widget/drop_select_shield.js)
+   File: live_filters.js  (widget/live_filters.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
@@ -129,6 +130,8 @@ Group: Rest  {
    }  # Group: Rest
 
 File: sugiyama.js  (layout/sugiyama.js)
+File: collapsible.js  (html/collapsible.js)
+File: context.js  (context.js)
 
 Group: Index  {
 
