@@ -154,11 +154,11 @@
 
 *** API Documentation
 
-   The beta API documentation can be current found [[http://cdn.berkeleybop.org/jsapi/bbop-js/docs/index.html][here]].
+   API documentation can be current found [[http://kltm.github.io/bbop-js/docs/index.html][here]].
 
 ** Demos
 
-   A documented demo page going through the basics can be found [[http://cdn.berkeleybop.org/jsapi/bbop-js/demo/index.html][here]].
+   A documented demo page going through the basics can be found [[http://kltm.github.io/bbop-js/demo/index.html][here]].
 
    There are also a very large number of [[https://github.com/kltm/bbop-js/tree/master/lib/bbop][unit tests]] living in with the
    libraries--they should be at least semi-documented and give a
