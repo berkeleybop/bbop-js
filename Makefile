@@ -127,15 +127,15 @@ npm: bundle
 	make patch-incr
 
 ###
-### Release: docs and bundle; then to an upload.
+### Release: docs and bundle.
 ###
 
 .PHONY: release
 release: bundle npm docs
-	s3cmd -P put staging/bbop*.js s3://bbop/jsapi/
-	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
-	s3cmd -P put demo/golr.js s3://bbop/jsapi/bbop-js/demo/
-	s3cmd --recursive -P put docs/ s3://bbop/jsapi/bbop-js/docs/
+#	s3cmd -P put staging/bbop*.js s3://bbop/jsapi/
+#	s3cmd -P put demo/index.html s3://bbop/jsapi/bbop-js/demo/
+#	s3cmd -P put demo/golr.js s3://bbop/jsapi/bbop-js/demo/
+#	s3cmd --recursive -P put docs/ s3://bbop/jsapi/bbop-js/docs/
 
 # ###
 # ### Refresh some temporary developer stuff consistently.
