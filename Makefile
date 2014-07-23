@@ -122,9 +122,10 @@ patch-incr:
 .PHONY: npm
 npm: bundle
 	./scripts/release-npm.pl -v -i staging/bbop.js -o npm/bbop -r $(BBOP_JS_VERSION)
-	npm unpublish bbop@$(BBOP_JS_VERSION)
 	npm publish npm/bbop
 	make patch-incr
+## Was before npm publish, no longer used: https://www.npmjs.org/doc/cli/npm-unpublish.html
+#	npm unpublish bbop@$(BBOP_JS_VERSION)
 
 ###
 ### Release: docs and bundle.
