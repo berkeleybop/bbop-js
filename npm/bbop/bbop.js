@@ -1879,7 +1879,7 @@ if ( typeof bbop.version == "undefined" ){ bbop.version = {}; }
  * Partial version for this library; revision (major/minor version numbers)
  * information.
  */
-bbop.version.revision = "2.2.0";
+bbop.version.revision = "2.2.1";
 
 /*
  * Variable: release
