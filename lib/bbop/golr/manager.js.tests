@@ -7,7 +7,7 @@ var bbop = require('bbop').bbop;
 var mr_t = new bbop.test();
 
 // Get some test data as well.
-// This defines "bbop.amigo.golr_meta".
+// This defines "amigo.data.golr".
 load('./_data/golr.js');
 
 ///
@@ -1580,6 +1580,36 @@ load('./_data/golr.js');
 		      "reads out as RESTy bookmark");
      
  })();
+
+// bbop.golr.manager - 25 - set_targets
+// Necessary for bulk search locking
+//(function(){
+     
+     // Setup.
+     var gconf = new bbop.golr.conf(amigo.data.golr);
+     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+     // Just something to clobber for giggles.
+     // gm.set_query('foo');
+     
+     // set target docs
+     gm.set_targets(['id1', 'id2'],['f1', 'f2']);
+     mr_t.is_same_url(gm.get_query_url(),
+     		      ['http://golr.berkeleybop.org/select?defType=edismax',
+     		       'qt=standard',
+     		       'indent=on',
+     		       'wt=json',
+     		       'rows=10',
+     		       'start=0',
+     		       'fl=*,score',
+     		       'facet=true',
+     		       'facet.mincount=1',
+     		       'facet.sort=count',
+     		       'json.nl=arrarr',
+     		       'facet.limit=25',
+     		       'q=f1:(%22id1%22%20OR%20%22id2%22)%20OR%20f2:(%22id1%22%20OR%20%22id2%22)'].join('&'),
+     		      "set_targets: 2x2");
+
+// })();
 
 ///
 /// End unit testing.
