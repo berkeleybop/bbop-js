@@ -691,28 +691,32 @@ load('./_data/golr.js');
 // bbop.golr.manager - 11 - comfy
 (function(){
 
-     // Setup.
-     var gconf = new bbop.golr.conf(amigo.data.golr);
-     var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
-     //gm.set_personality('annotation'); // profile in gconf
-     
-     gm.set_comfy_query('fo');
-     mr_t.is_same_atom(gm.get_query(), "fo", 'comfy: fo');
-     
-     gm.set_comfy_query('foo');
-     mr_t.is_same_atom(gm.get_query(), "foo*", 'comfy: foo*');
-     
-     gm.set_comfy_query('fork fo');
-     mr_t.is_same_atom(gm.get_query(), "fork fo", 'comfy: fork fo');
-     
-     gm.set_comfy_query('fork foo');
-     mr_t.is_same_atom(gm.get_query(), "fork foo*", 'comfy: fork foo*');
-     
-     gm.set_comfy_query('fo_k');
-     mr_t.is_same_atom(gm.get_query(), "fo_k", 'comfy: fo_k');
-     
-     gm.set_comfy_query('fo_k foo');
-     mr_t.is_same_atom(gm.get_query(), "fo_k foo", 'comfy: fo_k foo');
+    // Setup.
+    var gconf = new bbop.golr.conf(amigo.data.golr);
+    var gm = new bbop.golr.manager('http://golr.berkeleybop.org/', gconf);
+    //gm.set_personality('annotation'); // profile in gconf
+    
+    gm.set_comfy_query('fo');
+    mr_t.is_same_atom(gm.get_query(), "fo", 'comfy: fo');
+    
+    gm.set_comfy_query('foo');
+    mr_t.is_same_atom(gm.get_query(), "foo*", 'comfy: foo*');
+    
+    gm.set_comfy_query('fork f');
+    mr_t.is_same_atom(gm.get_query(), "fork f*", 'comfy: fork f');
+    
+    gm.set_comfy_query('fork foo');
+    mr_t.is_same_atom(gm.get_query(), "fork foo*", 'comfy: fork foo*');
+    
+    var cq = gm.set_comfy_query('fork foo ');
+    mr_t.is_same_atom(gm.get_query(), "fork foo ", 'comfy: fork foo .');
+    
+    // Non-alphanum.
+    gm.set_comfy_query('fo_k');
+    mr_t.is_same_atom(gm.get_query(), "fo_k", 'comfy: fo_k');
+    
+    gm.set_comfy_query('fo_k foo');
+    mr_t.is_same_atom(gm.get_query(), "fo_k foo", 'comfy: fo_k foo');
 
  })();
 
