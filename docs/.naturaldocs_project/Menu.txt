@@ -96,6 +96,7 @@ Group: widget  {
       File: clickable_object.js  (widget/display/clickable_object.js)
       File: text_buttom_sim.js  (widget/display/text_button_sim.js)
       File: button_templates.js  (widget/display/button_templates.js)
+      File: results_table_by_class_conf_bs3.js  (widget/display/results_table_by_class_conf_bs3.js)
       }  # Group: display
 
    File: dialog.js  (widget/dialog.js)
@@ -105,6 +106,8 @@ Group: widget  {
    File: filter_table.js  (widget/filter_table.js)
    File: drop_select_shield.js  (widget/drop_select_shield.js)
    File: live_filters.js  (widget/live_filters.js)
+   File: live_pager.js  (widget/live_pager.js)
+   File: live_results.js  (widget/live_results.js)
    }  # Group: widget
 
 File: overlay.js  (contrib/go/overlay.js)
