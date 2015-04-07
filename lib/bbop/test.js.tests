@@ -38,7 +38,7 @@ mr_t.is_different_url("completion?type=general&query=",
 		      "completion?type=general&format=&query=",
 		      "link compare testing 2");
 
-//
+// Shallow.
 var a_hash = {foo: 1, bar: 2};
 mr_t.is_same_hash({},{});
 mr_t.is_same_hash({foo: 1}, {foo: 1});
@@ -46,6 +46,14 @@ mr_t.is_same_hash(a_hash, {foo: 1, bar: 2});
 mr_t.is_different_hash({foo: 1},{});
 mr_t.is_different_hash({foo: 1}, {foo: 12});
 mr_t.is_different_hash(a_hash, {foo: 1, bar: 2, blah: 3});
+
+// Deep.
+var b_hash = {foo: 1, bar: {a: 1, b: [3, '4']}};
+mr_t.is_same_thing(b_hash, {foo: 1, bar: {a: 1, b: [3, '4']}}, 'deep hash comp');
+mr_t.is_different_thing(b_hash, {foo: 1, bar: {a: 1, b: [3, '3']}}, 'deep hash diff');
+mr_t.is_same_thing(1, (1 + 0), 'deep num comp');
+mr_t.is_different_thing(1, 2, 'deep num diff');
+mr_t.is_different_thing(1, null, 'deep ext diff');
 
 // 
 var a_list = ['a', 'b', 'c'];
