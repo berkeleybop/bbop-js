@@ -17,7 +17,7 @@ var mr_t = new bbop.test();
 // 
 var c = new bbop.widget.display.two_column_layout('foo', 'bar');
 mr_t.is_same_atom(c.to_string(),
-		  '<div class="twocol-wrapper"><div class="twocol-leftcolumn" style="margin-top: -15px;">foo</div><div class="twocol-content" style="margin-left: 26em; margin-top: -15px;">bar</div></div>',
+		  '<div class="twocol-wrapper"><div class="twocol-leftcolumn" style="margin-top: -15px;">foo</div><div class="twocol-content">bar</div></div>',
      		  "same div compound");
 
 
