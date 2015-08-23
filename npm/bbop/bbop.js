@@ -2010,14 +2010,14 @@ if ( typeof bbop.version == "undefined" ){ bbop.version = {}; }
  * Partial version for this library; revision (major/minor version numbers)
  * information.
  */
-bbop.version.revision = "2.3.2";
+bbop.version.revision = "2.3.3";
 
 /*
  * Variable: release
  *
  * Partial version for this library: release (date-like) information.
  */
-bbop.version.release = "20150522";
+bbop.version.release = "20150822";
 /*
  * Package: logger.js
  * 
@@ -20832,8 +20832,8 @@ bbop.widget.live_pager = function(interface_id, manager, in_argument_hash){
  * This is a Bootstrap 3 widget.
  */
 
-if ( typeof bbop == "undefined" ){ var bbop = {}; }
-if ( typeof bbop.widget == "undefined" ){ bbop.widget = {}; }
+if ( typeof bbop === "undefined" ){ var bbop = {}; }
+if ( typeof bbop.widget === "undefined" ){ bbop.widget = {}; }
 
 /*
  * Constructor: live_results
@@ -20873,6 +20873,9 @@ bbop.widget.live_results = function(interface_id, manager, conf_class,
     function ll(str){ logger.kvetch('LR: ' + str); }
 
     var results_table = null;
+
+    // Capture the last response for downstream widgets.
+    var last_response = null;
 
     // Some top-level variable defined.
     // Special id and names for optional select column.
@@ -20968,9 +20971,11 @@ bbop.widget.live_results = function(interface_id, manager, conf_class,
 	jQuery('#' + interface_id).empty();
 
 	// Vary by what we got.
-	if( ! resp.success() || resp.total_documents() == 0 ){
+	if( ! resp.success() || resp.total_documents() === 0 ){
 	    jQuery('#' + interface_id).append('<em>No results given your input and search fields. Please refine and try again.</em>');
+	    last_response = null;
 	}else{
+	    last_response = resp;
 
 	    // Render the buttons.
 	    //console.log('user_buttons: ', user_buttons);
@@ -21017,7 +21022,7 @@ bbop.widget.live_results = function(interface_id, manager, conf_class,
     	ll("draw_error: " + error_message);
     	alert("Runtime error: " + error_message);
     	//_spin_down();
-    };
+    }
     manager.register('error', fun_id, _draw_error, callback_priority);
 
     ///
@@ -21054,6 +21059,22 @@ bbop.widget.live_results = function(interface_id, manager, conf_class,
      */
     this.toggle_id = function(){	
 	return select_column_id;
+    };
+    
+    /*
+     * Function: last_response
+     *
+     * The response for the last call. If the call was not successful
+     * or returned no documents, this will be null.
+     *
+     * Parameters:
+     *  n/a
+     *
+     * Returns:
+     *  response or null
+     */
+    this.last_response = function(){	
+	return last_response;
     };
     
     /*
@@ -21097,7 +21118,7 @@ bbop.widget.live_results = function(interface_id, manager, conf_class,
 	    // If we are selecting all of the items on this page, that
 	    // is the same as not selecting any in our world, so reset
 	    // and warn.
-	    if( total_count > 0 && total_count == retval.length ){
+	    if( total_count > 0 && total_count === retval.length ){
 		alert('You can "select" all of the items on a results page by not selecting any (all being the default). This will also get your results processed faster and cause significantly less overhead on the servers.');
 		retval = [];
 	    }	    
