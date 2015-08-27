@@ -40,7 +40,7 @@ RINGO_JS ?= /usr/bin/ringo
 
 ## Handle versioning. The patch level is automatically incremented on
 ## after every release.
-BBOP_JS_BASE_VERSION = 2.3
+BBOP_JS_BASE_VERSION = 2.4
 BBOP_JS_PATCH_LEVEL = `cat version-patch.lvl`
 BBOP_JS_VERSION_TAG = "" # e.g. -alpha
 BBOP_JS_VERSION ?= $(BBOP_JS_BASE_VERSION).$(BBOP_JS_PATCH_LEVEL)$(BBOP_JS_VERSION_TAG)
