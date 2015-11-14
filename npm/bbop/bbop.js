@@ -2010,14 +2010,14 @@ if ( typeof bbop.version == "undefined" ){ bbop.version = {}; }
  * Partial version for this library; revision (major/minor version numbers)
  * information.
  */
-bbop.version.revision = "2.4.0";
+bbop.version.revision = "2.4.3";
 
 /*
  * Variable: release
  *
  * Partial version for this library: release (date-like) information.
  */
-bbop.version.release = "20150826";
+bbop.version.release = "20151113";
 /*
  * Package: logger.js
  * 
